@@ -7,6 +7,7 @@ export function hero(ctx) {
   const t = (k, vars) => esc(i18n.t(`hero.${k}`, vars));
   const products = site.home.hero.products.map((id) => catalog.product(id));
   const total = String(products.length).padStart(2, '0');
+  const frame = products.map((p) => p.image).reduce((a, i) => (i.width < a.width ? i : a));
   const hidden = (k) => (k ? ' aria-hidden="true"' : '');
 
   const slides = products
@@ -54,7 +55,7 @@ export function hero(ctx) {
     )
     .join('');
 
-  return `<fw-hero ${b()} role="region" aria-roledescription="carousel" aria-label="${t('label')}" data-active="0" data-tone="${products[0].tone}" data-products="${products.map((p) => p.id).join(' ')}" style="--autoplay:${Number(site.home.hero.autoplaySeconds)}s">
+  return `<fw-hero ${b()} role="region" aria-roledescription="carousel" aria-label="${t('label')}" data-active="0" data-tone="${products[0].tone}" data-products="${products.map((p) => p.id).join(' ')}" style="--autoplay:${Number(site.home.hero.autoplaySeconds)}s;--hero-frame-w:${Number(frame.width)}px;--hero-frame-h:${Number(frame.height)}px">
   <aside ${b('aside')}>
     <h1 ${b('wordmark')}><a ${b('home', { cls: 'hit' })} href="${i18n.url('home')}">${esc(site.name)}</a></h1>
   </aside>
