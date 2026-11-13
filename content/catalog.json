@@ -1,0 +1,161 @@
+{
+  "$schema": "./schema/catalog.schema.json",
+  "customSize": {
+    "height": { "min": 30, "max": 120, "step": 5 },
+    "width": { "min": 20, "max": 60, "step": 5 },
+    "surcharge": 95,
+    "pricePerCm": { "height": 3, "width": 8 },
+    "roundTo": 5
+  },
+  "products": [
+    {
+      "id": "monolith",
+      "name": "Monolith",
+      "tone": "light",
+      "image": { "src": "/media/image1.webp", "width": 1375, "height": 1027, "position": "50% 62%" },
+      "altImage": { "src": "/media/image1-alt.webp", "width": 560, "height": 700, "position": "50% 50%" },
+      "summary": { "en": "Square · smoked oak veneer", "nl": "Vierkant · gerookt eikenfineer" },
+      "description": {
+        "en": "A seamless mitred column in matt smoked-oak veneer. Sold singly or as a stepped set of three heights.",
+        "nl": "Een naadloos verstekgezaagde zuil in mat gerookt eikenfineer. Per stuk of als getrapte set van drie hoogtes."
+      },
+      "sizing": { "shape": "square", "heights": [40, 60, 80, 100], "width": 30 },
+      "pricing": { "base": 395, "perSizeStep": 50 },
+      "finishes": [
+        { "id": "smoked-oak", "color": "#3b332d", "name": { "en": "Smoked oak", "nl": "Gerookte eik" } },
+        { "id": "natural-oak", "color": "#8a6f55", "name": { "en": "Natural oak", "nl": "Naturel eik" } },
+        { "id": "walnut", "color": "#5a4436", "name": { "en": "Walnut", "nl": "Notelaar" } },
+        { "id": "bleached-ash", "color": "#c9c2b8", "name": { "en": "Bleached ash", "nl": "Gebleekte es" } }
+      ]
+    },
+    {
+      "id": "facet",
+      "name": "Facet",
+      "tone": "light",
+      "image": { "src": "/media/image2.webp", "width": 512, "height": 382, "position": "50% 60%" },
+      "altImage": { "src": "/media/image2-alt.webp", "width": 560, "height": 700, "position": "50% 50%" },
+      "summary": { "en": "Hexagonal · matt lacquer", "nl": "Zeshoekig · matte lak" },
+      "description": {
+        "en": "Six crisp planes in a soft-touch lacquer. A quiet stage for vases, sculpture and objects of note.",
+        "nl": "Zes strakke vlakken in een zijdezachte lak. Een rustig podium voor vazen, beelden en bijzondere objecten."
+      },
+      "sizing": { "shape": "hexagon", "heights": [40, 60, 80], "width": 35 },
+      "pricing": { "base": 445, "perSizeStep": 50 },
+      "finishes": [
+        { "id": "stone", "color": "#b3ada4", "name": { "en": "Stone", "nl": "Steen" } },
+        { "id": "chalk", "color": "#e6e1d8", "name": { "en": "Chalk", "nl": "Krijt" } },
+        { "id": "basalt", "color": "#6f6a63", "name": { "en": "Basalt", "nl": "Basalt" } },
+        { "id": "clay", "color": "#a08d78", "name": { "en": "Clay", "nl": "Klei" } }
+      ]
+    },
+    {
+      "id": "rondo",
+      "name": "Rondo",
+      "tone": "light",
+      "image": { "src": "/media/image3.webp", "width": 512, "height": 382, "position": "50% 60%" },
+      "altImage": { "src": "/media/image3-alt.webp", "width": 560, "height": 700, "position": "50% 50%" },
+      "summary": { "en": "Round · oak veneer", "nl": "Rond · eikenfineer" },
+      "description": {
+        "en": "A turned cylinder wrapped in open-grain oak veneer. Every piece carries its own unique figure.",
+        "nl": "Een gedraaide cilinder omhuld met open eikenfineer. Elk stuk draagt zijn eigen unieke tekening."
+      },
+      "sizing": { "shape": "round", "heights": [40, 60, 80, 100], "width": 30 },
+      "pricing": { "base": 425, "perSizeStep": 50 },
+      "finishes": [
+        { "id": "grey-oak", "color": "#6e5b4b", "name": { "en": "Grey oak", "nl": "Grijze eik" } },
+        { "id": "natural-oak", "color": "#8a6f55", "name": { "en": "Natural oak", "nl": "Naturel eik" } },
+        { "id": "smoked-oak", "color": "#3b332d", "name": { "en": "Smoked oak", "nl": "Gerookte eik" } }
+      ]
+    },
+    {
+      "id": "ovale",
+      "name": "Ovale",
+      "tone": "light",
+      "image": { "src": "/media/image4.webp", "width": 512, "height": 382, "position": "50% 58%" },
+      "altImage": { "src": "/media/image4-alt.webp", "width": 560, "height": 700, "position": "50% 50%" },
+      "summary": { "en": "Oval · matt lacquer", "nl": "Ovaal · matte lak" },
+      "description": {
+        "en": "A softened oval in dense matt lacquer. Part side table, part plinth. Bespoke sizes on request.",
+        "nl": "Een zacht ovaal in dichte matte lak. Half bijzettafel, half sokkel. Maatwerk op aanvraag."
+      },
+      "sizing": { "shape": "oval", "heights": [45, 55], "width": 45 },
+      "pricing": { "base": 485, "perSizeStep": 50 },
+      "finishes": [
+        { "id": "taupe", "color": "#a3907c", "name": { "en": "Taupe", "nl": "Taupe" } },
+        { "id": "chalk", "color": "#e6e1d8", "name": { "en": "Chalk", "nl": "Krijt" } },
+        { "id": "stone", "color": "#b3ada4", "name": { "en": "Stone", "nl": "Steen" } },
+        { "id": "ink", "color": "#2f2a26", "name": { "en": "Ink", "nl": "Inkt" } }
+      ]
+    },
+    {
+      "id": "cleo",
+      "name": "Cleo",
+      "tone": "light",
+      "image": { "src": "/media/cleo-1.webp", "width": 900, "height": 900, "position": "50% 60%" },
+      "summary": { "en": "Smoke-grey glass", "nl": "Rookgrijs glas" },
+      "dimensions": { "en": "45 cm high", "nl": "45 cm hoog" },
+      "pricing": { "fixed": 139 },
+      "finishes": [
+        { "id": "smoke-grey", "color": "linear-gradient(135deg,#9aa19c,#4f5651)", "name": { "en": "Smoke-grey glass", "nl": "Rookgrijs glas" } }
+      ]
+    },
+    {
+      "id": "soda-bubbles",
+      "name": "Soda Bubbles",
+      "tone": "light",
+      "image": { "src": "/media/archer-1.webp", "width": 900, "height": 900, "position": "50% 50%" },
+      "summary": { "en": "Clear bubble glass", "nl": "Helder bubbelglas" },
+      "dimensions": { "en": "Ø 22 × 26 cm", "nl": "Ø 22 × 26 cm" },
+      "pricing": { "fixed": 62.95 },
+      "finishes": [
+        { "id": "clear", "color": "linear-gradient(135deg,#f6f8f8,#d5dcdd)", "name": { "en": "Clear bubble glass", "nl": "Helder bubbelglas" } }
+      ]
+    },
+    {
+      "id": "jeanne",
+      "name": "Jeanne",
+      "tone": "light",
+      "image": { "src": "/media/jeanne-1.webp", "width": 900, "height": 900, "position": "50% 55%" },
+      "summary": { "en": "White speckled stoneware", "nl": "Wit gespikkeld steengoed" },
+      "dimensions": { "en": "Size L", "nl": "Maat L" },
+      "pricing": { "fixed": 49.9 },
+      "finishes": [
+        { "id": "speckled-white", "color": "#ebe6dc", "name": { "en": "White speckled stoneware", "nl": "Wit gespikkeld steengoed" } }
+      ]
+    }
+  ],
+  "collections": [
+    {
+      "id": "dark-oak",
+      "name": { "en": "Dark oak", "nl": "Donkere eik" },
+      "items": [
+        { "product": "monolith", "finish": "smoked-oak", "height": 60 },
+        { "product": "rondo", "finish": "smoked-oak", "height": 60 },
+        { "product": "ovale", "finish": "ink", "height": 55 },
+        { "product": "facet", "finish": "basalt", "height": 60 },
+        { "product": "cleo" }
+      ]
+    },
+    {
+      "id": "soft-stone",
+      "name": { "en": "Soft stone", "nl": "Zachte steen" },
+      "items": [
+        { "product": "facet", "finish": "stone", "height": 60 },
+        { "product": "ovale", "finish": "taupe", "height": 55 },
+        { "product": "jeanne" }
+      ]
+    },
+    {
+      "id": "pale-clear",
+      "name": { "en": "Pale & clear", "nl": "Licht & helder" },
+      "items": [
+        { "product": "monolith", "finish": "bleached-ash", "height": 60 },
+        { "product": "facet", "finish": "chalk", "height": 60 },
+        { "product": "rondo", "finish": "natural-oak", "height": 60 },
+        { "product": "ovale", "finish": "chalk", "height": 55 },
+        { "product": "soda-bubbles" },
+        { "product": "jeanne" }
+      ]
+    }
+  ]
+}

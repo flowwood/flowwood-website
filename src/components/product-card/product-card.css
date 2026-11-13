@@ -1,0 +1,32 @@
+.product-card { display: flex; flex-direction: column; gap: 18px; }
+
+.product-card__media { display: block; aspect-ratio: 4 / 5; }
+.product-card__image { transition: transform 1.2s var(--ease-out); }
+.product-card__alt-image { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease; }
+.product-card__media--alternate:hover .product-card__alt-image,
+.product-card__media--alternate:focus-visible .product-card__alt-image { opacity: 1; }
+.product-card__media:not(.product-card__media--alternate):hover .product-card__image { transform: scale(1.04); }
+
+.product-card__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; }
+.product-card__titles { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.product-card__name { font-size: 24px; }
+.product-card__option { display: block; min-height: 40px; font-size: 14px; line-height: 20px; font-weight: 300; color: var(--c-muted); overflow-wrap: anywhere; }
+.product-card__price { flex: none; min-width: 4.2em; text-align: right; font-size: 20px; }
+
+.product-card__controls { display: flex; flex-direction: column; gap: 14px; margin-top: auto; }
+.product-card__sizes { display: flex; align-items: center; gap: 14px; height: 28px; }
+.product-card__unit { font-size: 12px; font-weight: 300; color: var(--c-muted); }
+.product-card__heights { display: flex; gap: 12px; white-space: nowrap; }
+.product-card__height { --marker-bottom: 2px; height: 28px; font-family: var(--f-mono); font-size: 12px; color: var(--c-subtle); }
+.product-card__height:hover, .product-card__height[aria-pressed='true'] { color: var(--c-ink); }
+
+.product-card__buy { display: flex; justify-content: space-between; align-items: center; gap: 16px; min-height: 40px; }
+.product-card__swatches { display: flex; gap: 2px; align-items: center; margin-left: -5px; }
+
+@media (pointer: coarse) {
+  .product-card__heights { gap: 16px; }
+  .product-card__swatches { margin-left: -13px; }
+}
+@media (max-width: 767px) {
+  .product-card__name { font-size: 22px; }
+}

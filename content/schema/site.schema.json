@@ -1,0 +1,131 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flowwood.be/schema/site.schema.json",
+  "title": "Flowwood site",
+  "type": "object",
+  "required": ["name", "origin", "defaultLocale", "locales", "routes", "navigation", "footerLinks", "contact", "socials", "meta", "home", "shop", "ui"],
+  "$defs": {
+    "localized": {
+      "type": "object",
+      "required": ["en", "nl"],
+      "properties": {
+        "en": { "type": ["string", "array"], "items": { "type": "string" } },
+        "nl": { "type": ["string", "array"], "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+    "image": {
+      "type": "object",
+      "required": ["src", "width", "height"],
+      "properties": {
+        "src": { "type": "string", "format": "uri-reference" },
+        "width": { "type": "integer" },
+        "height": { "type": "integer" },
+        "position": { "type": "string" }
+      },
+      "additionalProperties": false
+    },
+    "strings": {
+      "type": "object",
+      "description": "UI strings: nested groups whose leaves are localized values ({name} placeholders allowed).",
+      "additionalProperties": { "anyOf": [{ "$ref": "#/$defs/localized" }, { "$ref": "#/$defs/strings" }] }
+    }
+  },
+  "properties": {
+    "$schema": { "type": "string" },
+    "name": { "type": "string" },
+    "origin": { "type": "string", "format": "uri" },
+    "defaultLocale": { "enum": ["nl", "en"] },
+    "locales": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["label", "code", "lang", "numberFormat"],
+        "properties": {
+          "label": { "type": "string" },
+          "code": { "type": "string" },
+          "lang": { "type": "string", "description": "BCP 47 for <html lang> and hreflang" },
+          "numberFormat": { "type": "string", "description": "Intl locale for money" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "routes": {
+      "type": "object",
+      "description": "routeId → { locale: slug }. Empty slug = locale root. URL: /{locale}/{slug}/",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": { "type": "string", "pattern": "^([a-z0-9]+(-[a-z0-9]+)*)?$" }
+      }
+    },
+    "navigation": { "type": "array", "items": { "type": "string" } },
+    "footerLinks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id"],
+        "oneOf": [{ "required": ["href"] }, { "required": ["route"] }],
+        "properties": {
+          "id": { "type": "string", "description": "key in ui.footer" },
+          "href": { "type": "string" },
+          "route": { "type": "string", "description": "key in routes" }
+        },
+        "additionalProperties": false
+      }
+    },
+    "contact": {
+      "type": "object",
+      "required": ["phone", "email", "limits"],
+      "properties": {
+        "phone": { "type": "string", "description": "as displayed; the tel: link drops the spaces" },
+        "email": { "type": "string", "format": "email", "description": "shown on the contact page and the recipient of the contact form" },
+        "limits": {
+          "type": "object",
+          "description": "maximum characters per form field, enforced by the form and by functions/api/contact.js",
+          "required": ["name", "email", "phone", "message"],
+          "properties": {
+            "name": { "type": "integer", "minimum": 1 },
+            "email": { "type": "integer", "minimum": 1 },
+            "phone": { "type": "integer", "minimum": 1 },
+            "message": { "type": "integer", "minimum": 1 }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "socials": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "href"],
+        "properties": { "id": { "enum": ["instagram", "facebook"], "description": "icon in the footer, label in ui.footer" }, "href": { "type": "string" } },
+        "additionalProperties": false
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["title", "description"],
+        "properties": { "title": { "$ref": "#/$defs/localized" }, "description": { "$ref": "#/$defs/localized" } },
+        "additionalProperties": false
+      }
+    },
+    "home": {
+      "type": "object",
+      "properties": {
+        "hero": {
+          "type": "object",
+          "properties": { "products": { "type": "array", "items": { "type": "string" } }, "autoplaySeconds": { "type": "number", "minimum": 2 } }
+        },
+        "collection": { "type": "object", "properties": { "products": { "type": "array", "items": { "type": "string" } } } },
+        "brandImage": { "$ref": "#/$defs/image" },
+        "signature": { "$ref": "#/$defs/image" },
+        "partners": { "type": "integer" }
+      }
+    },
+    "shop": { "type": "object", "properties": { "allImage": { "$ref": "#/$defs/image" } } },
+    "ui": { "$ref": "#/$defs/strings" }
+  }
+}

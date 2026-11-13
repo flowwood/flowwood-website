@@ -1,0 +1,11 @@
+{
+  "name": "flowwood-website",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "build": "node build/build.mjs",
+    "dev": "node build/serve.mjs",
+    "check": "node build/build.mjs && node build/check.mjs"
+  }
+}

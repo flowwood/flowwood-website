@@ -1,0 +1,9 @@
+.not-found {
+  min-height: calc(100svh - var(--menu-h)); padding: var(--gutter);
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 28px;
+}
+.not-found__title { font-size: clamp(44px, 6vw, 96px); line-height: 0.95; letter-spacing: -0.03em; }
+
+@media (max-width: 767px) {
+  .not-found { min-height: 60svh; }
+}
