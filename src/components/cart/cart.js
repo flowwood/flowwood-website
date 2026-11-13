@@ -55,7 +55,7 @@ customElements.define(
       this.adding = false;
       this.render(`#cart__another--${id}`);
       config.set(`cart-${id}`, { product: id, finish, custom: catalog.customStart(p) });
-      (await import('/components/custom-size/custom-size.js')).open(`cart-${id}`);
+      (await import('../custom-size/custom-size.js')).open(`cart-${id}`);
     }
 
     removeTile(tile, keys) {

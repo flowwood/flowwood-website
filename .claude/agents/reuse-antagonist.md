@@ -29,7 +29,7 @@ Also flag anything that hurts speed (work on load, extra requests, layout thrash
 exists), breaks the naming contract (bem() for every element), hard-codes copy instead of using `ui` strings,
 or ignores one of the three views. Flag every comment in the diff: say which function, constant
 or name would make it unnecessary. Treat any comment that records history (what it was, what changed or
-was removed, what the demo did) as a defect.
+was removed, what an earlier version did) as a defect.
 
 Output: a compact bullet list, each line tagged with a verdict and carrying a file:line reference. End with a
 one-line net effect (for example "−2 files, −1 abstraction"). No preamble, no restating the proposal, no edits.

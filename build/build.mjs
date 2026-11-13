@@ -18,6 +18,7 @@ import notFound from '../src/pages/not-found.js';
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'src');
 const DIST = process.env.DIST || join(ROOT, 'dist');
+const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '');
 const PAGES = [home, shop, about, cart, contact];
 const PRELOADED_FONTS = ['/fonts/jost.woff2', '/fonts/ibm-plex-sans.woff2'];
 const IMMUTABLE_PATHS = ['/js/*', '/components/*', '/data/*', '/fonts/*', '/media/*'];
@@ -30,6 +31,9 @@ const walk = async (dir) => (await readdir(dir, { recursive: true, withFileTypes
 const readJson = async (p) => JSON.parse(await readFile(join(ROOT, p), 'utf8'));
 
 const site = await readJson('content/site.json');
+const ORIGIN = (process.env.SITE_ORIGIN || site.origin).replace(/\/+$/, '');
+const atBase = (path) => `${BASE}${path}`;
+const withoutBase = (url) => url.slice(BASE.length);
 const catalogData = await readJson('content/catalog.json');
 const LOCALES = Object.keys(site.locales);
 
@@ -66,7 +70,7 @@ async function writeHashed(publicUrl, body) {
   const out = hashed(publicUrl, hash(body));
   await mkdir(dirname(join(DIST, out)), { recursive: true });
   await writeFile(join(DIST, out), body);
-  hashedUrlOf.set(publicUrl, out);
+  hashedUrlOf.set(publicUrl, atBase(out));
   return out;
 }
 
@@ -97,7 +101,7 @@ const emitModule = (publicUrl, value) => writeHashed(publicUrl, `export default 
 
 async function emitDataModules() {
   await emitModule('/data/catalog.js', catalogContent);
-  for (const l of LOCALES) await emitModule(`/data/site.${l}.js`, { locales: content.locales, routes: content.routes, ui: localize(content.ui, l) });
+  for (const l of LOCALES) await emitModule(`/data/site.${l}.js`, { basePath: BASE, locales: content.locales, routes: content.routes, ui: localize(content.ui, l) });
 }
 
 const importsOf = (url) => [...(browserSourceOf.get(url) || '').matchAll(/^\s*import\s[^'"]*['"]([^'"]+)['"]/gm)].map((m) => new URL(m[1], `http://x${url}`).pathname);
@@ -191,9 +195,9 @@ async function renderAllPages() {
     for (const page of PAGES) {
       const url = i18n.url(page.route);
       pageUrls.push(url);
-      await renderPage(page, locale, `${url}index.html`, { path: url });
+      await renderPage(page, locale, `${withoutBase(url)}index.html`, { path: url });
     }
-    await renderPage(notFound, locale, `/${locale}/404.html`, { path: `/${locale}/404`, alternates: false });
+    await renderPage(notFound, locale, `/${locale}/404.html`, { path: atBase(`/${locale}/404`), alternates: false });
   }
   await cp(join(DIST, `${site.defaultLocale}/404.html`), join(DIST, '404.html'));
 }
@@ -203,9 +207,9 @@ async function writeRootRedirect() {
   await writeFile(
     join(DIST, 'index.html'),
     `<!doctype html><html lang="${site.locales[site.defaultLocale].lang}"><head><meta charset="utf-8"><title>${site.name}</title><meta name="viewport" content="width=device-width,initial-scale=1">` +
-      LOCALES.map((l) => `<link rel="alternate" hreflang="${site.locales[l].lang}" href="${site.origin}/${l}/">`).join('') +
-      `<script>var l;try{l=localStorage.getItem(${JSON.stringify(LOCALE_STORAGE_KEY)})}catch(e){}if(!/^(${pattern})$/.test(l||''))l='${site.defaultLocale}';location.replace('/'+l+'/')</script>` +
-      `<noscript><meta http-equiv="refresh" content="0;url=/${site.defaultLocale}/"></noscript></head><body></body></html>`,
+      LOCALES.map((l) => `<link rel="alternate" hreflang="${site.locales[l].lang}" href="${ORIGIN}${atBase(`/${l}/`)}">`).join('') +
+      `<script>var l;try{l=localStorage.getItem(${JSON.stringify(LOCALE_STORAGE_KEY)})}catch(e){}if(!/^(${pattern})$/.test(l||''))l='${site.defaultLocale}';location.replace(${JSON.stringify(atBase('/'))}+l+'/')</script>` +
+      `<noscript><meta http-equiv="refresh" content="0;url=${atBase(`/${site.defaultLocale}/`)}"></noscript></head><body></body></html>`,
   );
 }
 
@@ -244,11 +248,11 @@ validateContent();
 await rm(DIST, { recursive: true, force: true });
 await mkdir(DIST, { recursive: true });
 await hashStaticAssets();
-const content = withHashedMedia(site);
+const content = { ...withHashedMedia(site), origin: ORIGIN, basePath: BASE };
 const catalogContent = withHashedMedia(catalogData);
 await emitDataModules();
 await hashBrowserJs();
-const importMap = JSON.stringify({ imports: Object.fromEntries([...hashedUrlOf].filter(([u]) => u.endsWith('.js'))) });
+const importMap = JSON.stringify({ imports: Object.fromEntries([...hashedUrlOf].filter(([u]) => u.endsWith('.js')).map(([u, url]) => [atBase(u), url])) });
 const catalog = createCatalog(catalogContent);
 await renderAllPages();
 await writeRootRedirect();

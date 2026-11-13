@@ -9,7 +9,7 @@ export function createI18n(site, locale) {
 
   const url = (route, to = locale) => {
     const s = site.routes[route][to];
-    return `/${to}/${s ? `${s}/` : ''}`;
+    return `${site.basePath || ''}/${to}/${s ? `${s}/` : ''}`;
   };
 
   return {

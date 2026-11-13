@@ -30,7 +30,7 @@ customElements.define(
     }
 
     async custom() {
-      const [{ catalog }, dialog, c] = await Promise.all([page(), import('/components/custom-size/custom-size.js'), this.current()]);
+      const [{ catalog }, dialog, c] = await Promise.all([page(), import('../custom-size/custom-size.js'), this.current()]);
       const p = catalog.product(this.dataset.product);
       config.set(this.dataset.config, { ...c, custom: catalog.customStart(p, c) });
       dialog.open(this.dataset.config);

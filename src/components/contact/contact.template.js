@@ -52,7 +52,7 @@ export function contact({ site, i18n }) {
       <figcaption ${b('founder')}>${esc(i18n.t('brand.founder'))}</figcaption>
     </figure>
   </div>
-  <form ${b('form')} method="post" action="/api/contact">
+  <form ${b('form')} method="post" action="${site.basePath}/api/contact">
     <div ${b('form-head')}>
       <h2 ${b('form-title')}>${t('formTitle')}</h2>
       <p ${b('required-note')}><span ${b('required', { key: 'note' })} aria-hidden="true">*</span> ${t('requiredNote')}</p>

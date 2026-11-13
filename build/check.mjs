@@ -5,6 +5,10 @@ import { gzipSync } from 'node:zlib';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = process.env.DIST || join(ROOT, 'dist');
+const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '');
+const fileOf = (url) => join(DIST, url.startsWith(`${BASE}/`) ? url.slice(BASE.length) : url);
+const escapeRegExp = (text) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+const LOCALE_LINK = new RegExp(`\\shref="(${escapeRegExp(BASE)}/[a-z]{2}/[^"#]*)`, 'g');
 const audit = new Function(`return (\n${await readFile(join(ROOT, 'build/dom-audit.js'), 'utf8')}\n)`)();
 const site = JSON.parse(await readFile(join(ROOT, 'content/site.json'), 'utf8'));
 const LOCALES = Object.keys(site.locales);
@@ -44,20 +48,20 @@ for (const file of pages) {
   if (gz > GZIP_BUDGET.html) fail(`HTML ${gz} B gzip > budget ${GZIP_BUDGET.html}`);
   const preloaded = [...html.matchAll(/<link rel="modulepreload" href="([^"]+)"/g)].map((m) => m[1]);
   let js = 0;
-  for (const u of preloaded) js += gzipSync(await readFile(join(DIST, u))).length;
+  for (const u of preloaded) js += gzipSync(await readFile(fileOf(u))).length;
   if (js > GZIP_BUDGET.firstPartyJs) fail(`preloaded JS ${js} B gzip > budget ${GZIP_BUDGET.firstPartyJs}`);
   for (const m of html.matchAll(/\s(?:src|href)="(\/[^"#?]*)"/g)) {
     const u = m[1];
     if (u.endsWith('/') || u.startsWith('/#')) continue;
     try {
-      await stat(join(DIST, u));
+      await stat(fileOf(u));
     } catch {
       fail(`broken reference ${u}`);
     }
   }
-  for (const m of body.matchAll(/\shref="(\/[a-z]{2}\/[^"#]*)/g)) {
+  for (const m of body.matchAll(LOCALE_LINK)) {
     try {
-      await stat(join(DIST, m[1], 'index.html'));
+      await stat(join(fileOf(m[1]), 'index.html'));
     } catch {
       fail(`broken link ${m[1]}`);
     }

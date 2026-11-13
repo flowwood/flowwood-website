@@ -24,7 +24,7 @@ ${i18n
   .alternates(page.route)
   .map((a) => `<link rel="alternate" hreflang="${a.lang}" href="${site.origin}${a.href}">`)
   .join('\n')}
-<link rel="alternate" hreflang="x-default" href="${site.origin}/">
+<link rel="alternate" hreflang="x-default" href="${site.origin}${site.basePath}/">
 <!--fonts-->
 ${lcp ? `<link rel="preload" as="image" href="${esc(lcp.src)}" fetchpriority="high">` : ''}
 <!--head-->

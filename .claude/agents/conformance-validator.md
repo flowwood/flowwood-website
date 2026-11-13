@@ -1,6 +1,6 @@
 ---
 name: conformance-validator
-description: Final gate for Flowwood changes — builds and validates naming (BEM ids + data-component on every element, live DOM included), i18n parity and routing (/nl/ ↔ /en/, hreflang, router swaps, back/forward, deep links), content schema, and behaviour parity with demo.html. Use before declaring any work done. Read-only; reports pass/fail with evidence.
+description: Final gate for Flowwood changes — builds and validates naming (BEM ids + data-component on every element, live DOM included), i18n parity and routing (/nl/ ↔ /en/, hreflang, router swaps, back/forward, deep links), content schema, and no behaviour regressions (also under the GitHub Pages base path). Use before declaring any work done. Read-only; reports pass/fail with evidence.
 tools: Read, Grep, Glob, Bash, mcp__plugin_playwright_playwright__browser_navigate, mcp__plugin_playwright_playwright__browser_evaluate, mcp__plugin_playwright_playwright__browser_click, mcp__plugin_playwright_playwright__browser_snapshot, mcp__plugin_playwright_playwright__browser_console_messages, mcp__plugin_playwright_playwright__browser_resize, mcp__plugin_playwright_playwright__browser_navigate_back, mcp__plugin_playwright_playwright__browser_press_key
 ---
 
@@ -30,9 +30,12 @@ You are the last gate. Nothing is "done" until you pass it. The contract is `CLA
    - An unknown URL serves the localized 404.
    - Cart state survives navigation and reloads, and syncs across tabs.
    - The console is free of errors and warnings throughout.
-5. **Parity with `demo.html`.** For the change under review, list the demo behaviours it covers (pricing
-   formula, custom size limits and price, cart grouping/zero-qty/removal, sort/filter, hero autoplay,
-   pause and keyboard) and verify each one by interacting.
+5. **No behaviour regressions.** For the change under review, list the existing behaviours it touches
+   (pricing formula, custom size limits and price, cart grouping/zero-qty/removal, sort/filter, hero
+   autoplay, pause and keyboard, contact form validation) and verify each one by interacting.
+6. **Base path.** Build with `BASE_PATH=/flowwood-website` into a scratch DIST, run the check with the same
+   env, serve its parent folder, and confirm the redirect, router navigation, lazy modules and the
+   service worker work under the subfolder.
 
 Output: a checklist with ✓/✗ for each item, with evidence (command output, evaluate results), followed
 by the failures with file:line and the exact fix. Do not edit files.

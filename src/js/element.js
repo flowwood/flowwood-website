@@ -7,7 +7,7 @@ export function page() {
   const locale = document.documentElement.dataset.locale;
   if (!pageData || pageDataLocale !== locale) {
     pageDataLocale = locale;
-    pageData = Promise.all([import('/data/catalog.js'), import(`/data/site.${locale}.js`)]).then(([c, s]) => ({
+    pageData = Promise.all([import(new URL('../data/catalog.js', import.meta.url).href), import(new URL(`../data/site.${locale}.js`, import.meta.url).href)]).then(([c, s]) => ({
       locale,
       i18n: createI18n(s.default, locale),
       catalog: createCatalog(c.default),

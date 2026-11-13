@@ -25,8 +25,8 @@ You guarantee that all three views exist and keep working. The rules are in `CLA
      hero slide change, adding to the cart, the cart with 1, 3 and 6 lines, a cart group's options open,
      and an empty cart. Re-run the probe in each state.
    - Confirm nothing is reachable only by hover (the alternate image is decoration; the actions are not).
-3. Compare desktop against `demo.html` at 1440×900 (open the file directly). Desktop is meant to match
-   the demo, so report visual drift.
+3. Compare desktop at 1440×900 against the live site (https://flowwood.github.io/flowwood-website/)
+   for pages the change shouldn't affect, and report unintended visual drift.
 
 Output, per page and view: pass/fail, the probe output, screenshot file names, and concrete findings,
 each with the file:line of the CSS to change and the fix. Do not edit files.

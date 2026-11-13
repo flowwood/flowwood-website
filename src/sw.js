@@ -2,6 +2,7 @@ const VERSION = '__VERSION__';
 const PRECACHE = '__PRECACHE__';
 const CACHE = `fw-${VERSION}`;
 const HASHED = /\.[0-9a-f]{10}\.[a-z0-9]+$/;
+const SCOPE_PATH = new URL('./', location.href).pathname;
 
 self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE))));
 
@@ -32,12 +33,12 @@ async function staleWhileRevalidate(e, cache) {
     e.waitUntil(network.catch(() => {}));
     return cached;
   }
-  return network.catch(async () => (await cache.match('/404.html')) || Response.error());
+  return network.catch(async () => (await cache.match(`${SCOPE_PATH}404.html`)) || Response.error());
 }
 
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
-  if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname === '/sw.js') return;
+  if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname === location.pathname) return;
   e.respondWith(
     caches.open(CACHE).then((cache) => (HASHED.test(url.pathname) ? cacheFirst(e, cache) : staleWhileRevalidate(e, cache))),
   );

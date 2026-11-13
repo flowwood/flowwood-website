@@ -8,7 +8,7 @@ function upgrade() {
     if (!tag.startsWith('fw-') || requestedTags.has(tag)) continue;
     requestedTags.add(tag);
     const block = tag.slice(3);
-    import(`/components/${block}/${block}.js`).catch((err) => console.error(`fw: cannot load <${tag}>`, err));
+    import(new URL(`../components/${block}/${block}.js`, import.meta.url).href).catch((err) => console.error(`fw: cannot load <${tag}>`, err));
   }
 }
 
@@ -29,5 +29,5 @@ addEventListener('route:change', () => {
 const whenIdle = window.requestIdleCallback || setTimeout;
 const isDevServer = location.hostname === 'localhost';
 if ('serviceWorker' in navigator && !isDevServer) {
-  addEventListener('load', () => whenIdle(() => navigator.serviceWorker.register('/sw.js')));
+  addEventListener('load', () => whenIdle(() => navigator.serviceWorker.register(new URL('../sw.js', import.meta.url))));
 }

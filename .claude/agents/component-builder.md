@@ -5,8 +5,8 @@ description: Builds or changes a Flowwood block (template + CSS + optional web c
 
 You build blocks for the Flowwood site. The contract is `CLAUDE.md`; read it fully first. Then read the
 foundation you must reuse: `src/js/*`, `src/css/base.css`, and the reference blocks `product-card`,
-`cart-control`, `collection` and `menu-bar`. The design reference is `demo.html`: reproduce its look and
-behaviour, not its code. Never read `support.js`.
+`cart-control`, `collection` and `menu-bar`. Match the visual language of the existing blocks (tokens,
+type scale, spacing, the eyebrow/display-title rhythm).
 
 Workflow:
 1. **Ask the antagonist first.** Write a 5–10 line proposal (blocks, files, exports, strings, data) and

@@ -1,7 +1,8 @@
 # Flowwood website
 
-Production implementation of the Flowwood shop. `demo.html` + `support.js` + `assets/` are the
-**design reference** (a single-file prototype). Keep them untouched; never import from them.
+Production implementation of the Flowwood shop, served by GitHub Pages at
+https://flowwood.github.io/flowwood-website/ (built and deployed by `.github/workflows/pages.yml` on every
+push to `main`).
 
 ## Principles (in priority order)
 
@@ -13,7 +14,7 @@ Production implementation of the Flowwood shop. `demo.html` + `support.js` + `as
    no bundler. `npm` has zero dependencies. Node is used only at build time.
 4. **No comments.** Names and small functions carry the meaning. When code seems to need a comment,
    decompose it first: extract a named function or constant, rename, or split the step. Never record
-   history in code (what it was, what changed, what was fixed or removed, what the demo did). Git
+   history in code (what it was, what changed, what was fixed or removed, what an earlier version did). Git
    holds the history, and this file holds the architecture. `npm run check` fails on comments in
    `src/` and `build/`. The build's HTML markers (`<!--fonts-->`, `<!--head-->`) are placeholders,
    not comments.
@@ -22,7 +23,7 @@ Production implementation of the Flowwood shop. `demo.html` + `support.js` + `as
 
 ```
 content/*.json ──► build/build.mjs ──► dist/{locale}/{slug}/index.html   (prerendered, CSS inlined)
-                   (Cloudflare Pages CI: `npm run build`, output `dist/`)
+                   (GitHub Actions: `npm run check` with BASE_PATH, then deploy `dist/` to Pages)
 browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router takes over navigation
 ```
 
@@ -34,6 +35,12 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
   intercepts same-origin links, prefetches on hover, focus or touch, swaps `<body>` in place
   (inside a View Transition when the browser supports one), updates `<head>`, and calls
   `pushState`. Any failure falls back to a normal navigation.
+* **Base path.** The site can live in a subfolder (GitHub Pages serves it under `/flowwood-website/`).
+  The build reads `BASE_PATH` and `SITE_ORIGIN` from the environment (the workflow takes both from the
+  Pages settings; empty locally). Files in `dist/` stay at the root; every public URL gets the base:
+  `i18n.url()`, hashed asset URLs, import-map keys, the root redirect and the service-worker list. Browser
+  code never writes a root-absolute path: it resolves against its own module
+  (`new URL('../data/catalog.js', import.meta.url)`) or imports relatively.
 * **Languages.** Locale is the first path segment. Every page links its counterparts with
   `hreflang`. The language switch is plain links to the same route in the other locale. `/` redirects
   to the locale of the last page the visitor saw (localStorage `fw:locale`, set on every page, so both
@@ -43,7 +50,8 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
   below the fold, native ES modules with content-hashed names and an inline import map (only modules the
   browser runs), data modules (`/data/catalog.js`, `/data/site.<locale>.js`) prefetched at idle, a service
   worker that precaches every page plus the hashed assets (stale-while-revalidate for HTML,
-  cache-first for immutable files), hover prefetch, and immutable cache headers (`_headers`).
+  cache-first for immutable files), hover prefetch, and immutable cache headers (`_headers`, honoured by
+  Cloudflare Pages; GitHub Pages ignores it).
 
 ## Layout
 
@@ -81,7 +89,7 @@ build/
   serve.mjs        dev server with rebuild-on-change
   dom-audit.js     browser-side audit of the live DOM (paste into Playwright evaluate)
 functions/
-  api/contact.js   Cloudflare Pages Function: the contact form posts here; it emails site.contact.email via
+  api/contact.js   Cloudflare Pages Function (not run by GitHub Pages): the contact form posts here; it emails site.contact.email via
                    Resend and 303-redirects back to #contact__status--sent or --failed (shown with :target,
                    so the form works without JS; <fw-contact> posts with fetch instead and keeps the text on failure). Secret: RESEND_API_KEY (Cloudflare env, locally in .dev.vars).
 ```
@@ -110,7 +118,7 @@ Every block is designed and verified at three viewports. A change is not done un
 
 | view    | range         | verify at    | intent |
 |---------|---------------|--------------|--------|
-| desktop | ≥ 1200px      | 1440 × 900   | the demo design |
+| desktop | ≥ 1200px      | 1440 × 900   | the reference design |
 | tablet  | 768 – 1199px  | 834 × 1112   | same structure, narrower sidebar (`--sidebar-w`), 2-column grids |
 | mobile  | ≤ 767px       | 390 × 844    | single column, no sidebar column, content stacked, thumb-reachable controls |
 
@@ -149,7 +157,7 @@ Every block is designed and verified at three viewports. A change is not done un
 
 ## Commands
 
-* `npm run build`: build to `dist/` (Cloudflare Pages: build command `npm run build`, output `dist`)
+* `npm run build`: build to `dist/` (`BASE_PATH=/flowwood-website npm run build` to build for the Pages subfolder)
 * `npm run dev`: build, serve on http://localhost:8080 and rebuild on change
 * `npm run check`: build and validate the output
 
