@@ -11,7 +11,7 @@
   --hero-track: color-mix(in srgb, var(--c-ink) 15%, transparent);
 }
 
-.hero__aside { background: var(--c-sidebar); display: flex; justify-content: center; align-items: flex-start; padding-top: clamp(20px, 2vw, 32px); overflow: hidden; }
+.hero__aside { background: var(--c-sidebar); box-shadow: inset -6px 0 0 var(--c-accent); display: flex; justify-content: center; align-items: flex-start; padding-top: clamp(20px, 2vw, 32px); overflow: hidden; }
 .hero__wordmark {
   writing-mode: vertical-rl; transform: rotate(180deg); user-select: none;
   font-size: min(clamp(100px, 9vw, 164px), 18vh); line-height: 0.8; font-weight: 400; letter-spacing: -0.04em; color: var(--c-paper);
@@ -118,7 +118,7 @@
 @media (max-width: 767px) {
   .hero { --hero-media-h: max(360px, 58svh); grid-template-columns: minmax(0, 1fr); height: auto; min-height: 0; }
   .hero__aside {
-    position: absolute; top: 0; left: 0; z-index: 4; padding: 16px var(--gutter); background: none;
+    position: absolute; top: 0; left: 0; z-index: 4; padding: 16px var(--gutter); background: none; box-shadow: none;
     pointer-events: none;
   }
   .hero__wordmark {
