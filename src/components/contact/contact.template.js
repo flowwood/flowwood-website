@@ -69,7 +69,7 @@ export function contact({ site, i18n }) {
     ${status('sent', t('sent'))}
     ${status('failed', `${t('failed')} <a ${b('failed-email')} href="mailto:${email}">${esc(email)}</a>`)}
     <div ${b('actions')}>
-      <button ${b('submit', { cls: 'button button--primary' })} type="submit"><span ${b('submit-label')}>${t('submit')}</span> <span ${b('submit-icon', { cls: 'button__icon' })} aria-hidden="true">→</span></button>
+      <button ${b('submit', { cls: 'button button--primary' })} type="submit"><span ${b('submit-label')}>${t('submit')}</span> <span ${b('submit-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">→</span></button>
       <p ${b('privacy')}>${t('privacy')}</p>
     </div>
   </form>
