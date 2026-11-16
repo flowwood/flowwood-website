@@ -1,5 +1,4 @@
 .footer {
-  margin-top: clamp(72px, 8vw, 128px);
   display: grid; grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
   background: var(--c-sidebar); color: var(--c-footer); font-size: 12px; letter-spacing: 0.04em;
 }

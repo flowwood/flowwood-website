@@ -57,11 +57,11 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { background: var(--c-sidebar); scroll-padding-top: var(--menu-h); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { scroll-padding-top: var(--menu-h); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   padding-top: var(--menu-h);
-  background: var(--c-surface);
+  background: var(--c-sidebar);
   color: var(--c-ink);
   font-family: var(--f-body);
   -webkit-font-smoothing: antialiased;
@@ -75,6 +75,7 @@ button:disabled { cursor: default; }
 .button:disabled { opacity: 0.6; }
 a { color: inherit; text-decoration: none; }
 :focus-visible { outline: 2px solid var(--c-accent); outline-offset: 2px; }
+main { padding-bottom: clamp(72px, 8vw, 128px); background: var(--c-surface); }
 main:focus { outline: none; }
 [hidden] { display: none !important; }
 
