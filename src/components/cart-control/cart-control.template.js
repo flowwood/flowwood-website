@@ -8,7 +8,7 @@ export function cartControl({ i18n }, { key, name, instance, variant = 'card', q
   const min = canAdd ? '' : ` data-min="${variant === 'row' ? 1 : 0}"`;
   const step = canAdd ? 'stepper__button hit' : 'stepper__button';
   return `<fw-cart-control ${b('', { mods: { [variant]: true, addable: canAdd } })} data-key="${esc(key)}"${min} data-label-less="${t('oneLess')}" data-label-remove="${t('remove')}">
-  ${canAdd ? `<button ${b('add', { cls: 'link' })} type="button" aria-label="${t('addNamed')}"${qty ? ' hidden' : ''}><span ${b('add-text')}>${addText}</span><span ${b('add-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">+</span></button>` : ''}
+  ${canAdd ? `<button ${b('add', { cls: 'link hit' })} type="button" aria-label="${t('addNamed')}"${qty ? ' hidden' : ''}><span ${b('add-text')}>${addText}</span><span ${b('add-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">+</span></button>` : ''}
   <div ${b('stepper', { cls: 'stepper' })}${canAdd && !qty ? ' hidden' : ''}>
     ${canAdd ? `<span ${b('in-cart')}>${t('inCart')}</span>` : ''}
     <button ${b('dec', { cls: step })} type="button" aria-label="${t('oneLess')}">−</button>

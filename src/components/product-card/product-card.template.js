@@ -17,7 +17,8 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
   const name = esc(p.name);
   const href = i18n.url('shop', i18n.locale, p.id);
   const altImage = () => (p.altImage ? img(p.altImage, { attrs: b('alt-image'), alt: i18n.t('productCard.alternateView', { name: p.name }) }) : '');
-  const card = variant === 'card';
+  const card = variant === 'card' || variant === 'compact';
+  const choices = variant !== 'compact';
   const media = !card ? '' : `<a ${b('media', { cls: 'media', mods: { alternate: Boolean(p.altImage) } })} href="${href}">${img(p.image, { attrs: b('image'), alt: p.name, priority })}${altImage()}</a>`;
   const title = !card ? `<span ${b('name', { cls: 'product-name' })}>${name}</span>` : `<a ${b('name', { cls: 'product-name hit' })} href="${href}">${name}</a>`;
 
@@ -29,7 +30,7 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
        </div>`
     : `<span ${b('unit')}>${esc(i18n.t('common.oneSize'))}</span>`;
 
-  return `<fw-product-card ${b('', { mods: { [variant]: !card } })} data-product="${p.id}" data-config="${esc(configId)}" data-price="${price}">
+  return `<fw-product-card ${b('', { mods: { [variant]: variant !== 'card' } })} data-product="${p.id}" data-config="${esc(configId)}" data-price="${price}">
   ${media}
   <div ${b('head')}>
     <div ${b('titles')}>
@@ -39,9 +40,9 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
     <span ${b('price', { cls: 'figure' })}>${esc(i18n.money(price))}</span>
   </div>
   <div ${b('controls')}>
-    <div ${b('sizes')}>${sizes}</div>
+    ${choices ? `<div ${b('sizes')}>${sizes}</div>` : ''}
     <div ${b('buy')}>
-      <div ${b('swatches')} role="group" aria-label="${esc(i18n.t('productCard.finishes'))}">${sized ? swatches(i18n, b, p, c.finish, !card) : ''}</div>
+      ${choices ? `<div ${b('swatches')} role="group" aria-label="${esc(i18n.t('productCard.finishes'))}">${sized ? swatches(i18n, b, p, c.finish, !card) : ''}</div>` : ''}
       ${cartControl(ctx, { key: catalog.lineKey(c), name: p.name, instance, variant: card ? 'card' : 'detail' })}
     </div>
   </div>

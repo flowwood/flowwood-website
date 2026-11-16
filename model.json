@@ -79,6 +79,7 @@
     "materials": { "$ref": "#/$defs/localized", "description": "\"Materials\" on the product page." },
     "care": { "$ref": "#/$defs/localized", "description": "\"Care\" on the product page." },
     "availability": { "$ref": "#/$defs/localized", "description": "Stock or lead time on the product page, e.g. \"Back in stock in March\". Without it: the standard in-stock line (fixed) or made-to-order lead time (sized)." },
+    "related": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true, "description": "Ids of other products shown under \"You may also like\" at the bottom of the product page, in order, each with its own add-to-cart. An id that is not (or no longer) in the shop is skipped." },
     "finishes": { "type": "array", "items": { "$ref": "#/$defs/finish" }, "minItems": 1, "description": "Colours or materials to choose from; the first is the default. A fixed product has exactly one." }
   },
   "additionalProperties": false

@@ -1,6 +1,7 @@
 import { bem, esc, img } from '../../js/bem.js';
 import { productCard } from '../product-card/product-card.template.js';
 import { breadcrumb } from '../shop/shop.template.js';
+import { collection } from '../collection/collection.template.js';
 
 export const images = (p) => [p.image, p.altImage, ...(p.gallery || [])].filter(Boolean);
 
@@ -37,10 +38,22 @@ export function product(ctx, p) {
     ${tiles.grid.join('')}
   </div>
   ${tiles.rest.length ? `<div ${b('more')}>${tiles.rest.join('')}</div>` : ''}
+  ${related(ctx, p)}
   <div ${b('bar')}>
     ${productCard(ctx, { product: p, instance: 'bar', configId: p.id, variant: 'bar' })}
   </div>
 </fw-product>`;
+}
+
+function related(ctx, p) {
+  const { catalog, i18n } = ctx;
+  const items = (p.related || [])
+    .filter((id) => id !== p.id)
+    .map((id) => catalog.product(id))
+    .filter(Boolean)
+    .map((product) => ({ product, configId: product.id }));
+  const link = { href: i18n.url('shop'), label: i18n.t('collection.all') };
+  return items.length ? collection(ctx, { id: 'related', variant: 'related', title: i18n.t('product.related', { name: p.name }), titleClass: 'eyebrow', card: 'compact', link, items }) : '';
 }
 
 function fillSlots(texts, photos) {

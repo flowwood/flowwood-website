@@ -40,6 +40,11 @@
     "en": "Clean with a soft cloth and a little lukewarm water. Avoid abrasive or solvent-based cleaners, which dull the matt finish.",
     "nl": "Reinigen met een zachte doek en wat lauw water. Vermijd schurende of oplosmiddelhoudende middelen: die maken de matte afwerking dof."
   },
+  "related": [
+    "monolith",
+    "ovale",
+    "jeanne"
+  ],
   "finishes": [
     {
       "id": "stone",

@@ -136,7 +136,8 @@
       "returnsBody": {
         "en": "Changed your mind? Return a standard piece unused within 14 days. Pieces made to measure cannot be returned.",
         "nl": "Van gedachten veranderd? Stuur een standaardstuk ongebruikt terug binnen 14 dagen. Stukken op maat kunnen niet teruggestuurd worden."
-      }
+      },
+      "related": { "en": "Pairs well with {name}", "nl": "Past mooi bij {name}" }
     },
     "customSize": {
       "title": { "en": "Custom size", "nl": "Op maat" },

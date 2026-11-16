@@ -41,6 +41,14 @@
     "en": "Dust with a soft, dry cloth. Wipe spills straight away with a damp cloth and dry immediately. Keep out of prolonged direct sunlight to preserve the colour of the veneer.",
     "nl": "Afstoffen met een zachte, droge doek. Morsen meteen opnemen met een vochtige doek en direct droogwrijven. Vermijd langdurig direct zonlicht om de kleur van het fineer te bewaren."
   },
+  "related": [
+    "facet",
+    "rondo",
+    "ovale",
+    "cleo",
+    "soda-bubbles",
+    "jeanne"
+  ],
   "finishes": [
     {
       "id": "smoked-oak",
