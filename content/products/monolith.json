@@ -1,0 +1,78 @@
+{
+  "$schema": "../../model.json",
+  "id": "monolith",
+  "name": "Monolith",
+  "tone": "light",
+  "image": {
+    "file": "image1.webp",
+    "position": "50% 62%"
+  },
+  "altImage": {
+    "file": "image1-alt.webp",
+    "position": "50% 50%"
+  },
+  "summary": {
+    "en": "Square · smoked oak veneer",
+    "nl": "Vierkant · gerookt eikenfineer"
+  },
+  "description": {
+    "en": "A seamless mitred column in matt smoked-oak veneer. Sold singly or as a stepped set of three heights.",
+    "nl": "Een naadloos verstekgezaagde zuil in mat gerookt eikenfineer. Per stuk of als getrapte set van drie hoogtes."
+  },
+  "sizing": {
+    "shape": "square",
+    "heights": [
+      40,
+      60,
+      80,
+      100
+    ],
+    "width": 30
+  },
+  "pricing": {
+    "base": 395,
+    "perSizeStep": 50
+  },
+  "materials": {
+    "en": "MDF core with a real smoked-oak veneer, mitred on all four edges so the grain runs unbroken around the column. Finished with a water-based matt lacquer.",
+    "nl": "MDF-kern met echt gerookt eikenfineer, in verstek op alle vier de hoeken zodat de nerf ononderbroken rond de zuil loopt. Afgewerkt met een matte lak op waterbasis."
+  },
+  "care": {
+    "en": "Dust with a soft, dry cloth. Wipe spills straight away with a damp cloth and dry immediately. Keep out of prolonged direct sunlight to preserve the colour of the veneer.",
+    "nl": "Afstoffen met een zachte, droge doek. Morsen meteen opnemen met een vochtige doek en direct droogwrijven. Vermijd langdurig direct zonlicht om de kleur van het fineer te bewaren."
+  },
+  "finishes": [
+    {
+      "id": "smoked-oak",
+      "color": "#3b332d",
+      "name": {
+        "en": "Smoked oak",
+        "nl": "Gerookte eik"
+      }
+    },
+    {
+      "id": "natural-oak",
+      "color": "#8a6f55",
+      "name": {
+        "en": "Natural oak",
+        "nl": "Naturel eik"
+      }
+    },
+    {
+      "id": "walnut",
+      "color": "#5a4436",
+      "name": {
+        "en": "Walnut",
+        "nl": "Notelaar"
+      }
+    },
+    {
+      "id": "bleached-ash",
+      "color": "#c9c2b8",
+      "name": {
+        "en": "Bleached ash",
+        "nl": "Gebleekte es"
+      }
+    }
+  ]
+}

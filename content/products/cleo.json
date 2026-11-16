@@ -1,0 +1,39 @@
+{
+  "$schema": "../../model.json",
+  "id": "cleo",
+  "name": "Cleo",
+  "tone": "light",
+  "image": {
+    "file": "cleo-1.webp",
+    "position": "50% 60%"
+  },
+  "summary": {
+    "en": "Smoke-grey glass",
+    "nl": "Rookgrijs glas"
+  },
+  "dimensions": {
+    "en": "45 cm high",
+    "nl": "45 cm hoog"
+  },
+  "pricing": {
+    "fixed": 139
+  },
+  "materials": {
+    "en": "Mouth-blown smoke-grey glass with a slightly thickened base.",
+    "nl": "Mondgeblazen rookgrijs glas met een licht verzwaarde bodem."
+  },
+  "care": {
+    "en": "Rinse by hand with lukewarm water and a drop of washing-up liquid. Not dishwasher safe.",
+    "nl": "Met de hand afwassen in lauw water met een druppel afwasmiddel. Niet vaatwasmachinebestendig."
+  },
+  "finishes": [
+    {
+      "id": "smoke-grey",
+      "color": "linear-gradient(135deg,#9aa19c,#4f5651)",
+      "name": {
+        "en": "Smoke-grey glass",
+        "nl": "Rookgrijs glas"
+      }
+    }
+  ]
+}

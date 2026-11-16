@@ -1,0 +1,77 @@
+{
+  "$schema": "../../model.json",
+  "id": "facet",
+  "name": "Facet",
+  "tone": "light",
+  "image": {
+    "file": "image2.webp",
+    "position": "50% 60%"
+  },
+  "altImage": {
+    "file": "image2-alt.webp",
+    "position": "50% 50%"
+  },
+  "summary": {
+    "en": "Hexagonal · matt lacquer",
+    "nl": "Zeshoekig · matte lak"
+  },
+  "description": {
+    "en": "Six crisp planes in a soft-touch lacquer. A quiet stage for vases, sculpture and objects of note.",
+    "nl": "Zes strakke vlakken in een zijdezachte lak. Een rustig podium voor vazen, beelden en bijzondere objecten."
+  },
+  "sizing": {
+    "shape": "hexagon",
+    "heights": [
+      40,
+      60,
+      80
+    ],
+    "width": 35
+  },
+  "pricing": {
+    "base": 445,
+    "perSizeStep": 50
+  },
+  "materials": {
+    "en": "Six MDF panels, precision-cut and glued, finished in a soft-touch matt lacquer in the colour of your choice.",
+    "nl": "Zes MDF-panelen, nauwkeurig gezaagd en verlijmd, afgewerkt met een zijdezachte matte lak in de kleur van je keuze."
+  },
+  "care": {
+    "en": "Clean with a soft cloth and a little lukewarm water. Avoid abrasive or solvent-based cleaners, which dull the matt finish.",
+    "nl": "Reinigen met een zachte doek en wat lauw water. Vermijd schurende of oplosmiddelhoudende middelen: die maken de matte afwerking dof."
+  },
+  "finishes": [
+    {
+      "id": "stone",
+      "color": "#b3ada4",
+      "name": {
+        "en": "Stone",
+        "nl": "Steen"
+      }
+    },
+    {
+      "id": "chalk",
+      "color": "#e6e1d8",
+      "name": {
+        "en": "Chalk",
+        "nl": "Krijt"
+      }
+    },
+    {
+      "id": "basalt",
+      "color": "#6f6a63",
+      "name": {
+        "en": "Basalt",
+        "nl": "Basalt"
+      }
+    },
+    {
+      "id": "clay",
+      "color": "#a08d78",
+      "name": {
+        "en": "Clay",
+        "nl": "Klei"
+      }
+    }
+  ]
+}

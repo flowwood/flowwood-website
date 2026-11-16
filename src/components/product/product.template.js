@@ -11,7 +11,7 @@ export function product(ctx, p) {
   const b = bem('product');
   const list = images(p);
   const photoLabel = (n) => esc(i18n.t('product.photo', { n, total: list.length }));
-  const photos = list.slice(1).map((image, k) => `<a ${b('thumb', { key: k + 2, cls: 'media' })} href="#${b.id('slide', k + 2)}" aria-label="${photoLabel(k + 2)}">${img(image, { attrs: b('thumb-image', { key: k + 2 }) })}</a>`);
+  const photos = list.slice(1).map((image, k) => `<a ${b('thumb', { key: k + 2, cls: 'media' })} href="#${b.id('slide', k + 2)}" aria-label="${photoLabel(k + 2)}">${img(image, { attrs: b('thumb-image', { key: k + 2 }), thumb: true })}</a>`);
   const texts = notes(ctx, b, p).map(([key, body]) => note(i18n, b, key, body));
   const tiles = fillSlots(texts, photos);
   const from = catalog.isSized(p) ? `<span ${b('from-label')}>${esc(i18n.t('common.from'))}</span> ` : '';
@@ -55,7 +55,7 @@ function fillSlots(texts, photos) {
 }
 
 const reel = (b, list, photoLabel) => `<div ${b('reel')}>${list
-  .map((image, k) => `<a ${b('pick', { key: k + 1, cls: 'media' })} href="#${b.id('slide', k + 1)}" aria-label="${photoLabel(k + 1)}"${k ? '' : ' aria-current="true"'}>${img(image, { attrs: b('pick-image', { key: k + 1 }) })}</a>`)
+  .map((image, k) => `<a ${b('pick', { key: k + 1, cls: 'media' })} href="#${b.id('slide', k + 1)}" aria-label="${photoLabel(k + 1)}"${k ? '' : ' aria-current="true"'}>${img(image, { attrs: b('pick-image', { key: k + 1 }), thumb: true })}</a>`)
   .join('')}</div>`;
 
 function stage(i18n, b, p, list) {
@@ -82,7 +82,8 @@ function notes({ catalog, i18n }, b, p) {
        <p ${b('text', { key: 'custom' })}>${t('dimensionsCustom', { hmin: cs.height.min, hmax: cs.height.max, wmin: cs.width.min, wmax: cs.width.max })}</p>`
     : `<p ${b('text', { key: 'dimensions' })}>${esc(i18n.loc(p.dimensions))}</p>`;
   const text = (key, value) => (value ? `<p ${b('text', { key })}>${esc(value)}</p>` : '');
-  const delivery = [catalog.isSized(p) ? i18n.t('customSize.leadTime') : i18n.t('product.inStock'), i18n.t('product.deliveryBody'), i18n.t('product.returnsBody')];
+  const availability = i18n.loc(p.availability) || i18n.t(catalog.isSized(p) ? 'customSize.leadTime' : 'product.inStock');
+  const delivery = [availability, i18n.t('product.deliveryBody'), i18n.t('product.returnsBody')];
   return [
     ['about', text('about', i18n.loc(p.description))],
     ['dimensions', dimensions],

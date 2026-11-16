@@ -1,0 +1,39 @@
+{
+  "$schema": "../../model.json",
+  "id": "soda-bubbles",
+  "name": "Soda Bubbles",
+  "tone": "light",
+  "image": {
+    "file": "archer-1.webp",
+    "position": "50% 50%"
+  },
+  "summary": {
+    "en": "Clear bubble glass",
+    "nl": "Helder bubbelglas"
+  },
+  "dimensions": {
+    "en": "Ø 22 × 26 cm",
+    "nl": "Ø 22 × 26 cm"
+  },
+  "pricing": {
+    "fixed": 62.95
+  },
+  "materials": {
+    "en": "Clear recycled glass with air bubbles trapped during blowing, so no two pieces are the same.",
+    "nl": "Helder gerecycleerd glas met luchtbellen die tijdens het blazen ingesloten worden, zodat geen twee stukken gelijk zijn."
+  },
+  "care": {
+    "en": "Rinse by hand with lukewarm water and a drop of washing-up liquid. Not dishwasher safe.",
+    "nl": "Met de hand afwassen in lauw water met een druppel afwasmiddel. Niet vaatwasmachinebestendig."
+  },
+  "finishes": [
+    {
+      "id": "clear",
+      "color": "linear-gradient(135deg,#f6f8f8,#d5dcdd)",
+      "name": {
+        "en": "Clear bubble glass",
+        "nl": "Helder bubbelglas"
+      }
+    }
+  ]
+}

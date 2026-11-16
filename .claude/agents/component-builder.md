@@ -12,8 +12,8 @@ Workflow:
 1. **Ask the antagonist first.** Write a 5–10 line proposal (blocks, files, exports, strings, data) and
    run it past the `reuse-antagonist` agent. Apply its verdicts, or argue a specific one with evidence.
 2. **Content.** Copy goes in `content/site.json → ui.<block>` with both `en` and `nl` (Belgian Dutch).
-   Data goes in `content/catalog.json` or `site.json`, and images go in as URIs (`/media/…`). Keep
-   `content/schema/*.json` in sync when you add a field.
+   Data goes in `content/products/<id>.json`, `content/catalog.json` or `site.json`, and images go in as URIs (`/media/…`). Keep
+   `model.json` (product fields) and `content/schema/*.json` in sync when you add a field.
 3. **Template** (`<block>.template.js`): an isomorphic `render(ctx, data)` returning semantic HTML that
    works without JS. Every element uses `bem(block, instance)`, and ids are unique per page. Use
    `img()` for images (priority only for the LCP image). Exactly one `<h1>` per page.

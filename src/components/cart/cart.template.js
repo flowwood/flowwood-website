@@ -79,7 +79,7 @@ function frame(g, { style, mods, keys, removeLabel }, inner) {
   const p = g.product;
   const k = p.id;
   return `<article ${b('tile', { key: k, mods })} data-product="${k}" style="${style}">
-  <div ${b('media', { key: k, cls: 'media' })}>${img(p.image, { attrs: b('image', { key: k }), alt: p.name })}</div>
+  <div ${b('media', { key: k, cls: 'media' })}>${img(p.image, { attrs: b('image', { key: k }), alt: p.name, thumb: true })}</div>
   <a ${b('view', { key: k })} href="${i18n.url('shop', i18n.locale, p.id)}" aria-label="${t('view', { name: p.name })}"></a>
   <button ${b('remove', { key: k, cls: 'button button--icon hit' })} type="button" data-remove="${esc(keys)}" aria-label="${esc(removeLabel)}" title="${t('removeTitle')}"${mods.open ? ' hidden' : ''}>×</button>
   ${inner}

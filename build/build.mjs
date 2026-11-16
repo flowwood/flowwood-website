@@ -8,6 +8,7 @@ import { gzipSync } from 'node:zlib';
 import { createI18n, LOCALE_STORAGE_KEY } from '../src/js/i18n.js';
 import { createCatalog } from '../src/js/catalog.js';
 import { layout } from '../src/layout.js';
+import { readProducts } from './products.mjs';
 import home from '../src/pages/home.js';
 import shop from '../src/pages/shop.js';
 import about from '../src/pages/about.js';
@@ -21,7 +22,8 @@ const SRC = join(ROOT, 'src');
 const DIST = process.env.DIST || join(ROOT, 'dist');
 const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '');
 const PAGES = [home, shop, about, cart, contact, product];
-const PRERENDER_ONLY_PRODUCT_FIELDS = ['gallery', 'materials', 'care'];
+const PRERENDER_ONLY_PRODUCT_FIELDS = ['gallery', 'materials', 'care', 'availability'];
+const MEDIA = join(ROOT, 'content/media');
 const PRELOADED_FONTS = ['/fonts/jost.woff2', '/fonts/ibm-plex-sans.woff2'];
 const IMMUTABLE_PATHS = ['/js/*', '/components/*', '/data/*', '/fonts/*', '/media/*'];
 const posix = (p) => p.split(sep).join('/');
@@ -36,8 +38,56 @@ const site = await readJson('content/site.json');
 const ORIGIN = (process.env.SITE_ORIGIN || site.origin).replace(/\/+$/, '');
 const atBase = (path) => `${BASE}${path}`;
 const withoutBase = (url) => url.slice(BASE.length);
-const catalogData = await readJson('content/catalog.json');
+const catalogSource = await readJson('content/catalog.json');
+const catalogData = await withResolvedImages({ ...catalogSource, products: await readProducts(ROOT) });
 const LOCALES = Object.keys(site.locales);
+
+function webpSize(buf) {
+  const chunk = buf.toString('ascii', 12, 16);
+  if (chunk === 'VP8X') return { width: 1 + buf.readUIntLE(24, 3), height: 1 + buf.readUIntLE(27, 3) };
+  if (chunk === 'VP8L') {
+    const bits = buf.readUInt32LE(21);
+    return { width: 1 + (bits & 0x3fff), height: 1 + ((bits >> 14) & 0x3fff) };
+  }
+  return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
+}
+
+const isJpegFrameMarker = (m) => m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m);
+
+function jpegSize(buf) {
+  for (let i = 2; i + 9 < buf.length; i += 2 + buf.readUInt16BE(i + 2)) {
+    if (isJpegFrameMarker(buf[i + 1])) return { width: buf.readUInt16BE(i + 7), height: buf.readUInt16BE(i + 5) };
+  }
+}
+
+function imageSize(buf) {
+  if (buf.toString('ascii', 8, 12) === 'WEBP') return webpSize(buf);
+  if (buf.toString('ascii', 1, 4) === 'PNG') return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
+  if (buf[0] === 0xff && buf[1] === 0xd8) return jpegSize(buf);
+}
+
+async function mediaImage(file, position) {
+  const path = join(MEDIA, file);
+  if (!existsSync(path)) throw new Error(`content: image "${file}" is not in content/media`);
+  const size = imageSize(await readFile(path));
+  if (!size) throw new Error(`content: image "${file}" is not a webp, png or jpeg`);
+  return { src: `/media/${file}`, ...size, ...(position && { position }) };
+}
+
+async function resolveImage({ file, position, thumbnail }) {
+  const image = await mediaImage(file, position);
+  return thumbnail ? { ...image, thumbnail: await mediaImage(thumbnail, position) } : image;
+}
+
+async function withResolvedImages(catalog) {
+  const resolveProduct = async (p) => ({
+    ...p,
+    image: await resolveImage(p.image),
+    ...(p.altImage && { altImage: await resolveImage(p.altImage) }),
+    ...(p.gallery && { gallery: await Promise.all(p.gallery.map(resolveImage)) }),
+  });
+  return { ...catalog, products: await Promise.all(catalog.products.map(resolveProduct)) };
+}
 
 const hashedUrlOf = new Map();
 const browserSourceOf = new Map();
@@ -80,7 +130,7 @@ const emit = async (file, publicUrl) => writeHashed(publicUrl, await readFile(fi
 
 async function hashStaticAssets() {
   for (const f of await walk(join(SRC, 'fonts'))) await emit(f, `/fonts/${posix(relative(join(SRC, 'fonts'), f))}`);
-  for (const f of await walk(join(ROOT, 'content/media'))) await emit(f, `/media/${posix(relative(join(ROOT, 'content/media'), f))}`);
+  for (const f of await walk(MEDIA)) await emit(f, `/media/${posix(relative(MEDIA, f))}`);
 }
 
 function withHashedMedia(node) {

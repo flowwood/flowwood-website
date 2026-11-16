@@ -9,7 +9,8 @@ You are the last gate. Nothing is "done" until you pass it. The contract is `CLA
 1. **Build gate.** Run `npm run check`. It must print ✓, so quote the output. Run `node --check` on
    every browser JS file that changed. The check includes the source comment scan, so any comment fails
    the gate. Also read the diff for comments the scan can miss, and report each with file:line.
-2. **Content.** Both JSON files are valid against `content/schema/*.json`: check the required fields and
+2. **Content.** `site.json` and `catalog.json` are valid against `content/schema/*.json`, and every
+   `content/products/*.json` against `model.json` (the build enforces the model): check the required fields and
    shapes by reading them, and note any field missing from the schema. Every `ui` leaf has `en` and `nl`.
    Every new UI copy string is in the JSON, not in the code (grep templates for hard-coded words).
 3. **Naming, live.** Start `npm run dev`. On every page and in every client state (custom-size dialog

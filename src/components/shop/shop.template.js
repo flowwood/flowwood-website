@@ -17,7 +17,7 @@ export function shop(ctx) {
 
   const filter = (key, label, image, n, on) =>
     `<button ${b('filter', { key, cls: 'marker' })} type="button" data-filter="${key === 'all' ? '' : esc(key)}" data-count="${n}" aria-pressed="${on}">
-      <span ${b('thumb', { key, cls: 'media' })}>${img(image, { attrs: b('thumb-image', { key }) })}</span>
+      <span ${b('thumb', { key, cls: 'media' })}>${img(image, { attrs: b('thumb-image', { key }), thumb: true })}</span>
       <span ${b('label', { key, cls: 'eyebrow' })}>${esc(label)}<span ${b('n', { key })}>${n}</span></span>
     </button>`;
 

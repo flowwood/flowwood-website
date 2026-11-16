@@ -56,10 +56,12 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
 ## Layout
 
 ```
+model.json         THE product model (JSON Schema): every field a product may have, as the content manager fills it in
 content/
   site.json        locales, routes (localised slugs), UI strings, page copy
-  catalog.json     products, finishes, pricing, collections
-  media/           images; JSON references them by URI (/media/…) or absolute https URI
+  catalog.json     product order (ids), custom-size pricing, collections
+  products/        one file per product, <id>.json, each one follows model.json (the build validates it)
+  media/           images; products reference them by file name, site.json by URI (/media/…)
   schema/          JSON Schemas for editor validation ($schema in each JSON)
 src/
   css/base.css     THE base: tokens (+ per-view layout tokens), reset, typography and the shared primitives:
@@ -85,6 +87,7 @@ src/
   fonts/           self-hosted woff2 (variable)
 build/
   build.mjs        prerender, hash, import map, inline CSS, SW, _headers, root redirect
+  products.mjs     the product validator: every content/products/*.json against model.json (`make validate-products`)
   check.mjs        validates dist/: ids, data-component, BEM, hreflang, budgets
   serve.mjs        dev server with rebuild-on-change
   dom-audit.js     browser-side audit of the live DOM (paste into Playwright evaluate)
@@ -139,7 +142,22 @@ Every block is designed and verified at three viewports. A change is not done un
 ## Content (JSON)
 
 * Translatable values are `{ "en": "…", "nl": "…" }`. The build fails if a locale is missing.
-* Images: `{ "src": "<uri>", "width": n, "height": n, "position": "50% 60%" }`. A `src` under
+* **Products follow `model.json`.** It is the contract with the content manager and the source of truth
+  for what a product page, card, cart line and shop entry show: every product-specific fact on those
+  views comes from a model field (or is derived from one, like dimensions from `sizing`). Only shop-wide
+  policy (delivery, returns, custom-size ranges) lives elsewhere. A new product-specific fact means a new
+  optional field in `model.json` first, then the template reads it. Keep `model.json` descriptions
+  written for the content manager.
+* One product per file: `content/products/<id>.json` (file name = `id`), listed in shop order in
+  `catalog.json → products`. The build checks every file against `model.json` and fails on an unlisted,
+  missing or invalid product. The validator in `build/products.mjs` (`modelErrors`) covers only the keywords
+  `model.json` uses; using a new keyword means extending it.
+* Product images: `{ "file": "monolith-1.webp", "position": "50% 60%", "thumbnail": "monolith-1-thumb.webp" }`,
+  file names in `content/media/`. The build resolves them to `{ src, width, height, position, thumbnail }`
+  (size read from the file, missing files fail the build), so templates never see `file`. `img(image, { thumb: true })`
+  shows the thumbnail where a photo is small (photo reel, shop filter, hero thumbs, cart) and falls back to
+  the photo itself.
+* Other images (`site.json`): `{ "src": "<uri>", "width": n, "height": n, "position": "50% 60%" }`. A `src` under
   `/media/` is content-hashed by the build; an absolute URI is used as is.
 * Prices are numbers in EUR. Formatting happens in `i18n.money()`.
 * UI strings live in `site.json → ui`, grouped per block. Use `{name}` placeholders.
@@ -160,10 +178,13 @@ Every block is designed and verified at three viewports. A change is not done un
 * `npm run build`: build to `dist/` (`BASE_PATH=/flowwood-website npm run build` to build for the Pages subfolder)
 * `npm run dev`: build, serve on http://localhost:8080 and rebuild on change
 * `npm run check`: build and validate the output
+* `make validate-products`: check every product file against `model.json` (all problems at once, no build)
+* `make check`: `make validate-products`, then `npm run check`
 
 ## Agents
 
 `.claude/agents/` holds the quality team: `reuse-antagonist` (challenges duplication and YAGNI),
-`component-builder` (builds blocks the house way), `performance-auditor`, `responsive-auditor`
+`component-builder` (builds blocks the house way), `product-steward` (adds products and migrates
+`model.json` across every product file), `performance-auditor`, `responsive-auditor`
 (desktop/tablet/mobile), `conformance-validator`.
 Run the antagonist before adding anything new, and the validator before calling work done.

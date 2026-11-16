@@ -6,39 +6,12 @@
   "required": ["customSize", "products", "collections"],
   "additionalProperties": false,
   "$defs": {
-    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$" },
-    "localized": {
-      "type": "object",
-      "required": ["en", "nl"],
-      "properties": { "en": { "type": "string" }, "nl": { "type": "string" } },
-      "additionalProperties": false
-    },
-    "image": {
-      "type": "object",
-      "description": "src is a URI: /media/… (hashed by the build) or an absolute https URI.",
-      "required": ["src", "width", "height"],
-      "properties": {
-        "src": { "type": "string", "format": "uri-reference" },
-        "width": { "type": "integer", "minimum": 1 },
-        "height": { "type": "integer", "minimum": 1 },
-        "position": { "type": "string", "description": "CSS object-position, e.g. \"50% 60%\"" }
-      },
-      "additionalProperties": false
-    },
+    "id": { "$ref": "../../model.json#/$defs/id" },
+    "localized": { "$ref": "../../model.json#/$defs/localized" },
     "range": {
       "type": "object",
       "required": ["min", "max", "step"],
       "properties": { "min": { "type": "number" }, "max": { "type": "number" }, "step": { "type": "number" } },
-      "additionalProperties": false
-    },
-    "finish": {
-      "type": "object",
-      "required": ["id", "color", "name"],
-      "properties": {
-        "id": { "$ref": "#/$defs/id" },
-        "color": { "type": "string", "description": "CSS colour or gradient for the swatch" },
-        "name": { "$ref": "#/$defs/localized" }
-      },
       "additionalProperties": false
     }
   },
@@ -61,46 +34,7 @@
       },
       "additionalProperties": false
     },
-    "products": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "description": "Sized products have sizing + pricing.base/perSizeStep; fixed products have dimensions + pricing.fixed.",
-        "required": ["id", "name", "tone", "image", "summary", "pricing", "finishes"],
-        "properties": {
-          "id": { "$ref": "#/$defs/id" },
-          "name": { "type": "string" },
-          "tone": { "enum": ["dark", "light"], "description": "Brightness of the image's lower left: drives hero text colour" },
-          "image": { "$ref": "#/$defs/image" },
-          "altImage": { "$ref": "#/$defs/image" },
-          "gallery": { "type": "array", "items": { "$ref": "#/$defs/image" }, "description": "Further photos on the product page, after image and altImage. Prerender only." },
-          "summary": { "$ref": "#/$defs/localized" },
-          "description": { "$ref": "#/$defs/localized" },
-          "dimensions": { "$ref": "#/$defs/localized" },
-          "sizing": {
-            "type": "object",
-            "required": ["shape", "heights", "width"],
-            "properties": {
-              "shape": { "enum": ["square", "hexagon", "round", "oval"] },
-              "heights": { "type": "array", "items": { "type": "integer" }, "minItems": 1 },
-              "width": { "type": "integer" }
-            },
-            "additionalProperties": false
-          },
-          "pricing": {
-            "type": "object",
-            "oneOf": [
-              { "required": ["base", "perSizeStep"], "properties": { "base": { "type": "number" }, "perSizeStep": { "type": "number" } }, "additionalProperties": false },
-              { "required": ["fixed"], "properties": { "fixed": { "type": "number" } }, "additionalProperties": false }
-            ]
-          },
-          "materials": { "$ref": "#/$defs/localized", "description": "Product page disclosure. Prerender only." },
-          "care": { "$ref": "#/$defs/localized", "description": "Product page disclosure. Prerender only." },
-          "finishes": { "type": "array", "items": { "$ref": "#/$defs/finish" }, "minItems": 1 }
-        },
-        "additionalProperties": false
-      }
-    },
+    "products": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true, "description": "Ids of the products in content/products/<id>.json (each one follows model.json), in shop order. Every product file is listed exactly once." },
     "collections": {
       "type": "array",
       "items": {

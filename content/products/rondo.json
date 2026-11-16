@@ -1,0 +1,70 @@
+{
+  "$schema": "../../model.json",
+  "id": "rondo",
+  "name": "Rondo",
+  "tone": "light",
+  "image": {
+    "file": "image3.webp",
+    "position": "50% 60%"
+  },
+  "altImage": {
+    "file": "image3-alt.webp",
+    "position": "50% 50%"
+  },
+  "summary": {
+    "en": "Round · oak veneer",
+    "nl": "Rond · eikenfineer"
+  },
+  "description": {
+    "en": "A turned cylinder wrapped in open-grain oak veneer. Every piece carries its own unique figure.",
+    "nl": "Een gedraaide cilinder omhuld met open eikenfineer. Elk stuk draagt zijn eigen unieke tekening."
+  },
+  "sizing": {
+    "shape": "round",
+    "heights": [
+      40,
+      60,
+      80,
+      100
+    ],
+    "width": 30
+  },
+  "pricing": {
+    "base": 425,
+    "perSizeStep": 50
+  },
+  "materials": {
+    "en": "A turned cylinder wrapped in a single sheet of open-grain oak veneer, so every piece has its own figure. Water-based matt lacquer.",
+    "nl": "Een gedraaide cilinder omhuld met één blad open eikenfineer, zodat elk stuk zijn eigen tekening heeft. Matte lak op waterbasis."
+  },
+  "care": {
+    "en": "Dust with a soft, dry cloth. Wipe spills straight away with a damp cloth and dry immediately. Keep out of prolonged direct sunlight to preserve the colour of the veneer.",
+    "nl": "Afstoffen met een zachte, droge doek. Morsen meteen opnemen met een vochtige doek en direct droogwrijven. Vermijd langdurig direct zonlicht om de kleur van het fineer te bewaren."
+  },
+  "finishes": [
+    {
+      "id": "grey-oak",
+      "color": "#6e5b4b",
+      "name": {
+        "en": "Grey oak",
+        "nl": "Grijze eik"
+      }
+    },
+    {
+      "id": "natural-oak",
+      "color": "#8a6f55",
+      "name": {
+        "en": "Natural oak",
+        "nl": "Naturel eik"
+      }
+    },
+    {
+      "id": "smoked-oak",
+      "color": "#3b332d",
+      "name": {
+        "en": "Smoked oak",
+        "nl": "Gerookte eik"
+      }
+    }
+  ]
+}

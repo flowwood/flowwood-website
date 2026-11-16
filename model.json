@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://flowwood.be/model.json",
+  "title": "Flowwood product",
+  "description": "One product: one file content/products/<id>.json, listed by id in content/catalog.json → products. Every product page, product card, cart line and shop entry is built from these fields alone. Two kinds: a sized product (sizing + pricing.base/perSizeStep, made to order, custom sizes possible) or a fixed product (dimensions + pricing.fixed).",
+  "type": "object",
+  "required": ["id", "name", "tone", "image", "summary", "pricing", "finishes"],
+  "oneOf": [
+    { "title": "sized product", "required": ["sizing"], "not": { "required": ["dimensions"] }, "properties": { "pricing": { "required": ["base", "perSizeStep"] } } },
+    { "title": "fixed product", "required": ["dimensions"], "not": { "required": ["sizing"] }, "properties": { "pricing": { "required": ["fixed"] }, "finishes": { "maxItems": 1 } } }
+  ],
+  "$defs": {
+    "id": { "type": "string", "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$", "description": "Lowercase words joined by hyphens, e.g. \"smoked-oak\"." },
+    "localized": {
+      "type": "object",
+      "description": "The same text in every language of the site.",
+      "required": ["en", "nl"],
+      "properties": { "en": { "type": "string", "minLength": 1 }, "nl": { "type": "string", "minLength": 1 } },
+      "additionalProperties": false
+    },
+    "fileName": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._-]+\\.(webp|png|jpe?g)$",
+      "description": "Name and extension of a file in content/media, e.g. \"monolith-1.webp\". The build reads its width and height from the file."
+    },
+    "image": {
+      "type": "object",
+      "required": ["file"],
+      "properties": {
+        "file": { "$ref": "#/$defs/fileName" },
+        "position": { "type": "string", "pattern": "^\\d{1,3}% \\d{1,3}%$", "description": "Focal point kept in view when the photo is cropped: horizontal then vertical, e.g. \"50% 60%\". Default \"50% 50%\"." },
+        "thumbnail": { "$ref": "#/$defs/fileName", "description": "Optional small version shown in photo strips, filters and the cart. Without it the photo itself is shown small." }
+      },
+      "additionalProperties": false
+    },
+    "finish": {
+      "type": "object",
+      "required": ["id", "color", "name"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "color": { "type": "string", "description": "Swatch colour: a hex colour (\"#3b332d\") or a CSS gradient." },
+        "name": { "$ref": "#/$defs/localized" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "properties": {
+    "$schema": { "type": "string", "description": "Lets an editor check the file: \"../../model.json\"." },
+    "id": { "$ref": "#/$defs/id", "description": "Unique and permanent, and the same as the file name (monolith → content/products/monolith.json): it is the product's web address (/nl/winkel/<id>/) and is stored in visitors' carts." },
+    "name": { "type": "string", "minLength": 1, "description": "Product name, the same in every language." },
+    "tone": { "enum": ["dark", "light"], "description": "Brightness of the lower left of the main photo; the home hero picks its text colour from it." },
+    "image": { "$ref": "#/$defs/image", "description": "Main photo: product cards, hero, shop and the first photo on the product page." },
+    "altImage": { "$ref": "#/$defs/image", "description": "Second photo: shown when hovering a product card, and second on the product page." },
+    "gallery": { "type": "array", "items": { "$ref": "#/$defs/image" }, "description": "Further photos on the product page, in order, after image and altImage." },
+    "summary": { "$ref": "#/$defs/localized", "description": "One short line under the name, e.g. \"Square · smoked oak veneer\". Also the page title." },
+    "description": { "$ref": "#/$defs/localized", "description": "\"About this piece\" on the product page and the search-engine description. Without it the summary is used." },
+    "dimensions": { "$ref": "#/$defs/localized", "description": "Fixed products only: size as shown, e.g. \"Ø 22 × 26 cm\". Sized products derive their dimensions from sizing." },
+    "sizing": {
+      "type": "object",
+      "description": "Sized products only.",
+      "required": ["shape", "heights", "width"],
+      "properties": {
+        "shape": { "enum": ["square", "hexagon", "round", "oval"] },
+        "heights": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 1, "uniqueItems": true, "description": "Standard heights in cm, low to high. The first is the starting price." },
+        "width": { "type": "integer", "minimum": 1, "description": "Standard width (or diameter) in cm." }
+      },
+      "additionalProperties": false
+    },
+    "pricing": {
+      "type": "object",
+      "description": "Prices in EUR, VAT included.",
+      "properties": {
+        "base": { "type": "number", "minimum": 0, "description": "Sized: price at the lowest height." },
+        "perSizeStep": { "type": "number", "minimum": 0, "description": "Sized: added for each next standard height." },
+        "fixed": { "type": "number", "minimum": 0, "description": "Fixed: the price." }
+      },
+      "additionalProperties": false
+    },
+    "materials": { "$ref": "#/$defs/localized", "description": "\"Materials\" on the product page." },
+    "care": { "$ref": "#/$defs/localized", "description": "\"Care\" on the product page." },
+    "availability": { "$ref": "#/$defs/localized", "description": "Stock or lead time on the product page, e.g. \"Back in stock in March\". Without it: the standard in-stock line (fixed) or made-to-order lead time (sized)." },
+    "finishes": { "type": "array", "items": { "$ref": "#/$defs/finish" }, "minItems": 1, "description": "Colours or materials to choose from; the first is the default. A fixed product has exactly one." }
+  },
+  "additionalProperties": false
+}

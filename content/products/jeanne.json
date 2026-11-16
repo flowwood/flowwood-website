@@ -1,0 +1,39 @@
+{
+  "$schema": "../../model.json",
+  "id": "jeanne",
+  "name": "Jeanne",
+  "tone": "light",
+  "image": {
+    "file": "jeanne-1.webp",
+    "position": "50% 55%"
+  },
+  "summary": {
+    "en": "White speckled stoneware",
+    "nl": "Wit gespikkeld steengoed"
+  },
+  "dimensions": {
+    "en": "Size L",
+    "nl": "Maat L"
+  },
+  "pricing": {
+    "fixed": 49.9
+  },
+  "materials": {
+    "en": "Hand-thrown stoneware with a white glaze speckled with iron, fired at high temperature.",
+    "nl": "Handgedraaid steengoed met een wit glazuur met ijzerspikkels, op hoge temperatuur gebakken."
+  },
+  "care": {
+    "en": "Watertight. Clean with a soft brush and water; not dishwasher safe.",
+    "nl": "Waterdicht. Reinigen met een zacht borsteltje en water; niet vaatwasmachinebestendig."
+  },
+  "finishes": [
+    {
+      "id": "speckled-white",
+      "color": "#ebe6dc",
+      "name": {
+        "en": "White speckled stoneware",
+        "nl": "Wit gespikkeld steengoed"
+      }
+    }
+  ]
+}

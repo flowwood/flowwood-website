@@ -27,7 +27,8 @@ const LOADING = {
 };
 const loadingFor = (priority) => (priority === true ? LOADING.lcp : priority === 'low' ? LOADING.offscreen : LOADING.lazy);
 
-export function img(image, { attrs = '', alt = '', priority = false } = {}) {
+export function img(full, { attrs = '', alt = '', priority = false, thumb = false } = {}) {
+  const image = (thumb && full.thumbnail) || full;
   const load = loadingFor(priority);
   const pos = image.position ? ` style="--pos:${esc(image.position)}"` : '';
   return `<img ${attrs} src="${esc(image.src)}" width="${image.width}" height="${image.height}" alt="${esc(alt)}" ${load} decoding="async"${pos}>`;

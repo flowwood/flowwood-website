@@ -1,0 +1,76 @@
+{
+  "$schema": "../../model.json",
+  "id": "ovale",
+  "name": "Ovale",
+  "tone": "light",
+  "image": {
+    "file": "image4.webp",
+    "position": "50% 58%"
+  },
+  "altImage": {
+    "file": "image4-alt.webp",
+    "position": "50% 50%"
+  },
+  "summary": {
+    "en": "Oval · matt lacquer",
+    "nl": "Ovaal · matte lak"
+  },
+  "description": {
+    "en": "A softened oval in dense matt lacquer. Part side table, part plinth. Bespoke sizes on request.",
+    "nl": "Een zacht ovaal in dichte matte lak. Half bijzettafel, half sokkel. Maatwerk op aanvraag."
+  },
+  "sizing": {
+    "shape": "oval",
+    "heights": [
+      45,
+      55
+    ],
+    "width": 45
+  },
+  "pricing": {
+    "base": 485,
+    "perSizeStep": 50
+  },
+  "materials": {
+    "en": "A bent MDF shell with solid top, finished in a dense matt lacquer that is pleasant to the touch.",
+    "nl": "Een gebogen MDF-mantel met massief blad, afgewerkt met een dichte matte lak die zacht aanvoelt."
+  },
+  "care": {
+    "en": "Clean with a soft cloth and a little lukewarm water. Avoid abrasive or solvent-based cleaners, which dull the matt finish.",
+    "nl": "Reinigen met een zachte doek en wat lauw water. Vermijd schurende of oplosmiddelhoudende middelen: die maken de matte afwerking dof."
+  },
+  "finishes": [
+    {
+      "id": "taupe",
+      "color": "#a3907c",
+      "name": {
+        "en": "Taupe",
+        "nl": "Taupe"
+      }
+    },
+    {
+      "id": "chalk",
+      "color": "#e6e1d8",
+      "name": {
+        "en": "Chalk",
+        "nl": "Krijt"
+      }
+    },
+    {
+      "id": "stone",
+      "color": "#b3ada4",
+      "name": {
+        "en": "Stone",
+        "nl": "Steen"
+      }
+    },
+    {
+      "id": "ink",
+      "color": "#2f2a26",
+      "name": {
+        "en": "Ink",
+        "nl": "Inkt"
+      }
+    }
+  ]
+}

@@ -49,7 +49,7 @@ export function hero(ctx) {
   const thumbs = products
     .map(
       (p, k) => `<button ${b('thumb', { key: p.id, cls: 'hit' })} type="button" data-index="${k}" aria-label="${t('slide', { name: p.name })}"${k ? '' : ' aria-current="true"'}>
-          ${img(p.image, { attrs: b('thumb-image', { key: p.id }), alt: '' })}
+          ${img(p.image, { attrs: b('thumb-image', { key: p.id }), alt: '', thumb: true })}
           <span ${b('progress', { key: p.id })}></span>
         </button>`,
     )
