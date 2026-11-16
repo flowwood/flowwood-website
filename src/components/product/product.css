@@ -93,7 +93,6 @@
   background: var(--c-surface); border-top: 1px solid var(--c-line);
   box-shadow: 0 -10px 30px color-mix(in srgb, var(--c-ink) 7%, transparent);
 }
-.product__cart { flex: none; }
 
 @media (prefers-reduced-motion: no-preference) {
   .product__track { scroll-behavior: smooth; }
@@ -116,7 +115,6 @@
   .product__reel { gap: 8px; }
   .product__pick { width: 56px; }
   .product__thumb { aspect-ratio: 4 / 5; }
-  .product__cart { display: none; }
 }
 
 @media (max-width: 767px) {

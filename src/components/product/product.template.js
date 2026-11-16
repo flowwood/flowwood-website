@@ -39,7 +39,6 @@ export function product(ctx, p) {
   ${tiles.rest.length ? `<div ${b('more')}>${tiles.rest.join('')}</div>` : ''}
   <div ${b('bar')}>
     ${productCard(ctx, { product: p, instance: 'bar', configId: p.id, variant: 'bar' })}
-    <a ${b('cart', { cls: 'link hit' })} href="${i18n.url('cart')}">${esc(i18n.t('product.viewCart'))} <span ${b('cart-arrow')} aria-hidden="true">→</span></a>
   </div>
 </fw-product>`;
 }

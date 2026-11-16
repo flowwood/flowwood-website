@@ -121,7 +121,6 @@
       "photo": { "en": "Photo {n} of {total}", "nl": "Foto {n} van {total}" },
       "previousPhoto": { "en": "Previous photo", "nl": "Vorige foto" },
       "nextPhoto": { "en": "Next photo", "nl": "Volgende foto" },
-      "viewCart": { "en": "View cart", "nl": "Bekijk winkelmand" },
       "about": { "en": "About this piece", "nl": "Over dit stuk" },
       "dimensions": { "en": "Dimensions", "nl": "Afmetingen" },
       "dimensionsCustom": { "en": "Custom: {hmin}–{hmax} cm high, {wmin}–{wmax} cm wide", "nl": "Op maat: {hmin}–{hmax} cm hoog, {wmin}–{wmax} cm breed" },
