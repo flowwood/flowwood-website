@@ -1,19 +1,30 @@
 const VERSION = '__VERSION__';
-const PRECACHE = '__PRECACHE__';
-const CACHE = `fw-${VERSION}`;
+const PAGES = '__PAGES__';
+const ASSETS = '__ASSETS__';
+const PAGE_CACHE = `fw-pages-${VERSION}`;
+const ASSET_CACHE = 'fw-assets';
 const HASHED = /\.[0-9a-f]{10}\.[a-z0-9]+$/;
 const SCOPE_PATH = new URL('./', location.href).pathname;
+const UNCACHED = [`${SCOPE_PATH}admin/`, `${SCOPE_PATH}api/`];
+const isMedia = (url) => url.startsWith(`${SCOPE_PATH}media/`);
 
-self.addEventListener('install', (e) => e.waitUntil(caches.open(CACHE).then((c) => c.addAll(PRECACHE))));
+async function precacheAssets() {
+  const cache = await caches.open(ASSET_CACHE);
+  const cached = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+  await cache.addAll(ASSETS.filter((u) => !isMedia(u) && !cached.has(u)));
+}
 
-self.addEventListener('activate', (e) =>
-  e.waitUntil(
-    caches
-      .keys()
-      .then((keys) => Promise.all(keys.filter((k) => k.startsWith('fw-') && k !== CACHE).map((k) => caches.delete(k))))
-      .then(() => self.clients.claim()),
-  ),
-);
+async function pruneAssets() {
+  const current = new Set(ASSETS);
+  const cache = await caches.open(ASSET_CACHE);
+  await Promise.all((await cache.keys()).filter((r) => !current.has(new URL(r.url).pathname)).map((r) => cache.delete(r)));
+}
+
+const dropOldPageCaches = async () => Promise.all((await caches.keys()).filter((k) => k.startsWith('fw-') && k !== PAGE_CACHE && k !== ASSET_CACHE).map((k) => caches.delete(k)));
+
+self.addEventListener('install', (e) => e.waitUntil(Promise.all([caches.open(PAGE_CACHE).then((c) => c.addAll(PAGES)), precacheAssets()])));
+
+self.addEventListener('activate', (e) => e.waitUntil(Promise.all([dropOldPageCaches(), pruneAssets()]).then(() => self.clients.claim())));
 
 async function cacheFirst(e, cache) {
   const hit = await cache.match(e.request);
@@ -39,7 +50,7 @@ async function staleWhileRevalidate(e, cache) {
 self.addEventListener('fetch', (e) => {
   const url = new URL(e.request.url);
   if (e.request.method !== 'GET' || url.origin !== location.origin || url.pathname === location.pathname) return;
-  e.respondWith(
-    caches.open(CACHE).then((cache) => (HASHED.test(url.pathname) ? cacheFirst(e, cache) : staleWhileRevalidate(e, cache))),
-  );
+  if (UNCACHED.some((p) => url.pathname.startsWith(p))) return;
+  const hashed = HASHED.test(url.pathname);
+  e.respondWith(caches.open(hashed ? ASSET_CACHE : PAGE_CACHE).then((cache) => (hashed ? cacheFirst(e, cache) : staleWhileRevalidate(e, cache))));
 });

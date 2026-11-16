@@ -11,6 +11,7 @@
 .product-card__titles { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
 .product-card__name { font-size: 24px; }
 .product-card__option { display: block; min-height: 40px; font-size: 14px; line-height: 20px; font-weight: 300; color: var(--c-muted); overflow-wrap: anywhere; }
+.product-card__stock { color: var(--c-brand); }
 .product-card__price { flex: none; min-width: 4.2em; text-align: right; font-size: 20px; }
 
 .product-card__controls { display: flex; flex-direction: column; gap: 14px; margin-top: auto; }

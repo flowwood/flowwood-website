@@ -3,7 +3,8 @@ import site from '../../content/site.json' with { type: 'json' };
 const RESEND_URL = 'https://api.resend.com/emails';
 const SENDER = 'Flowwood website <website@flowwood.be>';
 const RECIPIENT = site.contact.email;
-const LIMITS = site.contact.limits;
+const LIMITS = site.limits;
+const FIELDS = ['name', 'email', 'phone', 'message'];
 const LOCAL_PAGE = /^(?:\/[a-z0-9-]+)+\/$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -22,7 +23,7 @@ function readSubmission(form) {
   };
 }
 
-const withinLimits = (submission) => Object.entries(LIMITS).every(([name, max]) => submission[name].length <= max);
+const withinLimits = (submission) => FIELDS.every((name) => submission[name].length <= LIMITS[name]);
 const isComplete = (submission) => Boolean(submission.name && EMAIL.test(submission.email) && submission.message && withinLimits(submission));
 
 function emailFor(submission) {

@@ -36,6 +36,7 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
     <div ${b('titles')}>
       ${title}
       <span ${b('option')}>${esc(d.finish)}, ${esc(d.size)}</span>
+      ${p.stock > 0 ? `<span ${b('stock', { cls: 'eyebrow' })}>${esc(i18n.t('productCard.inStock', { count: p.stock }))}</span>` : ''}
     </div>
     <span ${b('price', { cls: 'figure' })}>${esc(i18n.money(price))}</span>
   </div>
@@ -43,7 +44,7 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
     ${choices ? `<div ${b('sizes')}>${sizes}</div>` : ''}
     <div ${b('buy')}>
       ${choices ? `<div ${b('swatches')} role="group" aria-label="${esc(i18n.t('productCard.finishes'))}">${sized ? swatches(i18n, b, p, c.finish, !card) : ''}</div>` : ''}
-      ${cartControl(ctx, { key: catalog.lineKey(c), name: p.name, instance, variant: card ? 'card' : 'detail' })}
+      ${cartControl(ctx, { key: catalog.lineKey(c), name: p.name, instance, variant: card ? 'card' : 'detail', stock: p.stock })}
     </div>
   </div>
 </fw-product-card>`;

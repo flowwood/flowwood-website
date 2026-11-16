@@ -19,7 +19,7 @@ const walk = async (dir) => (await readdir(dir, { recursive: true, withFileTypes
 
 const problems = [];
 const files = await walk(DIST);
-const pages = files.filter((f) => f.endsWith('.html') && f !== join(DIST, 'index.html'));
+const pages = files.filter((f) => f.endsWith('.html') && f !== join(DIST, 'index.html') && !f.startsWith(join(DIST, 'admin')));
 
 for (const file of pages) {
   const rel = file.slice(DIST.length);
@@ -41,7 +41,7 @@ for (const file of pages) {
   if (!rel.endsWith('404.html')) {
     const alternates = (html.match(/<link rel="alternate" hreflang=/g) || []).length;
     if (alternates !== LOCALES.length + 1) fail(`expected ${LOCALES.length + 1} hreflang alternates, found ${alternates}`);
-    if (!/<link rel="canonical"/.test(html)) fail('missing canonical');
+    if (!/<link rel="canonical"/.test(html) && !/<meta name="robots" content="noindex">/.test(html)) fail('missing canonical');
   }
   for (const m of body.matchAll(/<img\s[^>]*>/g)) if (!/\swidth="\d+"/.test(m[0]) || !/\sheight="\d+"/.test(m[0]) || !/\salt="/.test(m[0])) fail(`img without width/height/alt: ${m[0].slice(0, 120)}`);
   const gz = gzipSync(html).length;
@@ -74,7 +74,13 @@ for (const f of files) {
   if (f.includes('/media/') && gz > GZIP_BUDGET.image) problems.push(`${f.slice(DIST.length)}: image ${gz} B > ${GZIP_BUDGET.image}`);
 }
 
-const commentPattern = (file) => (file.endsWith('.css') ? /\/\*/ : /(^|\s)\/[/*]/);
+const canonicalJson = (text) => JSON.stringify(JSON.parse(text), null, 2) + '\n';
+for (const file of ['content/site.json', 'content/catalog.json'].map((f) => join(ROOT, f))) {
+  const text = await readFile(file, 'utf8');
+  if (text !== canonicalJson(text)) problems.push(`${file.slice(ROOT.length + 1)}: not canonical JSON (2-space JSON.stringify + newline)`);
+}
+
+const commentPattern =(file) => (file.endsWith('.css') ? /\/\*/ : /(^|\s)\/[/*]/);
 for (const dir of ['src', 'build', 'functions']) {
   for (const file of (await walk(join(ROOT, dir))).filter((f) => /\.(m?js|css)$/.test(f))) {
     const pattern = commentPattern(file);

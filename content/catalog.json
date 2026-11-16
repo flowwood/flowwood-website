@@ -1,44 +1,144 @@
 {
   "$schema": "./schema/catalog.schema.json",
   "customSize": {
-    "height": { "min": 30, "max": 120, "step": 5 },
-    "width": { "min": 20, "max": 60, "step": 5 },
+    "height": {
+      "min": 30,
+      "max": 120,
+      "step": 5
+    },
+    "width": {
+      "min": 20,
+      "max": 60,
+      "step": 5
+    },
     "surcharge": 95,
-    "pricePerCm": { "height": 3, "width": 8 },
+    "pricePerCm": {
+      "height": 3,
+      "width": 8
+    },
     "roundTo": 5
   },
-  "products": ["monolith", "facet", "rondo", "ovale", "cleo", "soda-bubbles", "jeanne"],
+  "delivery": {
+    "price": 0,
+    "weeks": [
+      4,
+      5
+    ],
+    "countries": [
+      {
+        "code": "BE",
+        "postcode": "\\d{4}",
+        "example": "1000"
+      },
+      {
+        "code": "NL",
+        "postcode": "\\d{4} ?[A-Za-z]{2}",
+        "example": "1234 AB"
+      },
+      {
+        "code": "LU",
+        "postcode": "(L-?)?\\d{4}",
+        "example": "1234"
+      }
+    ]
+  },
+  "products": [
+    "monolith",
+    "facet",
+    "rondo",
+    "ovale",
+    "cleo",
+    "soda-bubbles",
+    "jeanne"
+  ],
   "collections": [
     {
       "id": "dark-oak",
-      "name": { "en": "Dark oak", "nl": "Donkere eik" },
+      "name": {
+        "en": "Dark oak",
+        "nl": "Donkere eik"
+      },
       "items": [
-        { "product": "monolith", "finish": "smoked-oak", "height": 60 },
-        { "product": "rondo", "finish": "smoked-oak", "height": 60 },
-        { "product": "ovale", "finish": "ink", "height": 55 },
-        { "product": "facet", "finish": "basalt", "height": 60 },
-        { "product": "cleo" }
+        {
+          "product": "monolith",
+          "finish": "smoked-oak",
+          "height": 60
+        },
+        {
+          "product": "rondo",
+          "finish": "smoked-oak",
+          "height": 60
+        },
+        {
+          "product": "ovale",
+          "finish": "ink",
+          "height": 55
+        },
+        {
+          "product": "facet",
+          "finish": "basalt",
+          "height": 60
+        },
+        {
+          "product": "cleo"
+        }
       ]
     },
     {
       "id": "soft-stone",
-      "name": { "en": "Soft stone", "nl": "Zachte steen" },
+      "name": {
+        "en": "Soft stone",
+        "nl": "Zachte steen"
+      },
       "items": [
-        { "product": "facet", "finish": "stone", "height": 60 },
-        { "product": "ovale", "finish": "taupe", "height": 55 },
-        { "product": "jeanne" }
+        {
+          "product": "facet",
+          "finish": "stone",
+          "height": 60
+        },
+        {
+          "product": "ovale",
+          "finish": "taupe",
+          "height": 55
+        },
+        {
+          "product": "jeanne"
+        }
       ]
     },
     {
       "id": "pale-clear",
-      "name": { "en": "Pale & clear", "nl": "Licht & helder" },
+      "name": {
+        "en": "Pale & clear",
+        "nl": "Licht & helder"
+      },
       "items": [
-        { "product": "monolith", "finish": "bleached-ash", "height": 60 },
-        { "product": "facet", "finish": "chalk", "height": 60 },
-        { "product": "rondo", "finish": "natural-oak", "height": 60 },
-        { "product": "ovale", "finish": "chalk", "height": 55 },
-        { "product": "soda-bubbles" },
-        { "product": "jeanne" }
+        {
+          "product": "monolith",
+          "finish": "bleached-ash",
+          "height": 60
+        },
+        {
+          "product": "facet",
+          "finish": "chalk",
+          "height": 60
+        },
+        {
+          "product": "rondo",
+          "finish": "natural-oak",
+          "height": 60
+        },
+        {
+          "product": "ovale",
+          "finish": "chalk",
+          "height": 55
+        },
+        {
+          "product": "soda-bubbles"
+        },
+        {
+          "product": "jeanne"
+        }
       ]
     }
   ]

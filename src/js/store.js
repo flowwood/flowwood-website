@@ -1,8 +1,9 @@
 const CART_STORAGE_KEY = 'fw:cart:v1';
+const isQuantity = (n) => Number.isInteger(n) && n >= 0;
 const read = () => {
   try {
     const v = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || '{}');
-    return v && typeof v === 'object' ? v : {};
+    return v && typeof v === 'object' ? Object.fromEntries(Object.entries(v).filter(([, n]) => isQuantity(n))) : {};
   } catch {
     return {};
   }
@@ -55,5 +56,27 @@ export const config = {
   set(id, value) {
     configsById.set(id, value);
     emit('config:change', { id, value });
+  },
+};
+
+const DETAILS_STORAGE_KEY = 'fw:details:v1';
+export const details = {
+  get() {
+    try {
+      const v = JSON.parse(localStorage.getItem(DETAILS_STORAGE_KEY) || 'null');
+      return v && typeof v === 'object' ? v : null;
+    } catch {
+      return null;
+    }
+  },
+  save(value) {
+    try {
+      localStorage.setItem(DETAILS_STORAGE_KEY, JSON.stringify(value));
+    } catch {}
+  },
+  forget() {
+    try {
+      localStorage.removeItem(DETAILS_STORAGE_KEY);
+    } catch {}
   },
 };

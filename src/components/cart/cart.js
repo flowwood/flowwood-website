@@ -1,7 +1,8 @@
 import { FwElement, page } from '../../js/element.js';
 import { cart, config } from '../../js/store.js';
 import { transition } from '../../js/router.js';
-import { cartGroups, cartTiles, sum } from './cart.template.js';
+import { stockLeft, sum } from '../../js/catalog.js';
+import { cartTiles } from './cart.template.js';
 import '../cart-control/cart-control.js';
 
 let cheerIndex = 0;
@@ -29,6 +30,7 @@ customElements.define(
         this.render(this.adding ? `#cart__tile--${this.open} [data-add]` : `#cart__another--${this.open}`);
       });
       this.on('click', '[data-add]', (e, el) => {
+        if (stockLeft(this.ctx.catalog.stockOf(el.dataset.add), el.dataset.add, cart.lines) === 0) return;
         this.adding = false;
         this.focusNext = `#cart__another--${this.open}`;
         cart.add(el.dataset.add);
@@ -77,13 +79,11 @@ customElements.define(
       const active = document.activeElement;
       const selector = focus || this.focusNext || (active?.id && this.grid.contains(active) ? `#${active.id}` : '');
       this.focusNext = '';
-      const groups = cartGroups(catalog, cart.lines);
+      const groups = catalog.groups(cart.lines);
       if (this.open && !groups.some((g) => g.product.id === this.open)) this.open = '';
 
       const empty = groups.length === 0;
-      this.grid.hidden = empty;
-      this.$('.cart__empty').hidden = !empty;
-      this.$('.cart__summary').hidden = empty;
+      for (const el of this.$$('[data-when]')) el.hidden = (el.dataset.when === 'empty') !== empty;
       const lines = groups.flatMap((g) => g.lines);
       this.$('.cart__subtotal-label').textContent = i18n.t('cart.subtotal', { pieces: i18n.pieces(sum(lines, (l) => l.qty)) });
       this.$('.cart__subtotal-value').textContent = i18n.money(sum(lines, (l) => l.price * l.qty));

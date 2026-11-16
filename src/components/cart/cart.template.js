@@ -1,36 +1,52 @@
 import { bem, esc, img } from '../../js/bem.js';
-import { describe } from '../../js/catalog.js';
+import { describe, sum } from '../../js/catalog.js';
 import { cartControl } from '../cart-control/cart-control.template.js';
 
 const b = bem('cart');
 let i18n;
 const t = (k, vars) => esc(i18n.t(`cart.${k}`, vars));
 
+const productHref = (p) => i18n.url('shop', i18n.locale, p.id);
+
+function suggestion(catalog, p) {
+  const k = p.id;
+  return `<a ${b('suggestion', { key: k })} href="${productHref(p)}">
+      <span ${b('suggestion-media', { key: k, cls: 'media' })}>${img(p.image, { attrs: b('suggestion-image', { key: k }), alt: p.name })}</span>
+      <span ${b('suggestion-name', { key: k, cls: 'product-name' })}>${esc(p.name)}</span>
+      <span ${b('suggestion-price', { key: k })}>${esc(i18n.t('common.from'))} <span ${b('suggestion-amount', { key: k, cls: 'figure' })}>${esc(i18n.money(catalog.fromPrice(p)))}</span></span>
+    </a>`;
+}
+
 export function cart(ctx) {
   ({ i18n } = ctx);
+  const { site, catalog } = ctx;
   return `<fw-cart ${b()}>
  <div ${b('layout')}>
   <aside ${b('banner')}>
     <div ${b('intro')}>
-      <a ${b('continue', { cls: 'eyebrow' })} href="${i18n.url('shop')}"><span ${b('continue-icon')} aria-hidden="true">←</span> ${t('continue')}</a>
-      <p ${b('cheer')}>${esc(i18n.t('cart.cheers')[0])}</p>
+      <a ${b('continue', { cls: 'eyebrow' })} data-when="filled" hidden href="${i18n.url('shop')}"><span ${b('continue-icon')} aria-hidden="true">←</span> ${t('continue')}</a>
+      <p ${b('cheer')} data-when="filled" hidden>${esc(i18n.t('cart.cheers')[0])}</p>
+      <div ${b('empty')} data-when="empty" hidden>
+        <p ${b('empty-title')}>${t('empty')}</p>
+        <p ${b('empty-body')}>${t('emptyBody')}</p>
+      </div>
     </div>
-    <div ${b('summary')} hidden>
+    <div ${b('summary')} data-when="filled" hidden>
       <div ${b('subtotal')}>
         <span ${b('subtotal-label', { cls: 'eyebrow' })}></span>
         <span ${b('subtotal-value', { cls: 'figure' })}></span>
       </div>
-      <button ${b('checkout', { cls: 'button button--paper' })} type="button">${t('checkout')} <span ${b('checkout-icon', { cls: 'button__icon' })} aria-hidden="true">→</span></button>
+      <a ${b('checkout', { cls: 'button button--paper' })} href="${i18n.url('checkout')}">${t('checkout')} <span ${b('checkout-icon', { cls: 'button__icon' })} aria-hidden="true">→</span></a>
     </div>
+    <a ${b('browse', { cls: 'button button--paper' })} href="${i18n.url('shop')}" data-when="empty" hidden>${t('browse')} <span ${b('browse-icon', { cls: 'button__icon' })} aria-hidden="true">→</span></a>
   </aside>
   <div ${b('main')}>
     <h1 ${b('title', { cls: 'visually-hidden' })}>${esc(i18n.t('menuBar.cart'))}</h1>
-    <div ${b('grid')} hidden></div>
-    <div ${b('empty')} hidden>
-      <p ${b('empty-title')}>${t('empty')}</p>
-      <p ${b('empty-body')}>${t('emptyBody')}</p>
-      <a ${b('browse', { cls: 'button button--primary' })} href="${i18n.url('shop')}">${t('browse')} <span ${b('browse-icon', { cls: 'button__icon' })} aria-hidden="true">→</span></a>
-    </div>
+    <div ${b('grid')} data-when="filled" hidden></div>
+    <section ${b('suggestions')} aria-labelledby="${b.id('suggestions-title')}" data-when="empty" hidden>
+      <h2 ${b('suggestions-title', { cls: 'eyebrow' })}>${t('suggestions')}</h2>
+      <div ${b('suggestions-grid')}>${site.home.collection.products.map((id) => suggestion(catalog, catalog.product(id))).join('')}</div>
+    </section>
   </div>
  </div>
 </fw-cart>`;
@@ -47,20 +63,6 @@ function spans(n, cols) {
   if (rem === 3) out.push([2, 2], [2, 1], [2, 1]);
   return out;
 }
-
-export function cartGroups(catalog, lines) {
-  const order = new Map(catalog.data.products.map((p, i) => [p.id, i]));
-  const groups = new Map();
-  for (const [key, qty] of Object.entries(lines)) {
-    const config = catalog.parseKey(key);
-    if (!config) continue;
-    if (!groups.has(config.product)) groups.set(config.product, { product: catalog.product(config.product), lines: [] });
-    groups.get(config.product).lines.push({ key, config, qty, price: catalog.price(config) });
-  }
-  return [...groups.values()].sort((a, z) => order.get(a.product.id) - order.get(z.product.id));
-}
-
-export const sum = (lines, f) => lines.reduce((a, l) => a + f(l), 0);
 
 export function cartTiles(ctx, { groups, open = '', adding = false }) {
   ({ i18n } = ctx);
@@ -80,7 +82,7 @@ function frame(g, { style, mods, keys, removeLabel }, inner) {
   const k = p.id;
   return `<article ${b('tile', { key: k, mods })} data-product="${k}" style="${style}">
   <div ${b('media', { key: k, cls: 'media' })}>${img(p.image, { attrs: b('image', { key: k }), alt: p.name, thumb: true })}</div>
-  <a ${b('view', { key: k })} href="${i18n.url('shop', i18n.locale, p.id)}" aria-label="${t('view', { name: p.name })}"></a>
+  <a ${b('view', { key: k })} href="${productHref(p)}" aria-label="${t('view', { name: p.name })}"></a>
   <button ${b('remove', { key: k, cls: 'button button--icon hit' })} type="button" data-remove="${esc(keys)}" aria-label="${esc(removeLabel)}" title="${t('removeTitle')}"${mods.open ? ' hidden' : ''}>×</button>
   ${inner}
 </article>`;
@@ -99,7 +101,7 @@ function singleTile(ctx, g, style) {
     <span ${b('line-total', { key: k, cls: 'figure' })}>${esc(i18n.money(l.price * l.qty))}</span>
     <span ${b('line-detail', { key: k })}>${l.qty} × ${esc(i18n.money(l.price))} · ${esc(d.size)}</span>
   </div>
-  ${cartControl(ctx, { key: l.key, name: p.name, instance: l.key, variant: 'tile', qty: l.qty })}`,
+  ${cartControl(ctx, { key: l.key, name: p.name, instance: l.key, variant: 'tile', qty: l.qty, stock: p.stock })}`,
   );
 }
 
@@ -126,7 +128,7 @@ function groupTile(ctx, g, style, open, adding) {
         <span ${b('row-total', { key: r, cls: 'figure' })}>${esc(i18n.money(l.price * l.qty))}</span>
       </div>
       <div ${b('row-actions', { key: r })}>
-        ${cartControl(ctx, { key: l.key, name: `${p.name} ${size}`, instance: l.key, variant: 'row', qty: l.qty })}
+        ${cartControl(ctx, { key: l.key, name: `${p.name} ${size}`, instance: l.key, variant: 'row', qty: l.qty, stock: p.stock })}
         <button ${b('row-remove', { key: r, cls: 'hit' })} type="button" data-remove-line="${esc(l.key)}" aria-label="${t('remove', { name: p.name, details: size })}">${t('removeLine')}</button>
       </div>
     </div>`;
@@ -140,7 +142,7 @@ function groupTile(ctx, g, style, open, adding) {
         <button ${b('size', { key: `${k}-custom`, cls: 'hit' })} type="button" data-custom="${k}" data-finish="${esc(last.finish)}" aria-label="${t('addCustom', { name: p.name })}">${esc(i18n.t('common.custom'))}</button>
       </div>
       <button ${b('sizes-close', { key: k, cls: 'button button--icon hit' })} type="button" data-adding aria-label="${t('closeSizes')}">×</button>`
-    : `<button ${b('another', { key: k, cls: 'eyebrow hit' })} type="button" data-adding aria-expanded="false"><span ${b('another-icon', { key: k })} aria-hidden="true">+</span>${t('anotherSize')}</button>`;
+    : `<button ${b('another', { key: k, cls: 'eyebrow hit' })} type="button" data-adding aria-expanded="false"${p.stock != null && sum(g.lines, (l) => l.qty) >= p.stock ? ' disabled' : ''}><span ${b('another-icon', { key: k })} aria-hidden="true">+</span>${t('anotherSize')}</button>`;
 
   return frame(
     g,

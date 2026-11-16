@@ -2,7 +2,10 @@
 
 Production implementation of the Flowwood shop, served by GitHub Pages at
 https://flowwood.github.io/flowwood-website/ (built and deployed by `.github/workflows/pages.yml` on every
-push to `main`).
+push to `main`). The same push also deploys the dev environment on Cloudflare Pages at
+https://flowwood-website.pages.dev (`.github/workflows/cloudflare.yml`, project `flowwood-website`), which runs
+`functions/` and honours `_headers`. Secrets `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` live in the repo;
+locally the same values sit in the gitignored `.cloudflare.env`.
 
 ## Principles (in priority order)
 
@@ -29,7 +32,12 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
 
 * **Prerender at build time.** Page templates turn the JSON into finished HTML for every
   locale × page. Web components only *enhance* that HTML with behaviour; they never render the first
-  view, except for the cart grid and the custom-size dialog, whose content depends on client state.
+  view, except for the cart grid, the checkout order summary and the custom-size dialog, whose content depends on client state.
+* **Stock.** The D1 database `flowwood` (table `stock`, schema in `migrations/`) is the only source of stock. The build
+  reads it through the D1 REST API (`CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID`, locally from `.cloudflare.env`; the
+  build fails without them) and sets `stock` on every product: `null` (no row) is made to order, a number is limited,
+  `0` is sold out. Templates prerender it and `<fw-cart-control data-stock>` caps the cart per product; pages never
+  fetch it. A stock change goes live on the next deploy. Open work is in `TODO.md`.
 * **Routing.** Every URL is a real file: `/{locale}/{slug}/`, with slugs localised in
   `content/site.json` (`/nl/winkel/`, `/en/shop/`). `src/js/router.js` makes it feel like a SPA: it
   intercepts same-origin links, prefetches on hover, focus or touch, swaps `<body>` in place
@@ -49,8 +57,9 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
   LCP image preload with `fetchpriority=high`, explicit `width`/`height` on every image, `loading=lazy`
   below the fold, native ES modules with content-hashed names and an inline import map (only modules the
   browser runs), data modules (`/data/catalog.js`, `/data/site.<locale>.js`) prefetched at idle, a service
-  worker that precaches every page plus the hashed assets (stale-while-revalidate for HTML,
-  cache-first for immutable files), hover prefetch, and immutable cache headers (`_headers`, honoured by
+  worker that precaches every page (versioned cache, stale-while-revalidate) and the hashed JS, data and fonts
+  (one unversioned cache-first cache, so a deploy fetches only what changed and prunes the rest; media is cached
+  on first use; `/admin/` and `/api/` bypass it), hover prefetch, and immutable cache headers (`_headers`, honoured by
   Cloudflare Pages; GitHub Pages ignores it).
 
 ## Layout
@@ -62,7 +71,8 @@ content/
   catalog.json     product order (ids), custom-size pricing, collections
   products/        one file per product, <id>.json, each one follows model.json (the build validates it)
   media/           images; products reference them by file name, site.json by URI (/media/…)
-  schema/          JSON Schemas for editor validation ($schema in each JSON)
+  schema/          JSON Schemas for site.json and catalog.json: editor hints ($schema in each JSON) and enforced by the
+                   build (src/js/schema.js); products are checked against model.json by build/products.mjs
 src/
   css/base.css     THE base: tokens (+ per-view layout tokens), reset, typography and the shared primitives:
                      .button (--primary --outline --paper --small --icon)  .link  .eyebrow  .figure (prices)
@@ -73,7 +83,9 @@ src/
     bem.js         isomorphic: attribute helper for class/id/data-component (see Naming)
     i18n.js        isomorphic: t(), money(), url() for a locale
     catalog.js     isomorphic: pricing, cart line keys, option labels
-    store.js       browser: cart (localStorage, cross-tab) + in-memory product configuration
+    schema.js      isomorphic: JSON Schema validator (the subset content/schema uses), run by build and admin
+    cms.js         isomorphic: CMS save rules shared by admin, dev server and functions/api/cms (paths, budgets, schema)
+    store.js       browser: cart (localStorage, cross-tab), saved checkout details (opt-in) + in-memory product configuration
     router.js      browser: link interception, prefetch, body swap, history, view transitions
     app.js         browser entry: component autoloader, router start, SW registration
     element.js     browser: FwElement base class for all components
@@ -81,9 +93,11 @@ src/
     <block>.template.js   render(data, ctx) → HTML string (isomorphic)
     <block>.css           block-specific CSS only (optional)
     <block>.js            custom element <fw-block> (optional, only if it has behaviour)
+  components/field/   shared form field (label, hint, input/select/textarea, error), nested in contact and checkout;
+                      FwElement.validates() wires its aria-invalid/aria-describedby
   pages/<page>.js  composes blocks for a page: { route, render(ctx), meta?, current?, lcp?, customSize?, blocks? }
   layout.js        the HTML document shell
-  sw.js            service-worker source (build injects version + precache list)
+  sw.js            service-worker source (build injects version, page list and hashed asset list)
   fonts/           self-hosted woff2 (variable)
 build/
   build.mjs        prerender, hash, import map, inline CSS, SW, _headers, root redirect
@@ -91,7 +105,15 @@ build/
   check.mjs        validates dist/: ids, data-component, BEM, hreflang, budgets
   serve.mjs        dev server with rebuild-on-change
   dom-audit.js     browser-side audit of the live DOM (paste into Playwright evaluate)
+src/admin/         content editor (index.html, admin.js, admin.css), built only with ADMIN=1 (`npm run dev`,
+                   cloudflare.yml), never for GitHub Pages; forms are generated from the content JSON + schemas
+migrations/        D1 schema for the `flowwood` database (`cf d1 migrations apply <database-id>`)
 functions/
+  api/cms/[[path]].js  the admin's API (Cloudflare Pages only): verifies the Cloudflare Access JWT, reads and commits
+                   content through a GitHub App (createCommitOnBranch on main, refused when the edited files moved),
+                   proxies media and Actions status. Env: GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY (PKCS#8),
+                   GITHUB_REPO, CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD. `npm run dev` serves the same API against the
+                   working tree (build/serve.mjs), so the admin runs locally at /admin/ without GitHub or Access.
   api/contact.js   Cloudflare Pages Function (not run by GitHub Pages): the contact form posts here; it emails site.contact.email via
                    Resend and 303-redirects back to #contact__status--sent or --failed (shown with :target,
                    so the form works without JS; <fw-contact> posts with fetch instead and keeps the text on failure). Secret: RESEND_API_KEY (Cloudflare env, locally in .dev.vars).
@@ -154,11 +176,14 @@ Every block is designed and verified at three viewports. A change is not done un
   `model.json` uses; using a new keyword means extending it.
 * Product images: `{ "file": "monolith-1.webp", "position": "50% 60%", "thumbnail": "monolith-1-thumb.webp" }`,
   file names in `content/media/`. The build resolves them to `{ src, width, height, position, thumbnail }`
-  (size read from the file, missing files fail the build), so templates never see `file`. `img(image, { thumb: true })`
+  (size read from the file, WebP, JPEG or SVG `viewBox`; missing files or an edge above 1600px fail the build; only
+  referenced media ships), so templates never see `file`. `img(image, { thumb: true })`
   shows the thumbnail where a photo is small (photo reel, shop filter, hero thumbs, cart) and falls back to
   the photo itself.
-* Other images (`site.json`): `{ "src": "<uri>", "width": n, "height": n, "position": "50% 60%" }`. A `src` under
-  `/media/` is content-hashed by the build; an absolute URI is used as is.
+* Other images (`site.json`): `{ "src": "/media/<file>", "position": "50% 60%" }`; the build reads `width`/`height`
+  from the file and content-hashes it. An absolute `https` URI is used as is and needs `width`/`height` in the JSON.
+* `content/site.json` and `content/catalog.json` stay in canonical form (`JSON.stringify(…, null, 2)` + newline);
+  `npm run check` fails otherwise, so a CMS save only diffs what changed.
 * Prices are numbers in EUR. Formatting happens in `i18n.money()`.
 * UI strings live in `site.json → ui`, grouped per block. Use `{name}` placeholders.
 

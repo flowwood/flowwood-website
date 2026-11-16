@@ -1,4 +1,5 @@
 import { FwElement } from '../../js/element.js';
+import { stockLeft } from '../../js/catalog.js';
 import { cart } from '../../js/store.js';
 
 customElements.define(
@@ -10,11 +11,17 @@ customElements.define(
       this.add = this.$('.cart-control__add');
       this.stepper = this.$('.cart-control__stepper');
       this.dec = this.$('.cart-control__dec');
+      this.inc = this.$('.cart-control__inc');
       this.qty = this.$('.cart-control__qty');
-      this.on('click', '.cart-control__add, .cart-control__inc', () => cart.add(this.dataset.key));
+      this.addContent = this.add && [this.add.innerHTML, this.add.ariaLabel];
+      this.on('click', '.cart-control__add, .cart-control__inc', () => this.available() && cart.add(this.dataset.key));
       this.on('click', '.cart-control__dec', () => this.decrement());
       addEventListener('cart:change', () => this.render(), { signal: this.signal });
       this.render();
+    }
+
+    available() {
+      return !('stock' in this.dataset) || stockLeft(Number(this.dataset.stock), this.dataset.key, cart.lines) > 0;
     }
 
     attributeChangedCallback() {
@@ -26,6 +33,14 @@ customElements.define(
       const q = cart.qty(key);
       if (!this.add) q > Number(this.dataset.min) && cart.set(key, q - 1);
       else q <= 1 ? cart.remove(key) : cart.set(key, q - 1);
+    }
+
+    showAvailability(available) {
+      this.add.disabled = !available;
+      if (!('labelSoldOut' in this.dataset)) return;
+      const [html, label] = available ? this.addContent : [this.dataset.labelSoldOut, this.dataset.labelSoldOutNamed];
+      if (this.add.innerHTML !== html) this.add.innerHTML = html;
+      this.add.ariaLabel = label;
     }
 
     render() {
@@ -40,6 +55,9 @@ customElements.define(
       } else {
         this.dec.disabled = q <= Number(this.dataset.min);
       }
+      const available = this.available();
+      this.inc.disabled = !available;
+      if (this.add) this.showAvailability(available);
       this.qty.textContent = String(q);
     }
   },

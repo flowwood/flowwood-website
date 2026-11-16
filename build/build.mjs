@@ -7,6 +7,8 @@ import { gzipSync } from 'node:zlib';
 
 import { createI18n, LOCALE_STORAGE_KEY } from '../src/js/i18n.js';
 import { createCatalog } from '../src/js/catalog.js';
+import { createValidator } from '../src/js/schema.js';
+import { MAX_IMAGE_EDGE } from '../src/js/cms.js';
 import { layout } from '../src/layout.js';
 import { readProducts } from './products.mjs';
 import home from '../src/pages/home.js';
@@ -14,6 +16,7 @@ import shop from '../src/pages/shop.js';
 import about from '../src/pages/about.js';
 import cart from '../src/pages/cart.js';
 import contact from '../src/pages/contact.js';
+import checkout from '../src/pages/checkout.js';
 import notFound from '../src/pages/not-found.js';
 import product from '../src/pages/product.js';
 
@@ -21,7 +24,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'src');
 const DIST = process.env.DIST || join(ROOT, 'dist');
 const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '');
-const PAGES = [home, shop, about, cart, contact, product];
+const PAGES = [home, shop, about, cart, contact, checkout, product];
 const PRERENDER_ONLY_PRODUCT_FIELDS = ['gallery', 'materials', 'care', 'availability', 'related'];
 const MEDIA = join(ROOT, 'content/media');
 const PRELOADED_FONTS = ['/fonts/jost.woff2', '/fonts/ibm-plex-sans.woff2'];
@@ -34,44 +37,47 @@ const walk = async (dir) => (await readdir(dir, { recursive: true, withFileTypes
 
 const readJson = async (p) => JSON.parse(await readFile(join(ROOT, p), 'utf8'));
 
+const CLOUDFLARE_ENV = join(ROOT, '.cloudflare.env');
+if (existsSync(CLOUDFLARE_ENV)) process.loadEnvFile(CLOUDFLARE_ENV);
+
+const STOCK_DATABASE = 'flowwood';
+
+async function d1(path, init = {}) {
+  const { CLOUDFLARE_API_TOKEN: token, CLOUDFLARE_ACCOUNT_ID: account } = process.env;
+  if (!token || !account) throw new Error('stock: set CLOUDFLARE_API_TOKEN and CLOUDFLARE_ACCOUNT_ID (or .cloudflare.env) to read stock from D1');
+  const response = await fetch(`https://api.cloudflare.com/client/v4/accounts/${account}/d1/database${path}`, {
+    ...init,
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+  });
+  const body = await response.json();
+  if (!body.success) throw new Error(`stock: D1 ${response.status} ${body.errors.map((e) => e.message).join('; ')}`);
+  return body.result;
+}
+
+async function readStock() {
+  const database = (await d1(`?name=${STOCK_DATABASE}`)).find((db) => db.name === STOCK_DATABASE);
+  if (!database) throw new Error(`stock: no D1 database named "${STOCK_DATABASE}"`);
+  const [{ results }] = await d1(`/${database.uuid}/query`, { method: 'POST', body: JSON.stringify({ sql: 'SELECT product, quantity FROM stock' }) });
+  return new Map(results.map((r) => [r.product, r.quantity]));
+}
+
+function withStock(catalog, stock) {
+  const ids = new Set(catalog.products.map((p) => p.id));
+  const unknown = [...stock.keys()].filter((id) => !ids.has(id));
+  if (unknown.length) throw new Error(`stock: row(s) for unknown product(s) ${unknown.join(', ')}`);
+  return { ...catalog, products: catalog.products.map((p) => ({ ...p, stock: stock.get(p.id) ?? null })) };
+}
+
 const site = await readJson('content/site.json');
 const ORIGIN = (process.env.SITE_ORIGIN || site.origin).replace(/\/+$/, '');
 const atBase = (path) => `${BASE}${path}`;
 const withoutBase = (url) => url.slice(BASE.length);
 const catalogSource = await readJson('content/catalog.json');
-const catalogData = await withResolvedImages({ ...catalogSource, products: await readProducts(ROOT) });
 const LOCALES = Object.keys(site.locales);
 
-function webpSize(buf) {
-  const chunk = buf.toString('ascii', 12, 16);
-  if (chunk === 'VP8X') return { width: 1 + buf.readUIntLE(24, 3), height: 1 + buf.readUIntLE(27, 3) };
-  if (chunk === 'VP8L') {
-    const bits = buf.readUInt32LE(21);
-    return { width: 1 + (bits & 0x3fff), height: 1 + ((bits >> 14) & 0x3fff) };
-  }
-  return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
-}
-
-const isJpegFrameMarker = (m) => m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m);
-
-function jpegSize(buf) {
-  for (let i = 2; i + 9 < buf.length; i += 2 + buf.readUInt16BE(i + 2)) {
-    if (isJpegFrameMarker(buf[i + 1])) return { width: buf.readUInt16BE(i + 7), height: buf.readUInt16BE(i + 5) };
-  }
-}
-
-function imageSize(buf) {
-  if (buf.toString('ascii', 8, 12) === 'WEBP') return webpSize(buf);
-  if (buf.toString('ascii', 1, 4) === 'PNG') return { width: buf.readUInt32BE(16), height: buf.readUInt32BE(20) };
-  if (buf[0] === 0xff && buf[1] === 0xd8) return jpegSize(buf);
-}
-
 async function mediaImage(file, position) {
-  const path = join(MEDIA, file);
-  if (!existsSync(path)) throw new Error(`content: image "${file}" is not in content/media`);
-  const size = imageSize(await readFile(path));
-  if (!size) throw new Error(`content: image "${file}" is not a webp, png or jpeg`);
-  return { src: `/media/${file}`, ...size, ...(position && { position }) };
+  const src = `/media/${file}`;
+  return { src, ...(await imageSize(src)), ...(position && { position }) };
 }
 
 async function resolveImage({ file, position, thumbnail }) {
@@ -107,6 +113,13 @@ function validateLocales(node, path) {
   keys.forEach((k) => validateLocales(node[k], `${path}.${k}`));
 }
 
+async function validateSchemas() {
+  for (const [name, data] of [['site', site], ['catalog', catalogSource]]) {
+    const errors = createValidator(await readJson(`content/schema/${name}.schema.json`))(data);
+    if (errors.length) throw new Error(`content: ${name}.json\n  ${errors.join('\n  ')}`);
+  }
+}
+
 function validateContent() {
   validateLocales(site.ui, 'site.ui');
   validateLocales(site.meta, 'site.meta');
@@ -118,19 +131,71 @@ function validateContent() {
   for (const r of refs) if (!ids.has(r)) throw new Error(`content: unknown product "${r}"`);
 }
 
-async function writeHashed(publicUrl, body) {
+async function writeHashed(publicUrl, body, urls = hashedUrlOf) {
   const out = hashed(publicUrl, hash(body));
   await mkdir(dirname(join(DIST, out)), { recursive: true });
   await writeFile(join(DIST, out), body);
-  hashedUrlOf.set(publicUrl, atBase(out));
+  urls.set(publicUrl, atBase(out));
   return out;
 }
 
 const emit = async (file, publicUrl) => writeHashed(publicUrl, await readFile(file));
 
+const isMediaImage = (node) => node && typeof node === 'object' && typeof node.src === 'string' && node.src.startsWith('/media/');
+
+function mediaImages(node, found = []) {
+  if (isMediaImage(node)) found.push(node);
+  if (node && typeof node === 'object') Object.values(node).forEach((v) => mediaImages(v, found));
+  return found;
+}
+
+function webpSize(buf) {
+  const chunk = buf.toString('ascii', 12, 16);
+  if (chunk === 'VP8 ') return { width: buf.readUInt16LE(26) & 0x3fff, height: buf.readUInt16LE(28) & 0x3fff };
+  if (chunk === 'VP8L') {
+    const bits = buf.readUInt32LE(21);
+    return { width: (bits & 0x3fff) + 1, height: ((bits >> 14) & 0x3fff) + 1 };
+  }
+  if (chunk === 'VP8X') return { width: buf.readUIntLE(24, 3) + 1, height: buf.readUIntLE(27, 3) + 1 };
+}
+
+const isJpegFrame = (marker) => marker >= 0xc0 && marker <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(marker);
+
+function jpegSize(buf) {
+  for (let at = 2; at + 9 < buf.length; at += 2 + buf.readUInt16BE(at + 2)) {
+    if (buf[at] !== 0xff) return;
+    if (isJpegFrame(buf[at + 1])) return { height: buf.readUInt16BE(at + 5), width: buf.readUInt16BE(at + 7) };
+  }
+}
+
+function svgSize(text) {
+  const box = text.match(/<svg[^>]*\sviewBox="\s*[-\d.]+[\s,]+[-\d.]+[\s,]+([\d.]+)[\s,]+([\d.]+)\s*"/);
+  if (box) return { width: Math.round(+box[1]), height: Math.round(+box[2]) };
+}
+
+async function imageSize(src) {
+  const buf = await readFile(join(ROOT, 'content', src));
+  const size = src.endsWith('.webp') ? webpSize(buf) : src.endsWith('.jpg') ? jpegSize(buf) : svgSize(buf.toString('utf8'));
+  if (!size) throw new Error(`content: ${src} is not a readable ${src.split('.').pop()} image`);
+  if (!src.endsWith('.svg') && Math.max(size.width, size.height) > MAX_IMAGE_EDGE) throw new Error(`content: ${src} is ${size.width}×${size.height}, over ${MAX_IMAGE_EDGE}px`);
+  return size;
+}
+
+async function measureMedia(images) {
+  const sizes = new Map();
+  for (const src of new Set(images.map((i) => i.src))) sizes.set(src, await imageSize(src));
+  for (const image of images) Object.assign(image, sizes.get(image.src));
+  return [...sizes.keys()];
+}
+
+const catalogData = await withResolvedImages({ ...catalogSource, products: await readProducts(ROOT) });
+
 async function hashStaticAssets() {
   for (const f of await walk(join(SRC, 'fonts'))) await emit(f, `/fonts/${posix(relative(join(SRC, 'fonts'), f))}`);
-  for (const f of await walk(MEDIA)) await emit(f, `/media/${posix(relative(MEDIA, f))}`);
+  const used = await measureMedia(mediaImages([site, catalogData]));
+  for (const src of used) await emit(join(ROOT, 'content', src), src);
+  const unused = (await walk(MEDIA)).map((f) => `/media/${posix(relative(MEDIA, f))}`).filter((u) => !used.includes(u));
+  if (unused.length) console.warn(`unused media (not shipped): ${unused.join(', ')}`);
 }
 
 function withHashedMedia(node) {
@@ -174,7 +239,7 @@ function importClosure(urls) {
 const isComponentEntry = (u) => /^\/components\/([a-z0-9-]+)\/\1\.js$/.test(u);
 
 async function hashBrowserJs() {
-  const sources = [...(await walk(join(SRC, 'js'))), ...(await walk(join(SRC, 'components')))].filter((f) => f.endsWith('.js'));
+  const sources = [...(await walk(join(SRC, 'js'))), ...(await walk(join(SRC, 'components'))), ...(await walk(join(SRC, 'admin')))].filter((f) => f.endsWith('.js'));
   for (const f of sources) browserSourceOf.set(`/${posix(relative(SRC, f))}`, await readFile(f, 'utf8'));
   const entries = ['/js/app.js', ...[...browserSourceOf.keys()].filter(isComponentEntry)];
   for (const u of importClosure(entries)) await emit(join(SRC, u), u);
@@ -272,14 +337,18 @@ async function writeRootRedirect() {
 
 async function writeServiceWorker() {
   const source = await readFile(join(SRC, 'sw.js'), 'utf8');
-  const precache = [...pageUrls, ...hashedUrlOf.values()];
-  const swVersion = hash(JSON.stringify(precache) + source);
-  await writeFile(join(DIST, 'sw.js'), source.replace("'__VERSION__'", JSON.stringify(swVersion)).replace("'__PRECACHE__'", JSON.stringify(precache)));
+  const assets = [...hashedUrlOf.values()];
+  const swVersion = hash(JSON.stringify([pageUrls, assets]) + source);
+  await writeFile(
+    join(DIST, 'sw.js'),
+    source.replace("'__VERSION__'", JSON.stringify(swVersion)).replace("'__PAGES__'", JSON.stringify(pageUrls)).replace("'__ASSETS__'", JSON.stringify(assets)),
+  );
   return swVersion;
 }
 
-async function writeHeaders() {
+async function writeHeaders(adminCsp) {
   const immutable = '  Cache-Control: public, max-age=31536000, immutable';
+  const admin = adminCsp ? ['/admin/*', '  Cache-Control: no-store', '  X-Robots-Tag: noindex', `  Content-Security-Policy: ${adminCsp}`] : [];
   await writeFile(
     join(DIST, '_headers'),
     [
@@ -289,9 +358,25 @@ async function writeHeaders() {
       ...IMMUTABLE_PATHS.flatMap((p) => [p, immutable]),
       '/sw.js',
       '  Cache-Control: no-cache',
+      ...admin,
       '',
     ].join('\n'),
   );
+}
+
+const cspHash = (text) => `'sha256-${createHash('sha256').update(text).digest('base64')}'`;
+
+async function emitAdmin() {
+  const adminUrlOf = new Map();
+  for (const u of importClosure(['/admin/admin.js'])) if (!hashedUrlOf.has(u)) await writeHashed(u, await readFile(join(SRC, u)), adminUrlOf);
+  const urls = new Map([...hashedUrlOf, ...adminUrlOf]);
+  const map = JSON.stringify({ imports: Object.fromEntries([...urls].filter(([u]) => u.endsWith('.js')).map(([u, url]) => [atBase(u), url])) });
+  const css = (await blockCss('base')) + minifyCss(await readFile(join(SRC, 'admin/admin.css'), 'utf8'));
+  const head = `<style>${css}</style><script type="importmap">${map}</script><script type="module" src="${urls.get('/admin/admin.js')}"></script>`;
+  const html = (await readFile(join(SRC, 'admin/index.html'), 'utf8')).replace('<!--head-->', head);
+  await mkdir(join(DIST, 'admin'), { recursive: true });
+  await writeFile(join(DIST, 'admin/index.html'), html);
+  return `default-src 'self'; script-src 'self' ${cspHash(map)}; style-src 'self' ${cspHash(css)}; img-src 'self' blob: https:; connect-src 'self'; font-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'`;
 }
 
 function printReport() {
@@ -301,12 +386,13 @@ function printReport() {
   console.log(`\n${pageUrls.length} pages, ${hashedUrlOf.size} hashed assets, sw ${version}`);
 }
 
+await validateSchemas();
 validateContent();
 await rm(DIST, { recursive: true, force: true });
 await mkdir(DIST, { recursive: true });
 await hashStaticAssets();
 const content = { ...withHashedMedia(site), origin: ORIGIN, basePath: BASE };
-const catalogContent = withHashedMedia(catalogData);
+const catalogContent = withHashedMedia(withStock(catalogData, await readStock()));
 await emitDataModules();
 await hashBrowserJs();
 const importMap = JSON.stringify({ imports: Object.fromEntries([...hashedUrlOf].filter(([u]) => u.endsWith('.js')).map(([u, url]) => [atBase(u), url])) });
@@ -314,5 +400,6 @@ const catalog = createCatalog(catalogContent);
 await renderAllPages();
 await writeRootRedirect();
 const version = await writeServiceWorker();
-await writeHeaders();
+const adminCsp = process.env.ADMIN ? await emitAdmin() : null;
+await writeHeaders(adminCsp);
 printReport();
