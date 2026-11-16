@@ -3,7 +3,7 @@ import { menuBar } from './components/menu-bar/menu-bar.template.js';
 import { footer } from './components/footer/footer.template.js';
 import { customSize } from './components/custom-size/custom-size.template.js';
 
-const ICON = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" fill="#1f1e1c"/><text x="16" y="23" font-family="sans-serif" font-size="20" fill="#fdfdfc" text-anchor="middle">F</text></svg>')}`;
+const ICON = `data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#1f1e1c"/><path d="M8 24V8h8M8 15.5h6" fill="none" stroke="#fdfdfc" stroke-width="3.2"/><path d="M16.5 15l2.4 8.5 2.4-6.5 2.4 6.5 2.4-8.5" fill="none" stroke="#e0703a" stroke-width="2.4" stroke-linejoin="round" stroke-linecap="round"/></svg>')}`;
 
 export function layout(ctx, page) {
   const { site, i18n, locale } = ctx;
