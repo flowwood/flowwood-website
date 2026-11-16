@@ -9,9 +9,9 @@
 .cart-control--card .cart-control__stepper .stepper__button:hover, .cart-control--detail .cart-control__stepper .stepper__button:hover { background: color-mix(in srgb, var(--c-ink) 16%, transparent); }
 .cart-control--card .cart-control__qty, .cart-control--detail .cart-control__qty { flex: 1; }
 
-.cart-control--detail { height: 56px; }
-.cart-control--detail .cart-control__add { height: 56px; }
-.cart-control--detail .stepper__button { width: 56px; font-size: 20px; font-weight: 300; }
+.cart-control--detail { height: 48px; }
+.cart-control--detail .cart-control__add { height: 48px; }
+.cart-control--detail .stepper__button { width: 48px; font-size: 20px; font-weight: 300; }
 .cart-control--detail .cart-control__qty { font-size: 15px; }
 
 .cart-control--hero { height: 46px; }
@@ -29,6 +29,11 @@
 .cart-control--row { height: 28px; border: 1px solid var(--c-line); }
 .cart-control--row .stepper__button { width: 26px; font-size: 14px; }
 .cart-control--row .cart-control__qty { min-width: 22px; font-size: 12px; }
+
+@media (max-width: 767px) {
+  .cart-control--detail .cart-control__add { gap: 10px; padding: 0 16px; }
+  .cart-control--detail .cart-control__stepper { min-width: 132px; }
+}
 
 @media (pointer: coarse) {
   .cart-control--card, .cart-control--card .cart-control__add { height: 44px; }
