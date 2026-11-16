@@ -98,6 +98,7 @@
       "add": { "en": "Add", "nl": "Voeg toe" },
       "addToCart": { "en": "Add to cart", "nl": "In winkelmand" },
       "addNamed": { "en": "Add {name} to cart", "nl": "Voeg {name} toe aan winkelmand" },
+      "inCart": { "en": "In cart", "nl": "In winkelmand" },
       "oneMore": { "en": "One more {name}", "nl": "Nog een {name}" },
       "oneLess": { "en": "One less {name}", "nl": "Eén {name} minder" },
       "remove": { "en": "Remove {name} from cart", "nl": "Verwijder {name} uit winkelmand" }
