@@ -57,7 +57,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-padding-top: var(--menu-h); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { background: var(--c-sidebar); scroll-padding-top: var(--menu-h); -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 body {
   margin: 0;
   padding-top: var(--menu-h);
