@@ -4,7 +4,7 @@ const RESEND_URL = 'https://api.resend.com/emails';
 const SENDER = 'Flowwood website <website@flowwood.be>';
 const RECIPIENT = site.contact.email;
 const LIMITS = site.contact.limits;
-const LOCAL_PAGE = /^\/[a-z]{2}\/[a-z-]+\/$/;
+const LOCAL_PAGE = /^(?:\/[a-z0-9-]+)+\/$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const singleLine = (text) => text.replace(/[\r\n]+/g, ' ');

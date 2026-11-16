@@ -3,6 +3,11 @@ import { collection } from '../collection/collection.template.js';
 
 const SORTS = ['featured', 'priceAsc', 'priceDesc'];
 
+export const breadcrumb = (b, i18n, links, current) => `<nav ${b('breadcrumb', { cls: 'breadcrumb' })} aria-label="${esc(i18n.t('shop.breadcrumb'))}">
+      ${links.map((l) => `<a ${b('crumb', { key: l.key, cls: 'breadcrumb__link hit' })} href="${l.href}">${esc(l.label)}</a><span ${b('crumb-separator', { key: l.key })} aria-hidden="true">/</span>`).join('')}
+      <span ${b('crumb', { key: 'current', cls: 'breadcrumb__current' })} aria-current="page">${esc(current)}</span>
+    </nav>`;
+
 export function shop(ctx) {
   const { site, catalog, i18n } = ctx;
   const b = bem('shop');
@@ -18,11 +23,7 @@ export function shop(ctx) {
 
   return `<fw-shop ${b()}>
   <div ${b('head')}>
-    <nav ${b('breadcrumb')} aria-label="${t('breadcrumb')}">
-      <a ${b('crumb', { key: 'home' })} href="${i18n.url('home')}">${esc(i18n.t('menuBar.home'))}</a>
-      <span ${b('crumb-separator')} aria-hidden="true">/</span>
-      <span ${b('crumb', { key: 'shop', mods: { current: true } })} aria-current="page">${t('title')}</span>
-    </nav>
+    ${breadcrumb(b, i18n, [{ key: 'home', href: i18n.url('home'), label: i18n.t('menuBar.home') }], i18n.t('shop.title'))}
     <div ${b('heading')}>
       <h1 ${b('title')}>${t('title')}</h1>
       <span ${b('count')}>${esc(i18n.pieces(total))}</span>

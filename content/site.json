@@ -116,6 +116,27 @@
       "sizes": { "en": "Size", "nl": "Maat" },
       "finishes": { "en": "Finish", "nl": "Afwerking" }
     },
+    "product": {
+      "gallery": { "en": "Photos of {name}", "nl": "Foto’s van {name}" },
+      "photo": { "en": "Photo {n} of {total}", "nl": "Foto {n} van {total}" },
+      "previousPhoto": { "en": "Previous photo", "nl": "Vorige foto" },
+      "nextPhoto": { "en": "Next photo", "nl": "Volgende foto" },
+      "viewCart": { "en": "View cart", "nl": "Bekijk winkelmand" },
+      "dimensions": { "en": "Dimensions", "nl": "Afmetingen" },
+      "dimensionsCustom": { "en": "Custom: {hmin}–{hmax} cm high, {wmin}–{wmax} cm wide", "nl": "Op maat: {hmin}–{hmax} cm hoog, {wmin}–{wmax} cm breed" },
+      "materials": { "en": "Materials", "nl": "Materialen" },
+      "care": { "en": "Care", "nl": "Onderhoud" },
+      "deliveryReturns": { "en": "Delivery & returns", "nl": "Levering & retour" },
+      "inStock": { "en": "In stock, delivered in 2–4 working days", "nl": "Op voorraad, geleverd in 2–4 werkdagen" },
+      "deliveryBody": {
+        "en": "Delivered to your door in Belgium and the Netherlands, carefully packed in recycled materials.",
+        "nl": "Aan huis geleverd in België en Nederland, zorgvuldig verpakt in gerecycleerde materialen."
+      },
+      "returnsBody": {
+        "en": "Changed your mind? Return a standard piece unused within 14 days. Pieces made to measure cannot be returned.",
+        "nl": "Van gedachten veranderd? Stuur een standaardstuk ongebruikt terug binnen 14 dagen. Stukken op maat kunnen niet teruggestuurd worden."
+      }
+    },
     "customSize": {
       "title": { "en": "Custom size", "nl": "Op maat" },
       "material": { "en": "Material", "nl": "Materiaal" },

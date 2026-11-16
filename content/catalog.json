@@ -21,6 +21,8 @@
       },
       "sizing": { "shape": "square", "heights": [40, 60, 80, 100], "width": 30 },
       "pricing": { "base": 395, "perSizeStep": 50 },
+      "materials": { "en": "MDF core with a real smoked-oak veneer, mitred on all four edges so the grain runs unbroken around the column. Finished with a water-based matt lacquer.", "nl": "MDF-kern met echt gerookt eikenfineer, in verstek op alle vier de hoeken zodat de nerf ononderbroken rond de zuil loopt. Afgewerkt met een matte lak op waterbasis." },
+      "care": { "en": "Dust with a soft, dry cloth. Wipe spills straight away with a damp cloth and dry immediately. Keep out of prolonged direct sunlight to preserve the colour of the veneer.", "nl": "Afstoffen met een zachte, droge doek. Morsen meteen opnemen met een vochtige doek en direct droogwrijven. Vermijd langdurig direct zonlicht om de kleur van het fineer te bewaren." },
       "finishes": [
         { "id": "smoked-oak", "color": "#3b332d", "name": { "en": "Smoked oak", "nl": "Gerookte eik" } },
         { "id": "natural-oak", "color": "#8a6f55", "name": { "en": "Natural oak", "nl": "Naturel eik" } },
@@ -41,6 +43,8 @@
       },
       "sizing": { "shape": "hexagon", "heights": [40, 60, 80], "width": 35 },
       "pricing": { "base": 445, "perSizeStep": 50 },
+      "materials": { "en": "Six MDF panels, precision-cut and glued, finished in a soft-touch matt lacquer in the colour of your choice.", "nl": "Zes MDF-panelen, nauwkeurig gezaagd en verlijmd, afgewerkt met een zijdezachte matte lak in de kleur van je keuze." },
+      "care": { "en": "Clean with a soft cloth and a little lukewarm water. Avoid abrasive or solvent-based cleaners, which dull the matt finish.", "nl": "Reinigen met een zachte doek en wat lauw water. Vermijd schurende of oplosmiddelhoudende middelen: die maken de matte afwerking dof." },
       "finishes": [
         { "id": "stone", "color": "#b3ada4", "name": { "en": "Stone", "nl": "Steen" } },
         { "id": "chalk", "color": "#e6e1d8", "name": { "en": "Chalk", "nl": "Krijt" } },
@@ -61,6 +65,8 @@
       },
       "sizing": { "shape": "round", "heights": [40, 60, 80, 100], "width": 30 },
       "pricing": { "base": 425, "perSizeStep": 50 },
+      "materials": { "en": "A turned cylinder wrapped in a single sheet of open-grain oak veneer, so every piece has its own figure. Water-based matt lacquer.", "nl": "Een gedraaide cilinder omhuld met één blad open eikenfineer, zodat elk stuk zijn eigen tekening heeft. Matte lak op waterbasis." },
+      "care": { "en": "Dust with a soft, dry cloth. Wipe spills straight away with a damp cloth and dry immediately. Keep out of prolonged direct sunlight to preserve the colour of the veneer.", "nl": "Afstoffen met een zachte, droge doek. Morsen meteen opnemen met een vochtige doek en direct droogwrijven. Vermijd langdurig direct zonlicht om de kleur van het fineer te bewaren." },
       "finishes": [
         { "id": "grey-oak", "color": "#6e5b4b", "name": { "en": "Grey oak", "nl": "Grijze eik" } },
         { "id": "natural-oak", "color": "#8a6f55", "name": { "en": "Natural oak", "nl": "Naturel eik" } },
@@ -80,6 +86,8 @@
       },
       "sizing": { "shape": "oval", "heights": [45, 55], "width": 45 },
       "pricing": { "base": 485, "perSizeStep": 50 },
+      "materials": { "en": "A bent MDF shell with solid top, finished in a dense matt lacquer that is pleasant to the touch.", "nl": "Een gebogen MDF-mantel met massief blad, afgewerkt met een dichte matte lak die zacht aanvoelt." },
+      "care": { "en": "Clean with a soft cloth and a little lukewarm water. Avoid abrasive or solvent-based cleaners, which dull the matt finish.", "nl": "Reinigen met een zachte doek en wat lauw water. Vermijd schurende of oplosmiddelhoudende middelen: die maken de matte afwerking dof." },
       "finishes": [
         { "id": "taupe", "color": "#a3907c", "name": { "en": "Taupe", "nl": "Taupe" } },
         { "id": "chalk", "color": "#e6e1d8", "name": { "en": "Chalk", "nl": "Krijt" } },
@@ -95,6 +103,8 @@
       "summary": { "en": "Smoke-grey glass", "nl": "Rookgrijs glas" },
       "dimensions": { "en": "45 cm high", "nl": "45 cm hoog" },
       "pricing": { "fixed": 139 },
+      "materials": { "en": "Mouth-blown smoke-grey glass with a slightly thickened base.", "nl": "Mondgeblazen rookgrijs glas met een licht verzwaarde bodem." },
+      "care": { "en": "Rinse by hand with lukewarm water and a drop of washing-up liquid. Not dishwasher safe.", "nl": "Met de hand afwassen in lauw water met een druppel afwasmiddel. Niet vaatwasmachinebestendig." },
       "finishes": [
         { "id": "smoke-grey", "color": "linear-gradient(135deg,#9aa19c,#4f5651)", "name": { "en": "Smoke-grey glass", "nl": "Rookgrijs glas" } }
       ]
@@ -107,6 +117,8 @@
       "summary": { "en": "Clear bubble glass", "nl": "Helder bubbelglas" },
       "dimensions": { "en": "Ø 22 × 26 cm", "nl": "Ø 22 × 26 cm" },
       "pricing": { "fixed": 62.95 },
+      "materials": { "en": "Clear recycled glass with air bubbles trapped during blowing, so no two pieces are the same.", "nl": "Helder gerecycleerd glas met luchtbellen die tijdens het blazen ingesloten worden, zodat geen twee stukken gelijk zijn." },
+      "care": { "en": "Rinse by hand with lukewarm water and a drop of washing-up liquid. Not dishwasher safe.", "nl": "Met de hand afwassen in lauw water met een druppel afwasmiddel. Niet vaatwasmachinebestendig." },
       "finishes": [
         { "id": "clear", "color": "linear-gradient(135deg,#f6f8f8,#d5dcdd)", "name": { "en": "Clear bubble glass", "nl": "Helder bubbelglas" } }
       ]
@@ -119,6 +131,8 @@
       "summary": { "en": "White speckled stoneware", "nl": "Wit gespikkeld steengoed" },
       "dimensions": { "en": "Size L", "nl": "Maat L" },
       "pricing": { "fixed": 49.9 },
+      "materials": { "en": "Hand-thrown stoneware with a white glaze speckled with iron, fired at high temperature.", "nl": "Handgedraaid steengoed met een wit glazuur met ijzerspikkels, op hoge temperatuur gebakken." },
+      "care": { "en": "Watertight. Clean with a soft brush and water; not dishwasher safe.", "nl": "Waterdicht. Reinigen met een zacht borsteltje en water; niet vaatwasmachinebestendig." },
       "finishes": [
         { "id": "speckled-white", "color": "#ebe6dc", "name": { "en": "White speckled stoneware", "nl": "Wit gespikkeld steengoed" } }
       ]

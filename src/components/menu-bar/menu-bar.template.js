@@ -3,7 +3,7 @@ import { bem, esc } from '../../js/bem.js';
 const bag = (b) =>
   `<svg ${b('cart-icon')} width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path ${b('cart-icon-body')} d="M5 8h14l-1 12H6z"></path><path ${b('cart-icon-handle')} d="M9 8V6a3 3 0 0 1 6 0v2"></path></svg>`;
 
-export function menuBar({ site, i18n, locale, route, current }) {
+export function menuBar({ site, i18n, locale, route, item, current }) {
   const b = bem('menu-bar');
   const t = (k) => esc(i18n.t(`menuBar.${k}`));
   const isCurrent = (on) => (on ? ' aria-current="page"' : '');
@@ -17,7 +17,7 @@ export function menuBar({ site, i18n, locale, route, current }) {
       <button ${b('language', { cls: 'eyebrow popover-trigger' })} type="button" popovertarget="${b.id('languages')}" aria-label="${t('language')}">${esc(site.locales[locale].code)}</button>
       <div ${b('languages', { cls: 'popover' })} popover>
         ${i18n
-          .alternates(route)
+          .alternates(route, item)
           .map((a) => `<a ${b('language-option', { key: a.locale, cls: 'popover__option' })} href="${a.href}" hreflang="${a.lang}" lang="${a.lang}"${isCurrent(a.locale === locale)}>${esc(a.label)}<span ${b('language-code', { key: a.locale })}>${esc(a.code)}</span></a>`)
           .join('')}
       </div>

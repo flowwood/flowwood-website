@@ -4,10 +4,15 @@
 
 .cart-control--card { width: 124px; height: 40px; }
 .cart-control--card .cart-control__add { height: 40px; padding: 0 14px; font-size: 11px; }
-.cart-control--card .cart-control__stepper { background: var(--c-brand); color: var(--c-paper); }
+.cart-control--card .cart-control__stepper, .cart-control--detail .cart-control__stepper { background: var(--c-brand); color: var(--c-paper); }
 .cart-control--card .cart-control__stepper .stepper__button { width: 40px; font-weight: 300; }
-.cart-control--card .cart-control__stepper .stepper__button:hover { background: color-mix(in srgb, var(--c-ink) 16%, transparent); }
-.cart-control--card .cart-control__qty { flex: 1; }
+.cart-control--card .cart-control__stepper .stepper__button:hover, .cart-control--detail .cart-control__stepper .stepper__button:hover { background: color-mix(in srgb, var(--c-ink) 16%, transparent); }
+.cart-control--card .cart-control__qty, .cart-control--detail .cart-control__qty { flex: 1; }
+
+.cart-control--detail { height: 56px; }
+.cart-control--detail .cart-control__add { height: 56px; }
+.cart-control--detail .stepper__button { width: 56px; font-size: 20px; font-weight: 300; }
+.cart-control--detail .cart-control__qty { font-size: 15px; }
 
 .cart-control--hero { height: 46px; }
 .cart-control--hero .cart-control__add { background: var(--c-fill); color: var(--c-ink); padding: 0 18px; }

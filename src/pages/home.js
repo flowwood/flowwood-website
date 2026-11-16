@@ -17,7 +17,6 @@ export default {
         title: i18n.t('collection.title'),
         link: { href: i18n.url('shop'), label: i18n.t('collection.all') },
         items: products.map((product) => ({ product, configId: product.id })),
-        href: i18n.url('shop'),
       }),
       brand(ctx),
       samples(ctx),

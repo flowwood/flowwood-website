@@ -1,9 +1,6 @@
 .shop { display: block; padding-bottom: clamp(72px, 8vw, 120px); }
 
 .shop__head { display: flex; flex-direction: column; gap: 20px; padding: clamp(28px, 3vw, 40px) var(--gutter) 0; }
-.shop__breadcrumb { display: flex; gap: 10px; font-size: 13px; font-weight: 300; color: var(--c-muted); }
-.shop__crumb:hover { color: var(--c-ink); }
-.shop__crumb--current { color: var(--c-ink); }
 .shop__heading { display: flex; align-items: baseline; gap: 20px; flex-wrap: wrap; }
 .shop__title { font-size: clamp(44px, 5vw, 64px); line-height: 1; letter-spacing: -0.03em; }
 .shop__count { font-size: 14px; font-weight: 300; color: var(--c-muted); }

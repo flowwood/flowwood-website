@@ -132,6 +132,9 @@ main:focus { outline: none; }
 .button--icon:hover { background: var(--c-fill); }
 .button__icon--accent { color: var(--c-accent); }
 
+.breadcrumb { display: flex; flex-wrap: wrap; gap: 6px 10px; font-size: 13px; font-weight: 300; color: var(--c-muted); }
+.breadcrumb__link:hover, .breadcrumb__current { color: var(--c-ink); }
+
 .media { position: relative; overflow: hidden; background: var(--c-placeholder); }
 .media > img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos, 50% 50%); }
 

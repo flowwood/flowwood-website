@@ -14,12 +14,14 @@ import about from '../src/pages/about.js';
 import cart from '../src/pages/cart.js';
 import contact from '../src/pages/contact.js';
 import notFound from '../src/pages/not-found.js';
+import product from '../src/pages/product.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'src');
 const DIST = process.env.DIST || join(ROOT, 'dist');
 const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '');
-const PAGES = [home, shop, about, cart, contact];
+const PAGES = [home, shop, about, cart, contact, product];
+const PRERENDER_ONLY_PRODUCT_FIELDS = ['gallery', 'materials', 'care'];
 const PRELOADED_FONTS = ['/fonts/jost.woff2', '/fonts/ibm-plex-sans.woff2'];
 const IMMUTABLE_PATHS = ['/js/*', '/components/*', '/data/*', '/fonts/*', '/media/*'];
 const posix = (p) => p.split(sep).join('/');
@@ -97,10 +99,12 @@ function localize(node, l) {
   return node;
 }
 
+const withoutPrerenderOnlyFields = (p) => Object.fromEntries(Object.entries(p).filter(([k]) => !PRERENDER_ONLY_PRODUCT_FIELDS.includes(k)));
+
 const emitModule = (publicUrl, value) => writeHashed(publicUrl, `export default ${JSON.stringify(value)};\n`);
 
 async function emitDataModules() {
-  await emitModule('/data/catalog.js', catalogContent);
+  await emitModule('/data/catalog.js', { ...catalogContent, products: catalogContent.products.map(withoutPrerenderOnlyFields) });
   for (const l of LOCALES) await emitModule(`/data/site.${l}.js`, { basePath: BASE, locales: content.locales, routes: content.routes, ui: localize(content.ui, l) });
 }
 
@@ -173,9 +177,9 @@ async function headFor(html, page, locale) {
   ].join('');
 }
 
-async function renderPage(page, locale, outFile, { path, alternates = true } = {}) {
+async function renderPage(page, locale, outFile, { path, item = '', alternates = true } = {}) {
   const i18n = createI18n(content, locale);
-  const ctx = { site: content, catalog, i18n, locale, route: page.route, current: page.current ?? page.route };
+  const ctx = { site: content, catalog, i18n, locale, route: page.route, item, current: page.current ?? page.route };
   const shell = layout(ctx, page);
   const html = minifyHtml(
     shell
@@ -193,9 +197,12 @@ async function renderAllPages() {
   for (const locale of LOCALES) {
     const i18n = createI18n(content, locale);
     for (const page of PAGES) {
-      const url = i18n.url(page.route);
-      pageUrls.push(url);
-      await renderPage(page, locale, `${withoutBase(url)}index.html`, { path: url });
+      const items = page.products ? page.products({ catalog }).map((p) => p.id) : [''];
+      for (const item of items) {
+        const url = i18n.url(page.route, locale, item);
+        pageUrls.push(url);
+        await renderPage(page, locale, `${withoutBase(url)}index.html`, { path: url, item });
+      }
     }
     await renderPage(notFound, locale, `/${locale}/404.html`, { path: atBase(`/${locale}/404`), alternates: false });
   }
@@ -239,8 +246,8 @@ async function writeHeaders() {
 
 function printReport() {
   const pad = (s, n) => String(s).padStart(n);
-  console.log('page'.padEnd(26), pad('bytes', 8), pad('gzip', 7));
-  for (const [f, b, g] of report) console.log(f.padEnd(26), pad(b, 8), pad(g, 7));
+  console.log('page'.padEnd(34), pad('bytes', 8), pad('gzip', 7));
+  for (const [f, b, g] of report) console.log(f.padEnd(34), pad(b, 8), pad(g, 7));
   console.log(`\n${pageUrls.length} pages, ${hashedUrlOf.size} hashed assets, sw ${version}`);
 }
 

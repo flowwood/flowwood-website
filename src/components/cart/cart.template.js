@@ -75,14 +75,12 @@ export function cartTiles(ctx, { groups, open = '', adding = false }) {
     .join('');
 }
 
-function frame(ctx, g, { style, mods, keys, removeLabel }, inner) {
-  const { catalog } = ctx;
+function frame(g, { style, mods, keys, removeLabel }, inner) {
   const p = g.product;
-  const href = catalog.isSized(p) ? `${i18n.url('home')}#hero__slide--${p.id}` : i18n.url('shop');
   const k = p.id;
   return `<article ${b('tile', { key: k, mods })} data-product="${k}" style="${style}">
   <div ${b('media', { key: k, cls: 'media' })}>${img(p.image, { attrs: b('image', { key: k }), alt: p.name })}</div>
-  <a ${b('view', { key: k })} href="${href}" aria-label="${t('view', { name: p.name })}"></a>
+  <a ${b('view', { key: k })} href="${i18n.url('shop', i18n.locale, p.id)}" aria-label="${t('view', { name: p.name })}"></a>
   <button ${b('remove', { key: k, cls: 'button button--icon hit' })} type="button" data-remove="${esc(keys)}" aria-label="${esc(removeLabel)}" title="${t('removeTitle')}"${mods.open ? ' hidden' : ''}>×</button>
   ${inner}
 </article>`;
@@ -95,7 +93,6 @@ function singleTile(ctx, g, style) {
   const d = describe(catalog, i18n, l.config);
   const k = p.id;
   return frame(
-    ctx,
     g,
     { style, mods: { single: true, zero: l.qty === 0 }, keys: l.key, removeLabel: i18n.t('cart.remove', { name: p.name, details: `${d.finish}, ${d.size}` }) },
     `<div ${b('price', { key: k })}>
@@ -146,7 +143,6 @@ function groupTile(ctx, g, style, open, adding) {
     : `<button ${b('another', { key: k, cls: 'eyebrow hit' })} type="button" data-adding aria-expanded="false"><span ${b('another-icon', { key: k })} aria-hidden="true">+</span>${t('anotherSize')}</button>`;
 
   return frame(
-    ctx,
     g,
     { style, mods: { group: true, open }, keys: g.lines.map((l) => l.key).join(' '), removeLabel: i18n.t('cart.removeAll', { name: p.name }) },
     `<button ${b('toggle', { key: k })} type="button" data-toggle="${k}" aria-expanded="${open}" aria-label="${t('showOptions', { name: p.name, sizes: options, pieces, total })}"${open ? ' hidden' : ''}>

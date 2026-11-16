@@ -2,7 +2,7 @@ const htmlRequestsByPath = new Map();
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const HOVER_INTENT_MS = 65;
 const SCROLL_SAVE_DEBOUNCE_MS = 100;
-const SWAPPED_HEAD_TAGS = 'meta[name="description"], meta[name="robots"], link[rel="canonical"], link[rel="alternate"]';
+const SWAPPED_HEAD_TAGS = 'meta[name="description"], meta[name="robots"], link[rel="canonical"], link[rel="alternate"], script[type="application/ld+json"]';
 let hoverTimer;
 
 const keyOf = (url) => url.pathname + url.search;

@@ -73,6 +73,7 @@
           "tone": { "enum": ["dark", "light"], "description": "Brightness of the image's lower left: drives hero text colour" },
           "image": { "$ref": "#/$defs/image" },
           "altImage": { "$ref": "#/$defs/image" },
+          "gallery": { "type": "array", "items": { "$ref": "#/$defs/image" }, "description": "Further photos on the product page, after image and altImage. Prerender only." },
           "summary": { "$ref": "#/$defs/localized" },
           "description": { "$ref": "#/$defs/localized" },
           "dimensions": { "$ref": "#/$defs/localized" },
@@ -93,6 +94,8 @@
               { "required": ["fixed"], "properties": { "fixed": { "type": "number" } }, "additionalProperties": false }
             ]
           },
+          "materials": { "$ref": "#/$defs/localized", "description": "Product page disclosure. Prerender only." },
+          "care": { "$ref": "#/$defs/localized", "description": "Product page disclosure. Prerender only." },
           "finishes": { "type": "array", "items": { "$ref": "#/$defs/finish" }, "minItems": 1 }
         },
         "additionalProperties": false

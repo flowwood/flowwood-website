@@ -7,9 +7,9 @@ export function createI18n(site, locale) {
   const wholeEuros = new Intl.NumberFormat(site.locales[locale].numberFormat, { maximumFractionDigits: 2 });
   const cents = new Intl.NumberFormat(site.locales[locale].numberFormat, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
-  const url = (route, to = locale) => {
+  const url = (route, to = locale, item = '') => {
     const s = site.routes[route][to];
-    return `${site.basePath || ''}/${to}/${s ? `${s}/` : ''}`;
+    return `${site.basePath || ''}/${to}/${s ? `${s}/` : ''}${item ? `${item}/` : ''}`;
   };
 
   return {
@@ -28,6 +28,6 @@ export function createI18n(site, locale) {
       return n === 1 ? this.t('common.piece') : this.t('common.pieces', { n });
     },
     url,
-    alternates: (route) => Object.entries(site.locales).map(([l, d]) => ({ locale: l, href: url(route, l), ...d })),
+    alternates: (route, item = '') => Object.entries(site.locales).map(([l, d]) => ({ locale: l, href: url(route, l, item), ...d })),
   };
 }

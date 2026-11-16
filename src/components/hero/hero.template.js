@@ -37,7 +37,7 @@ export function hero(ctx) {
               <span ${b('amount', { key: p.id, cls: 'figure' })}>${esc(i18n.money(catalog.fromPrice(p)))}</span>
             </div>
             <div ${b('actions', { key: p.id })}>
-              <a ${b('view', { key: p.id, cls: 'button button--primary button--small' })} href="${i18n.url('shop')}">${t('viewProduct')} <span ${b('arrow', { key: p.id, cls: 'button__icon' })} aria-hidden="true">→</span></a>
+              <a ${b('view', { key: p.id, cls: 'button button--primary button--small' })} href="${i18n.url('shop', i18n.locale, p.id)}">${t('viewProduct')} <span ${b('arrow', { key: p.id, cls: 'button__icon' })} aria-hidden="true">→</span></a>
               ${cartControl(ctx, { variant: 'hero', key: catalog.lineKey(catalog.defaults(p)), name: p.name, instance: `hero-${p.id}` })}
             </div>
           </div>
