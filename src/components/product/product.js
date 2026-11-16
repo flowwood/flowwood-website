@@ -4,6 +4,9 @@ const LONG_PRESS_MS = 250;
 const PRESS_SLOP_PX = 8;
 const ZOOMED = 'product__slide--zoomed';
 const PHOTO_LINKS = '.product__pick, .product__thumb';
+const ARROW_STEPS = { ArrowLeft: -1, ArrowRight: 1 };
+const TURNING = 'product__stage--turning';
+const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 
 const percentWithin = (value, start, size) => `${Math.min(100, Math.max(0, ((value - start) / size) * 100))}%`;
 
@@ -24,6 +27,20 @@ customElements.define(
       });
       this.on('click', '.product__step', (e, button) => this.go(this.current() + Number(button.dataset.step)));
       this.track.addEventListener('scrollend', () => this.mark(this.current()), { signal: this.signal });
+      const stage = (this.stage = this.$('.product__stage'));
+      stage.addEventListener('pointerenter', () => (this.hovered = true), { signal: this.signal });
+      stage.addEventListener('pointerleave', () => (this.hovered = false), { signal: this.signal });
+      document.addEventListener('keydown', (e) => this.arrow(e, stage), { signal: this.signal });
+    }
+
+    arrow(e, stage) {
+      const step = ARROW_STEPS[e.key];
+      if (!step || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey || this.zoomed) return;
+      const focus = document.activeElement;
+      const typing = focus?.matches('input, select, textarea, [contenteditable]');
+      if (typing || !(this.hovered || stage.contains(focus))) return;
+      e.preventDefault();
+      this.go(this.current() + step);
     }
 
     current() {
@@ -32,9 +49,26 @@ customElements.define(
 
     go(index) {
       const count = this.slides.length;
-      const slide = this.slides[((index % count) + count) % count];
-      this.track.scrollTo({ left: slide.offsetLeft });
-      this.mark(this.slides.indexOf(slide));
+      const target = ((index % count) + count) % count;
+      if (target === index) return this.show(target);
+      this.wrap(target, Math.sign(index));
+    }
+
+    show(index, behavior) {
+      this.track.scrollTo({ left: this.slides[index].offsetLeft, behavior });
+      this.mark(index);
+    }
+
+    wrap(index, direction) {
+      const jump = () => this.show(index, 'instant');
+      if (!document.startViewTransition || reduceMotion.matches) return jump();
+      const root = document.documentElement;
+      root.style.setProperty('--product-turn', direction < 0 ? '-1' : '1');
+      this.stage.classList.add(TURNING);
+      document.startViewTransition(jump).finished.finally(() => {
+        this.stage.classList.remove(TURNING);
+        root.style.removeProperty('--product-turn');
+      });
     }
 
     mark(index) {

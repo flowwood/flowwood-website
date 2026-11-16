@@ -98,6 +98,16 @@
 @media (prefers-reduced-motion: no-preference) {
   .product__track { scroll-behavior: smooth; }
 }
+.product__stage--turning { view-transition-name: product-photo; }
+.product__stage--turning .product__step--previous { view-transition-name: product-step-previous; }
+.product__stage--turning .product__step--next { view-transition-name: product-step-next; }
+::view-transition-group(product-photo) { animation-duration: 0.45s; }
+::view-transition-image-pair(product-photo) { overflow: clip; }
+::view-transition-old(product-photo), ::view-transition-new(product-photo) { animation-duration: 0.45s; animation-timing-function: var(--ease-in-out); mix-blend-mode: normal; height: 100%; }
+::view-transition-old(product-photo) { animation-name: product-turn-out; }
+::view-transition-new(product-photo) { animation-name: product-turn-in; }
+@keyframes product-turn-out { to { transform: translateX(calc(var(--product-turn) * -100%)); } }
+@keyframes product-turn-in { from { transform: translateX(calc(var(--product-turn) * 100%)); } }
 
 @media (max-width: 1199px) {
   .product { --product-bar-h: 128px; }
