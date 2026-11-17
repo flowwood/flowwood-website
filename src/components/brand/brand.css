@@ -1,5 +1,4 @@
 .brand, .brand__samples { content-visibility: auto; }
-.app:has(.brand:last-child, .brand__samples:last-child) .footer { margin-top: 0; }
 
 .brand {
   --divider: 1px solid color-mix(in srgb, var(--c-paper) 12%, transparent);

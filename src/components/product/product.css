@@ -1,5 +1,3 @@
-.app:has(.product__bar) .app__main { padding-bottom: 0; }
-
 .product {
   --product-bar-h: 76px;
   --product-pad-top: clamp(20px, 2.4vw, 32px);

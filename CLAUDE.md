@@ -34,8 +34,8 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
   locale × page. Web components only *enhance* that HTML with behaviour; they never render the first
   view, except for the cart grid, the checkout order summary and the custom-size dialog, whose content depends on client state.
 * **Stock.** The D1 database `flowwood` (table `stock`, schema in `migrations/`) is the only source of stock. The build
-  reads it through the D1 REST API (`CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID`, locally from `.cloudflare.env`; the
-  build fails without them) and sets `stock` on every product: `null` (no row) is made to order, a number is limited,
+  reads it through the D1 REST API (`CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID`, locally from `.cloudflare.env`; in CI the
+  build fails without them, a local build without them treats every product as made to order) and sets `stock` on every product: `null` (no row) is made to order, a number is limited,
   `0` is sold out. Templates prerender it and `<fw-cart-control data-stock>` caps the cart per product; pages never
   fetch it. A stock change goes live on the next deploy. Open work is in `TODO.md`.
 * **Routing.** Every URL is a real file: `/{locale}/{slug}/`, with slugs localised in

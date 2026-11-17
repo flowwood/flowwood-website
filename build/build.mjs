@@ -54,7 +54,14 @@ async function d1(path, init = {}) {
   return body.result;
 }
 
+const hasStockCredentials = () => Boolean(process.env.CLOUDFLARE_API_TOKEN && process.env.CLOUDFLARE_ACCOUNT_ID);
+const NO_STOCK = new Map();
+
 async function readStock() {
+  if (!hasStockCredentials() && !process.env.CI) {
+    console.warn('stock: no Cloudflare credentials, building with every product made to order (local only, CI fails)');
+    return NO_STOCK;
+  }
   const database = (await d1(`?name=${STOCK_DATABASE}`)).find((db) => db.name === STOCK_DATABASE);
   if (!database) throw new Error(`stock: no D1 database named "${STOCK_DATABASE}"`);
   const [{ results }] = await d1(`/${database.uuid}/query`, { method: 'POST', body: JSON.stringify({ sql: 'SELECT product, quantity FROM stock' }) });
