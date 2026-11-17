@@ -2,7 +2,10 @@ export const LOCALE_STORAGE_KEY = 'fw:locale';
 
 export function createI18n(site, locale) {
   const loc = (v) => (v && typeof v === 'object' && !Array.isArray(v) && locale in v ? v[locale] : v);
-  const fill = (s, vars) => (vars ? String(s).replace(/\{(\w+)\}/g, (_, k) => (k in vars ? vars[k] : `{${k}}`)) : s);
+  const fillOne = (s, vars) => String(s).replace(/\{(\w+)\}/g, (_, k) => (k in vars ? vars[k] : `{${k}}`));
+  const fill = (v, vars) => (!vars ? v : Array.isArray(v) ? v.map((s) => fillOne(s, vars)) : fillOne(v, vars));
+  const text = (v, vars) => fill(loc(v), vars);
+  const lang = site.locales[locale].lang;
   const lookup = (key) => key.split('.').reduce((o, k) => (o == null ? o : o[k]), site.ui);
   const wholeEuros = new Intl.NumberFormat(site.locales[locale].numberFormat, { maximumFractionDigits: 2 });
   const cents = new Intl.NumberFormat(site.locales[locale].numberFormat, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -15,10 +18,15 @@ export function createI18n(site, locale) {
   return {
     locale,
     loc,
+    text,
     t(key, vars) {
-      const v = loc(lookup(key));
-      if (v == null) throw new Error(`i18n: missing ui.${key} (${locale})`);
-      return Array.isArray(v) ? v : fill(v, vars);
+      const v = lookup(key);
+      if (loc(v) == null) throw new Error(`i18n: missing ui.${key} (${locale})`);
+      return text(v, vars);
+    },
+    countries(list) {
+      const names = new Intl.DisplayNames([lang], { type: 'region' });
+      return new Intl.ListFormat(lang, { type: 'conjunction' }).format(list.map((c) => loc(c.name) ?? names.of(c.code)));
     },
     money(n) {
       const r = Math.round(n * 100) / 100;

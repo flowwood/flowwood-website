@@ -2,16 +2,25 @@
 
 ## Orders
 
-Checkout validates and shows a status, but sends nothing yet (`src/components/checkout/checkout.js` `submit()`).
+`functions/api/order/[[path]].js` takes orders (see CLAUDE.md → Orders). Tested against a local D1 and a mocked Mollie;
+not yet against Mollie itself.
 
-- [ ] Move production to Cloudflare Pages first: GitHub Pages does not run `functions/`, so it can never take an order.
-- [ ] Order Function (`functions/api/order.js`) with a D1 binding to the `flowwood` database.
-- [ ] `orders` table (migration `0002_orders.sql`): lines, totals, customer details, status, timestamps.
-- [ ] Reserve stock atomically per line: `UPDATE stock SET quantity = quantity - ?1 WHERE product = ?2 AND quantity >= ?1`;
-      no changed row means sold out, so refuse the order and say which line. Run all lines in one `batch()`.
-- [ ] Re-price every line from the current catalog on the server; never trust cart prices.
-- [ ] Payment provider (Mollie or Stripe): reserve on checkout, release on failed or expired payment.
-- [ ] Order email to `site.contact.email` and a confirmation to the customer via Resend (as `functions/api/contact.js`).
+- [ ] Move production to Cloudflare Pages on `flowwood.be` first: GitHub Pages does not run `functions/`, so it can
+      never take an order (checkout there shows the "couldn't place your order" message with phone and email).
+- [ ] Mollie account (live + test API keys, Bancontact, cards, iDEAL enabled; payouts and company verification done).
+      Pages secret `MOLLIE_API_KEY`: the `test_…` key on preview, the `live_…` key on production.
+- [ ] Bind D1 `flowwood` as `DB` on the Pages project and apply `0002_orders.sql` and `0003_rate_limit.sql` remotely.
+- [ ] Verify `flowwood.be` in Resend (SPF/DKIM) so `website@flowwood.be` can send; `RESEND_API_KEY` on the project.
+- [ ] Test end to end on a preview deploy with the Mollie test key: paid, failed, canceled, expired, sold out mid-checkout,
+      both emails.
+- [ ] The customer email links the terms; decide whether the confirmation must carry the terms and withdrawal form
+      as an attachment (durable medium).
+- [ ] An order whose Function dies between reserving stock and creating the payment stays `pending` with stock held.
+      Rare; release such orders (pending, no `payment`, older than an hour) by hand or from a scheduled Worker.
+- [ ] Orders view in the admin (today: the shop email and the Mollie dashboard). Refunds happen in the Mollie dashboard
+      and do not return stock.
+- [ ] Turnstile on checkout if bots start reserving stock; today the order POST has the Origin check and 10 per IP per
+      10 minutes.
 
 ## Stock
 
@@ -20,6 +29,7 @@ makes it limited, `quantity` 0 is sold out. The build reads the table and preren
 after the next deploy.
 
 - [ ] Rebuild after a stock change. For now by hand: `gh workflow run pages.yml && gh workflow run cloudflare.yml`.
+      Until then a product page can show stock that is gone; the order Function refuses the order and says what is left.
       Later the order Function and the admin trigger it (`workflow_dispatch` via the GitHub App) when a product sells
       out or its count is edited.
 - [ ] Edit stock in the CMS admin: toggle "limited stock" (insert/delete the row) and set the quantity
@@ -38,3 +48,17 @@ after the next deploy.
       (and `*.flowwood-website.pages.dev`) with an allow-list of editor emails.
 - [ ] Cloudflare Pages secrets: GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY (PKCS#8), GITHUB_REPO, CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD.
 - [ ] On a failed build after a CMS commit, open an issue for the owner (`if: failure()` step).
+
+## Abuse protection
+
+`functions/_lib/guard.js` checks the Origin, a Turnstile token and a per-IP limit in D1 (`migrations/0003_rate_limit.sql`).
+
+- [ ] Turnstile widget (dashboard → Turnstile → Add widget, managed, hostnames flowwood.be and flowwood-website.pages.dev):
+      put its site key in `site.json → turnstileSiteKey` (now the always-pass test key) and its secret in the Pages
+      secret `TURNSTILE_SECRET_KEY` (production and preview). Without the secret every form post is refused.
+- [ ] Bind the `flowwood` D1 database as `DB` to the Pages project (Settings → Bindings) and apply the migrations
+      remotely; without the binding the per-IP limit is skipped.
+- [ ] Once production runs on Cloudflare Pages with the custom domain: WAF rate limiting rule on the `flowwood.be` zone
+      (Security → WAF → Rate limiting rules): `(http.request.uri.path wildcard "/api/*" and http.request.method eq "POST"
+      and http.request.uri.path ne "/api/order/webhook")`, by IP, 5 requests per 10 seconds, block for 10 seconds
+      (the Free plan limits; on Pro: 10 per minute, block 10 minutes). It does not apply to `*.pages.dev`.

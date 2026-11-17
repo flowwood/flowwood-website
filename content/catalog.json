@@ -33,7 +33,11 @@
       {
         "code": "NL",
         "postcode": "\\d{4} ?[A-Za-z]{2}",
-        "example": "1234 AB"
+        "example": "1234 AB",
+        "name": {
+          "en": "the Netherlands",
+          "nl": "Nederland"
+        }
       },
       {
         "code": "LU",

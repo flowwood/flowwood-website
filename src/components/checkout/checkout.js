@@ -130,6 +130,7 @@ customElements.define(
         e.preventDefault();
         this.submit();
       });
+      addEventListener('pageshow', () => (this.$('.checkout__submit').disabled = false), { signal: this.signal });
       this.ctx = await page();
       if (this.signal.aborted) return;
       addEventListener('cart:change', () => this.render(), { signal: this.signal });
@@ -346,7 +347,40 @@ customElements.define(
       if (invalid.length) return;
       if (this.form.elements.remember.checked) details.save(Object.fromEntries(this.controls.filter((el) => !el.matches(':disabled') && REMEMBERED.includes(el.name)).map((el) => [el.name, isValue(el) ? el.value.trim() : el.checked])));
       else details.forget();
+      await this.placeOrder();
+    }
+
+    async placeOrder() {
+      const submit = this.$('.checkout__submit');
+      submit.disabled = true;
+      submit.ariaBusy = 'true';
+      const result = await this.postOrder().catch(() => null);
+      if (result?.checkout) return location.assign(result.checkout);
+      submit.disabled = false;
+      submit.ariaBusy = 'false';
+      this.showStatus(this.failureText(result));
+    }
+
+    async postOrder() {
+      const lines = this.ctx.catalog.groups(cart.lines).flatMap((g) => g.lines).filter((l) => l.qty > 0).map((l) => [l.key, l.qty]);
+      const values = this.controls.filter((el) => !el.matches(':disabled') && el.name !== 'remember').map((el) => [el.name, isValue(el) ? el.value.trim() : el.checked]);
+      const response = await fetch(new URL('../../api/order', import.meta.url), {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+        body: JSON.stringify({ locale: this.ctx.locale, lines: Object.fromEntries(lines), details: Object.fromEntries(values) }),
+      });
+      return response.json();
+    }
+
+    failureText(result) {
+      const { i18n, catalog } = this.ctx;
+      if (result?.error !== 'stock') return i18n.t('checkout.orderFailed');
+      return result.products.map(({ product, left }) => i18n.t(left ? 'checkout.stockLeft' : 'checkout.soldOut', { name: catalog.product(product)?.name ?? product, left })).join(' ');
+    }
+
+    showStatus(text) {
       const status = this.$('.checkout__status');
+      this.$('.checkout__status-text').textContent = text;
       status.hidden = false;
       status.focus();
     }

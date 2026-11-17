@@ -99,7 +99,7 @@ function notes({ catalog, i18n }, b, p) {
     : `<p ${b('text', { key: 'dimensions' })}>${esc(i18n.loc(p.dimensions))}</p>`;
   const text = (key, value) => (value ? `<p ${b('text', { key })}>${esc(value)}</p>` : '');
   const availability = i18n.loc(p.availability) || i18n.t(catalog.isSized(p) ? 'customSize.leadTime' : 'product.inStock');
-  const delivery = [availability, i18n.t('product.deliveryBody'), i18n.t('product.returnsBody')];
+  const delivery = [availability, i18n.t('product.deliveryBody', { countries: i18n.countries(catalog.data.delivery.countries) }), i18n.t('product.returnsBody')];
   return [
     ['about', text('about', i18n.loc(p.description))],
     ['dimensions', dimensions],

@@ -15,6 +15,8 @@ const SECTIONS = [
   { id: 'home', label: 'Startpagina', file: SITE, path: ['home'] },
   { id: 'shop', label: 'Winkel', file: SITE, path: ['shop'] },
   { id: 'meta', label: 'Paginatitels', file: SITE, path: ['meta'] },
+  { id: 'contact', label: 'Contact en bedrijfsgegevens', file: SITE, path: ['contact'] },
+  { id: 'legal', label: 'Voorwaarden en privacy', file: SITE, path: ['legal'] },
   { id: 'ui', label: 'Teksten', file: SITE, path: ['ui'] },
 ];
 

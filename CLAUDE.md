@@ -32,12 +32,21 @@ browser:  HTML paints → app.js upgrades <fw-*> elements on demand → router t
 
 * **Prerender at build time.** Page templates turn the JSON into finished HTML for every
   locale × page. Web components only *enhance* that HTML with behaviour; they never render the first
-  view, except for the cart grid, the checkout order summary and the custom-size dialog, whose content depends on client state.
+  view, except for the cart grid, the checkout order summary, the order status and the custom-size dialog, whose content depends on client state.
 * **Stock.** The D1 database `flowwood` (table `stock`, schema in `migrations/`) is the only source of stock. The build
   reads it through the D1 REST API (`CLOUDFLARE_API_TOKEN`/`CLOUDFLARE_ACCOUNT_ID`, locally from `.cloudflare.env`; in CI the
   build fails without them, a local build without them treats every product as made to order) and sets `stock` on every product: `null` (no row) is made to order, a number is limited,
   `0` is sold out. Templates prerender it and `<fw-cart-control data-stock>` caps the cart per product; pages never
   fetch it. A stock change goes live on the next deploy. Open work is in `TODO.md`.
+* **Orders.** `<fw-checkout>` posts the cart keys and form values to `/api/order` (`functions/api/order/[[path]].js`),
+  which is the authority: it re-prices every line from `dist/data/catalog.json` (the browser catalog, written by the build
+  and bundled into the Function), validates the details against `site.limits` and the delivery countries, and in one D1
+  `batch()` reserves stock per product and inserts the `orders` row (`migrations/0002_orders.sql`). The `CHECK (quantity >= 0)`
+  on `stock` makes an oversold line fail the batch, so nothing is reserved and the answer is 409 with what is left. It then
+  creates a Mollie payment and the browser goes to Mollie's checkout. Mollie returns the visitor to the `order` page
+  (`<fw-order>` polls `/api/order/<id>`, clears the paid lines from the cart) and calls `/api/order/webhook`; both read the
+  payment from Mollie, mark the order paid or release its stock (only while it is still pending), and send the shop and
+  customer emails once (`notified`).
 * **Routing.** Every URL is a real file: `/{locale}/{slug}/`, with slugs localised in
   `content/site.json` (`/nl/winkel/`, `/en/shop/`). `src/js/router.js` makes it feel like a SPA: it
   intercepts same-origin links, prefetches on hover, focus or touch, swaps `<body>` in place
@@ -114,6 +123,8 @@ functions/
                    proxies media and Actions status. Env: GITHUB_APP_ID, GITHUB_APP_PRIVATE_KEY (PKCS#8),
                    GITHUB_REPO, CF_ACCESS_TEAM_DOMAIN, CF_ACCESS_AUD. `npm run dev` serves the same API against the
                    working tree (build/serve.mjs), so the admin runs locally at /admin/ without GitHub or Access.
+  api/order/[[path]].js  orders (Cloudflare Pages only, see Orders): POST /api/order, GET /api/order/<id>, POST
+                   /api/order/webhook (Mollie). Bindings/env: DB (D1 `flowwood`), MOLLIE_API_KEY, RESEND_API_KEY.
   api/contact.js   Cloudflare Pages Function (not run by GitHub Pages): the contact form posts here; it emails site.contact.email via
                    Resend and 303-redirects back to #contact__status--sent or --failed (shown with :target,
                    so the form works without JS; <fw-contact> posts with fetch instead and keeps the text on failure). Secret: RESEND_API_KEY (Cloudflare env, locally in .dev.vars).

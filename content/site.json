@@ -2,6 +2,7 @@
   "$schema": "./schema/site.schema.json",
   "name": "Flowwood",
   "origin": "https://flowwood.be",
+  "turnstileSiteKey": "1x00000000000000000000AA",
   "defaultLocale": "nl",
   "locales": {
     "nl": {
@@ -41,6 +42,18 @@
     "checkout": {
       "nl": "afrekenen",
       "en": "checkout"
+    },
+    "terms": {
+      "nl": "algemene-voorwaarden",
+      "en": "terms"
+    },
+    "privacy": {
+      "nl": "privacy",
+      "en": "privacy"
+    },
+    "order": {
+      "en": "order",
+      "nl": "bestelling"
     }
   },
   "navigation": [
@@ -52,11 +65,11 @@
   "footerLinks": [
     {
       "id": "terms",
-      "href": "#"
+      "route": "terms"
     },
     {
       "id": "privacy",
-      "href": "#"
+      "route": "privacy"
     },
     {
       "id": "contact",
@@ -65,7 +78,10 @@
   ],
   "contact": {
     "phone": "+32 471 41 55 10",
-    "email": "info@flowwood.be"
+    "email": "info@flowwood.be",
+    "legalName": "Flowwood",
+    "address": "[Straat en nummer], [postcode] [gemeente], België",
+    "enterpriseNumber": "[ondernemingsnummer]"
   },
   "limits": {
     "name": 100,
@@ -157,6 +173,36 @@
         "en": "This page does not exist.",
         "nl": "Deze pagina bestaat niet."
       }
+    },
+    "terms": {
+      "title": {
+        "en": "Terms and conditions · Flowwood",
+        "nl": "Algemene voorwaarden · Flowwood"
+      },
+      "description": {
+        "en": "Ordering, payment, delivery, right of withdrawal and guarantee at Flowwood.",
+        "nl": "Bestellen, betalen, levering, herroepingsrecht en garantie bij Flowwood."
+      }
+    },
+    "privacy": {
+      "title": {
+        "en": "Privacy statement · Flowwood",
+        "nl": "Privacyverklaring · Flowwood"
+      },
+      "description": {
+        "en": "What data Flowwood processes, why, for how long and what your rights are.",
+        "nl": "Welke gegevens Flowwood verwerkt, waarom, hoe lang en wat je rechten zijn."
+      }
+    },
+    "order": {
+      "title": {
+        "en": "Your order · Flowwood",
+        "nl": "Je bestelling · Flowwood"
+      },
+      "description": {
+        "en": "The status of your Flowwood order.",
+        "nl": "De status van je Flowwood-bestelling."
+      }
     }
   },
   "home": {
@@ -185,6 +231,508 @@
       "src": "/media/signature.svg"
     },
     "partners": 6
+  },
+  "legal": {
+    "terms": {
+      "title": {
+        "en": "Terms and conditions",
+        "nl": "Algemene voorwaarden"
+      },
+      "updated": "2026-11-17",
+      "sections": [
+        {
+          "title": {
+            "en": "Who we are",
+            "nl": "Wie we zijn"
+          },
+          "body": {
+            "en": [
+              "These terms and conditions apply to every order you place as a consumer on this website.",
+              "The seller is {legalName}, {address}, enterprise number {enterpriseNumber}, VAT number BE {enterpriseNumber}.",
+              "You can reach us by email at {email} or by phone on {phone}.",
+              "You can view, save and print these terms at any time. We also email them to you with the confirmation of your order."
+            ],
+            "nl": [
+              "Deze algemene voorwaarden gelden voor elke bestelling die je als consument plaatst op deze website.",
+              "De verkoper is {legalName}, {address}, ondernemingsnummer {enterpriseNumber}, btw-nummer BE {enterpriseNumber}.",
+              "Je bereikt ons per e-mail via {email} of telefonisch op {phone}.",
+              "Je kunt deze voorwaarden altijd bekijken, bewaren en afdrukken. Bij de bevestiging van je bestelling sturen we ze je ook per e-mail."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Our pieces",
+            "nl": "Onze stukken"
+          },
+          "body": {
+            "en": [
+              "We describe and photograph every piece as accurately as we can. Wood, veneer, stone and lacquer are natural materials: small differences in tone, grain or texture compared to the photos are part of the material and not a defect.",
+              "Standard pieces are made to order, in a size and finish you choose from our range. Pieces made to measure are made to the dimensions you give us."
+            ],
+            "nl": [
+              "We beschrijven en fotograferen elk stuk zo nauwkeurig mogelijk. Hout, fineer, steen en lak zijn natuurlijke materialen: kleine verschillen in tint, nerf of structuur tegenover de foto’s horen bij het materiaal en zijn geen gebrek.",
+              "Standaardstukken maken we op bestelling, in een afmeting en afwerking die je kiest uit ons aanbod. Stukken op maat maken we volgens de afmetingen die jij zelf opgeeft."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Ordering and the contract",
+            "nl": "Bestellen en de overeenkomst"
+          },
+          "body": {
+            "en": [
+              "You add pieces to your cart and enter your details at checkout. Before you order, you see an overview of the pieces, their finish and size and the total price, and you can check and change everything.",
+              "Pressing the “{submit}” button places an order with an obligation to pay.",
+              "The contract is formed as soon as we confirm your order by email. That confirmation also contains these terms and the model withdrawal form.",
+              "If a piece turns out to be unavailable or a price contains an obvious error, we tell you straight away. You can then change or cancel the order, and we refund anything you already paid."
+            ],
+            "nl": [
+              "Je legt stukken in je winkelmand en vult bij het afrekenen je gegevens in. Voor je bestelt, zie je een overzicht met de stukken, hun afwerking en afmeting en de totaalprijs, en kun je alles nakijken en aanpassen.",
+              "Met de knop “{submit}” plaats je een bestelling met betalingsverplichting.",
+              "De overeenkomst komt tot stand zodra we je bestelling per e-mail bevestigen. In die bevestiging vind je ook deze voorwaarden en het modelformulier voor herroeping.",
+              "Is een stuk toch niet beschikbaar of staat er een duidelijke vergissing in de prijs, dan laten we je dat meteen weten. Je kunt dan kiezen of je de bestelling aanpast of annuleert, en we betalen alles terug wat je al betaalde."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Prices",
+            "nl": "Prijzen"
+          },
+          "body": {
+            "en": [
+              "All prices are in euros and include VAT. Delivery and placement are free. No costs are added beyond what you see in the overview.",
+              "You pay the price shown on the website at the time of your order."
+            ],
+            "nl": [
+              "Alle prijzen zijn in euro en inclusief btw. Levering en plaatsing zijn gratis. Er komen geen andere kosten bij dan wat je in het overzicht ziet.",
+              "Je betaalt de prijs die op de website stond op het moment van je bestelling."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Payment",
+            "nl": "Betaling"
+          },
+          "body": {
+            "en": [
+              "You pay online when you order, through our payment provider Mollie, using one of the payment methods shown at checkout. We do not receive or store your card or bank details.",
+              "If the payment fails or you cancel it, nothing is ordered and you pay nothing.",
+              "We start making your piece as soon as your payment has arrived."
+            ],
+            "nl": [
+              "Je betaalt online bij het bestellen, via onze betaalprovider Mollie, met een van de betaalmethodes die je bij het afrekenen ziet. Wij ontvangen of bewaren je kaart- of bankgegevens niet.",
+              "Lukt de betaling niet of breek je ze af, dan is er niets besteld en betaal je niets.",
+              "We beginnen aan je stuk zodra je betaling binnen is."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Delivery",
+            "nl": "Levering"
+          },
+          "body": {
+            "en": [
+              "We deliver in {countries}. Our own team delivers the piece and places it in your home; we plan the moment together with you.",
+              "Every piece is made for you. The expected delivery time is {from} to {to} weeks after we confirm your order. If we cannot make that, we let you know as soon as possible.",
+              "If we do not deliver within the agreed time, nor within a reasonable extra period you give us, you can cancel the contract and we refund you straight away.",
+              "The risk of loss or damage passes to you once the piece has been delivered to you. Check it on delivery and report visible damage as soon as possible; that helps us put it right quickly."
+            ],
+            "nl": [
+              "We leveren in {countries}. Ons eigen team levert en plaatst het stuk bij je thuis; het moment plannen we samen met je in.",
+              "Elk stuk wordt voor jou gemaakt. De verwachte levertermijn is {from} tot {to} weken na de bevestiging van je bestelling. Lukt dat niet, dan laten we het je zo snel mogelijk weten.",
+              "Leveren we niet binnen de afgesproken termijn en ook niet binnen een redelijke bijkomende termijn die je ons geeft, dan kun je de overeenkomst ontbinden en betalen we je meteen terug.",
+              "Het risico op verlies of beschadiging gaat op jou over zodra het stuk bij je geleverd is. Kijk het bij levering na en meld zichtbare schade zo snel mogelijk; dat helpt ons om het snel op te lossen."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Right of withdrawal",
+            "nl": "Herroepingsrecht"
+          },
+          "body": {
+            "en": [
+              "For standard pieces you have the right to withdraw from the contract within 14 days without giving any reason.",
+              "The period ends 14 days after the day on which you, or someone you name who is not the carrier, take possession of the piece. If you order several pieces that are delivered separately, the period runs from the delivery of the last piece.",
+              "To exercise your right of withdrawal, tell us clearly that you withdraw from the contract, for example by email to {email} or by letter to {address}. You may use the model form below, but you do not have to. It is enough to send your notice before the period has ended."
+            ],
+            "nl": [
+              "Voor standaardstukken heb je het recht om de overeenkomst binnen 14 dagen zonder opgave van redenen te herroepen.",
+              "Die termijn loopt tot 14 dagen na de dag waarop jij, of iemand die je aanduidt en die niet de vervoerder is, het stuk in ontvangst neemt. Bestel je meerdere stukken die apart geleverd worden, dan loopt de termijn vanaf de levering van het laatste stuk.",
+              "Om je herroepingsrecht uit te oefenen, laat je ons ondubbelzinnig weten dat je de overeenkomst herroept, bijvoorbeeld per e-mail aan {email} of per brief aan {address}. Je mag daarvoor het modelformulier onderaan gebruiken, maar dat hoeft niet. Het volstaat dat je je melding verstuurt voor de termijn verstreken is."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "After you withdraw",
+            "nl": "Na een herroeping"
+          },
+          "body": {
+            "en": [
+              "We refund everything you paid us no later than 14 days after we receive your withdrawal. We use the same means of payment as for your order, unless you expressly ask otherwise. This costs you nothing. We may wait with the refund until we have the piece back or until you show that you have sent it back, whichever comes first.",
+              "You send the piece back or hand it to us no later than 14 days after you withdraw. You can also arrange with us that we collect it from you.",
+              "The direct cost of returning the piece is yours. As furniture cannot be returned by normal post, we estimate that cost at no more than [amount] euros per piece.",
+              "You are only liable for any loss in value caused by handling the piece beyond what is needed to establish its nature, characteristics and functioning."
+            ],
+            "nl": [
+              "We betalen alles terug wat je ons betaalde, uiterlijk 14 dagen nadat we je herroeping ontvingen. We gebruiken daarvoor hetzelfde betaalmiddel als bij je bestelling, tenzij je uitdrukkelijk iets anders vraagt. Dat kost je niets. We mogen wachten met terugbetalen tot we het stuk terug hebben of tot je aantoont dat je het teruggestuurd hebt, wat het eerst gebeurt.",
+              "Je stuurt het stuk terug of bezorgt het ons uiterlijk 14 dagen na je herroeping. Je kunt ook met ons afspreken dat we het bij je ophalen.",
+              "De rechtstreekse kosten van het terugsturen zijn voor jou. Omdat een meubel niet met de gewone post terug kan, ramen we die kosten op maximaal [bedrag] euro per stuk.",
+              "Je bent alleen aansprakelijk voor waardevermindering die komt doordat je het stuk meer gebruikte dan nodig om de aard, de kenmerken en de werking ervan vast te stellen."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "No right of withdrawal for pieces made to measure",
+            "nl": "Geen herroepingsrecht voor stukken op maat"
+          },
+          "body": {
+            "en": [
+              "The right of withdrawal does not apply to pieces we make to your specifications, such as a piece in a custom size you give us. This is shown with such a piece at checkout, before you order.",
+              "The legal guarantee still applies in full to pieces made to measure."
+            ],
+            "nl": [
+              "Het herroepingsrecht geldt niet voor stukken die we maken volgens jouw specificaties, zoals een stuk in een afmeting op maat die je zelf opgeeft. Dat staat bij zo’n stuk aangegeven bij het afrekenen, voor je bestelt.",
+              "Voor stukken op maat blijft de wettelijke garantie wel volledig gelden."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Legal guarantee",
+            "nl": "Wettelijke garantie"
+          },
+          "body": {
+            "en": [
+              "Every piece, including a piece made to measure, is covered by the legal guarantee of 2 years from delivery. It covers any lack of conformity that existed at delivery.",
+              "If a defect appears within 2 years of delivery, the law presumes it was already there at delivery, unless we prove otherwise.",
+              "Report a defect within 2 months of noticing it, ideally with a photo, at {email}. You are then entitled to repair or replacement. If that is not possible, or not within a reasonable time, you are entitled to a price reduction or to cancel the contract.",
+              "The guarantee does not cover normal wear and tear, or damage from an accident, misuse or care that differs from the care advice for the piece."
+            ],
+            "nl": [
+              "Elk stuk, ook een stuk op maat, valt onder de wettelijke garantie van 2 jaar vanaf de levering. Die dekt elk gebrek aan overeenstemming dat bestond bij de levering.",
+              "Komt een gebrek aan het licht binnen 2 jaar na de levering, dan gaat de wet ervan uit dat het er al was bij de levering, tenzij wij het tegendeel aantonen.",
+              "Meld een gebrek binnen 2 maanden nadat je het vaststelde, bij voorkeur met een foto, via {email}. Je hebt dan recht op herstel of vervanging. Lukt dat niet of niet binnen een redelijke termijn, dan heb je recht op een prijsvermindering of op ontbinding van de overeenkomst.",
+              "De garantie dekt geen normale slijtage en geen schade door een ongeval, verkeerd gebruik of onderhoud dat afwijkt van de onderhoudstips bij het stuk."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Complaints and disputes",
+            "nl": "Klachten en geschillen"
+          },
+          "body": {
+            "en": [
+              "If you have a complaint, please contact us first at {email} or {phone}. We will look for a solution together with you.",
+              "If we cannot resolve it together, you can turn to the Belgian Consumer Mediation Service free of charge (consumentenombudsman.be). It mediates itself or refers you to the competent body. If you live in another EU country, the European Consumer Centre in your country can also help."
+            ],
+            "nl": [
+              "Heb je een klacht, neem dan eerst contact met ons op via {email} of {phone}. We zoeken samen met je naar een oplossing.",
+              "Raken we er samen niet uit, dan kun je gratis terecht bij de Consumentenombudsdienst (consumentenombudsman.be). Die bemiddelt zelf of verwijst je door naar de bevoegde instantie. Woon je in een ander EU-land, dan kan ook het Europees Consumentencentrum in je land je helpen."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Applicable law",
+            "nl": "Toepasselijk recht"
+          },
+          "body": {
+            "en": [
+              "These terms and every order are governed by Belgian law. If you live in another country, you keep the protection that the mandatory consumer rules of that country give you.",
+              "If it ever comes to court proceedings, as a consumer you can always bring them before the court where you live."
+            ],
+            "nl": [
+              "Op deze voorwaarden en op elke bestelling is het Belgisch recht van toepassing. Woon je in een ander land, dan behoud je de bescherming die de dwingende regels van dat land je als consument geven.",
+              "Komt het toch tot een rechtszaak, dan kun je die als consument altijd voor de rechter van je eigen woonplaats brengen."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Annex: model withdrawal form",
+            "nl": "Bijlage: modelformulier voor herroeping"
+          },
+          "body": {
+            "en": [
+              "(Complete and return this form only if you wish to withdraw from the contract.)",
+              "(*) Delete as appropriate."
+            ],
+            "nl": [
+              "(Dit formulier alleen invullen en terugzenden als u de overeenkomst wilt herroepen.)",
+              "(*) Doorhalen wat niet van toepassing is."
+            ]
+          },
+          "list": {
+            "en": [
+              "To {legalName}, {address}, {email}:",
+              "I/We (*) hereby give notice that I/We (*) withdraw from my/our (*) contract of sale of the following goods (*)/for the provision of the following service (*):",
+              "Ordered on (*)/received on (*):",
+              "Name of consumer(s):",
+              "Address of consumer(s):",
+              "Signature of consumer(s) (only if this form is notified on paper):",
+              "Date:"
+            ],
+            "nl": [
+              "Aan {legalName}, {address}, {email}:",
+              "Ik/Wij (*) deel/delen (*) u hierbij mede dat ik/wij (*) onze overeenkomst betreffende de verkoop van de volgende goederen/levering van de volgende dienst (*) herroep/herroepen (*):",
+              "Besteld op (*)/Ontvangen op (*):",
+              "Naam/Namen consument(en):",
+              "Adres consument(en):",
+              "Handtekening van consument(en) (alleen wanneer dit formulier op papier wordt ingediend):",
+              "Datum:"
+            ]
+          }
+        }
+      ]
+    },
+    "privacy": {
+      "title": {
+        "en": "Privacy statement",
+        "nl": "Privacyverklaring"
+      },
+      "updated": "2026-11-17",
+      "sections": [
+        {
+          "title": {
+            "en": "Who is responsible",
+            "nl": "Wie verantwoordelijk is"
+          },
+          "body": {
+            "en": [
+              "This privacy statement explains which personal data we process when you use this website, contact us or place an order.",
+              "The controller for that processing is {legalName}, {address}, enterprise number {enterpriseNumber}. Send questions about your data to {email}, or call us on {phone}."
+            ],
+            "nl": [
+              "Deze privacyverklaring legt uit welke persoonsgegevens we verwerken als je deze website gebruikt, contact met ons opneemt of iets bestelt.",
+              "Verantwoordelijk voor die verwerking is {legalName}, {address}, ondernemingsnummer {enterpriseNumber}. Vragen over je gegevens stuur je naar {email}, of je belt ons op {phone}."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "What data we process",
+            "nl": "Welke gegevens we verwerken"
+          },
+          "body": {
+            "en": [
+              "We only ask for what we need:"
+            ],
+            "nl": [
+              "We vragen alleen wat we nodig hebben:"
+            ]
+          },
+          "list": {
+            "en": [
+              "Contact form: your name, your email address, your phone number if you enter it, and your message.",
+              "Checkout: your name, email address and phone number, your delivery address, your billing address if it differs, and any delivery notes.",
+              "Orders: what you order, the price, the details you enter at checkout, the payment status and the reference of your payment at Mollie. Mollie processes your payment; we receive no card or bank details, only confirmation that you paid.",
+              "Address suggestions: what you type in the address fields at checkout, to suggest and check addresses.",
+              "Technical data: as with any website, our hosting receives your IP address and details about your browser, to deliver and secure the pages.",
+              "Protection against abuse: on the contact form, Cloudflare Turnstile checks in your browser that you are human. And to stop anyone flooding the forms, we count how many messages and orders come from the same IP address; for that we store your IP address only in hashed form, never as is."
+            ],
+            "nl": [
+              "Contactformulier: je naam, je e-mailadres, je telefoonnummer als je dat invult, en je bericht.",
+              "Afrekenen: je naam, e-mailadres en telefoonnummer, je leveringsadres, je factuuradres als dat anders is, en eventuele leveringsnotities.",
+              "Bestellingen: wat je bestelt, de prijs, de gegevens die je bij het afrekenen invult, de betaalstatus en de referentie van je betaling bij Mollie. Mollie verwerkt je betaling; wij krijgen geen kaart- of bankgegevens, alleen de bevestiging dat er betaald is.",
+              "Adressuggesties: wat je bij het afrekenen in de adresvelden typt, om adressen voor te stellen en te controleren.",
+              "Technische gegevens: zoals bij elke website ontvangt onze hosting je IP-adres en gegevens over je browser, om de pagina’s te leveren en te beveiligen.",
+              "Bescherming tegen misbruik: bij het contactformulier controleert Cloudflare Turnstile in je browser of je een mens bent. En om te voorkomen dat iemand de formulieren overspoelt, tellen we hoeveel berichten en bestellingen er van eenzelfde IP-adres komen; daarvoor bewaren we je IP-adres alleen gehasht, nooit zoals het is."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Why, and on what legal basis",
+            "nl": "Waarom en op welke grond"
+          },
+          "body": {
+            "en": [
+              "We do not use your data for advertising, we do not sell it and we do not build profiles of you."
+            ],
+            "nl": [
+              "We gebruiken je gegevens niet voor reclame, verkopen ze niet en maken geen profielen van je."
+            ]
+          },
+          "list": {
+            "en": [
+              "Answering your message: at your request, and because we have a legitimate interest in answering questions.",
+              "Processing your order and payment, emailing your confirmation, making, delivering and placing your piece and handling the guarantee: necessary to perform our contract with you.",
+              "Suggesting and checking your address at checkout: our legitimate interest in your piece reaching the right address.",
+              "Keeping invoices and accounts: a legal obligation.",
+              "Keeping the website secure and fast: our legitimate interest.",
+              "Preventing abuse of the forms (Turnstile and the count per IP address): our legitimate interest.",
+              "Remembering your details on your device for a next order: only with your consent, when you tick the box yourself."
+            ],
+            "nl": [
+              "Je bericht beantwoorden: op jouw vraag, en omdat we er een gerechtvaardigd belang bij hebben om vragen te beantwoorden.",
+              "Je bestelling en betaling verwerken, je de bevestiging mailen, je stuk maken, leveren en plaatsen en de garantie afhandelen: nodig om de overeenkomst met jou uit te voeren.",
+              "Je adres voorstellen en controleren bij het afrekenen: ons gerechtvaardigd belang dat je stuk op het juiste adres aankomt.",
+              "Facturen en boekhouding bijhouden: een wettelijke verplichting.",
+              "De website veilig en snel laten werken: ons gerechtvaardigd belang.",
+              "Misbruik van de formulieren tegengaan (Turnstile en de telling per IP-adres): ons gerechtvaardigd belang.",
+              "Je gegevens op je toestel onthouden voor een volgende bestelling: alleen met je toestemming, als je dat zelf aanvinkt."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "How long we keep it",
+            "nl": "Hoe lang we ze bewaren"
+          },
+          "body": {
+            "en": [
+              "We keep your data no longer than needed:"
+            ],
+            "nl": [
+              "We bewaren je gegevens niet langer dan nodig:"
+            ]
+          },
+          "list": {
+            "en": [
+              "Messages sent with the contact form: until your question is dealt with, and then for at most 1 year for any follow-up.",
+              "Order data: until the end of the legal guarantee, 2 years after delivery.",
+              "Invoices: as long as Belgian accounting and VAT law requires.",
+              "Address suggestions: we keep nothing of what you type.",
+              "Count per IP address: used only within a 10-minute window, after which we delete it automatically.",
+              "Data on your device: until you delete it yourself (see below)."
+            ],
+            "nl": [
+              "Berichten via het contactformulier: tot je vraag afgehandeld is, en daarna hoogstens 1 jaar voor een eventuele opvolging.",
+              "Bestelgegevens: tot het einde van de wettelijke garantie, 2 jaar na de levering.",
+              "Facturen: zo lang als de Belgische boekhoud- en btw-wetgeving vereist.",
+              "Adressuggesties: wij bewaren niets van wat je typt.",
+              "Telling per IP-adres: alleen gebruikt binnen een periode van 10 minuten, daarna wissen we ze automatisch.",
+              "Gegevens op je toestel: tot je ze zelf wist (zie verder)."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Who we share data with",
+            "nl": "Met wie we gegevens delen"
+          },
+          "body": {
+            "en": [
+              "We only share your data with services needed to run this website and your order, or with authorities where the law requires us to:"
+            ],
+            "nl": [
+              "We delen je gegevens alleen met diensten die nodig zijn om deze website en je bestelling te laten werken, of met overheden als de wet ons daartoe verplicht:"
+            ]
+          },
+          "list": {
+            "en": [
+              "Cloudflare (Cloudflare, Inc., United States): hosts the website, processes the forms and orders and stores your order data in its database. Every visit passes through their network. Cloudflare also provides Turnstile, the check on the contact form.",
+              "Resend (Resend, Inc., United States): delivers messages from the contact form and order confirmations by email.",
+              "OpenStreetMap Nominatim (OpenStreetMap Foundation, United Kingdom) and Photon (Komoot GmbH, Germany): your browser sends them what you type in the address fields at checkout, along with your IP address, to suggest and check addresses. Your name, email address and phone number are not sent.",
+              "Mollie (Mollie B.V., the Netherlands): processes your payment. We give Mollie the amount, your order number and your language; you enter your payment details directly with Mollie. Mollie is responsible for processing the payment itself, under its own privacy statement."
+            ],
+            "nl": [
+              "Cloudflare (Cloudflare, Inc., Verenigde Staten): host de website, verwerkt de formulieren en bestellingen en bewaart je bestelgegevens in zijn database. Elk bezoek loopt via hun netwerk. Cloudflare levert ook Turnstile, de controle op het contactformulier.",
+              "Resend (Resend, Inc., Verenigde Staten): bezorgt de berichten van het contactformulier en de bevestigingen van bestellingen per e-mail.",
+              "OpenStreetMap Nominatim (OpenStreetMap Foundation, Verenigd Koninkrijk) en Photon (Komoot GmbH, Duitsland): je browser stuurt hen rechtstreeks wat je bij het afrekenen in de adresvelden typt, samen met je IP-adres, om adressen voor te stellen en te controleren. Je naam, e-mailadres en telefoonnummer gaan niet mee.",
+              "Mollie (Mollie B.V., Nederland): verwerkt je betaling. We geven Mollie het bedrag, je bestelnummer en je taal; je betaalgegevens vul je rechtstreeks bij Mollie in. Voor de verwerking van de betaling zelf is Mollie verantwoordelijk, volgens zijn eigen privacyverklaring."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Data outside the European Union",
+            "nl": "Gegevens buiten de Europese Unie"
+          },
+          "body": {
+            "en": [
+              "Cloudflare and Resend are US companies. Where your data leaves the European Economic Area as a result, it is protected by the EU-US Data Privacy Framework or by the European Commission’s standard contractual clauses. For the United Kingdom, a European Commission decision confirms that it offers an adequate level of protection."
+            ],
+            "nl": [
+              "Cloudflare en Resend zijn Amerikaanse bedrijven. Komen je gegevens daardoor buiten de Europese Economische Ruimte terecht, dan zijn ze beschermd door het EU-VS-kader voor gegevensbescherming of door de standaardcontractbepalingen van de Europese Commissie. Voor het Verenigd Koninkrijk geldt een besluit van de Europese Commissie dat het een passend beschermingsniveau biedt."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "What we store on your device",
+            "nl": "Wat we op je toestel bewaren"
+          },
+          "body": {
+            "en": [
+              "We use no advertising or analytics cookies and we do not track you. The website only stores what it needs to work, in your browser’s storage:",
+              "This data stays on your device and is not sent to us. Because it is strictly necessary for what you ask for, no cookie banner is needed. You can delete it in your browser settings (clear site data)."
+            ],
+            "nl": [
+              "We gebruiken geen cookies voor reclame of statistieken en volgen je niet. De website bewaart alleen wat nodig is om te werken, in de opslag van je browser:",
+              "Die gegevens blijven op je toestel en worden niet naar ons gestuurd. Omdat ze strikt nodig zijn voor wat je zelf vraagt, is er geen cookiebanner nodig. Je wist ze via de instellingen van je browser (sitegegevens wissen)."
+            ]
+          },
+          "list": {
+            "en": [
+              "fw:cart:v1: your cart, so it is kept until your next visit.",
+              "fw:details:v1: your checkout details, only if you tick “{remember}”. Never your payment details. You delete them with “{forget}” at checkout.",
+              "fw:locale: the language you last viewed, so the home page opens in that language.",
+              "A service worker with a cache: copies of the pages, images and scripts, so the website loads quickly, even on a weak connection."
+            ],
+            "nl": [
+              "fw:cart:v1: je winkelmand, zodat die bewaard blijft tot je volgende bezoek.",
+              "fw:details:v1: je gegevens voor het afrekenen, alleen als je “{remember}” aanvinkt. Nooit je betaalgegevens. Je wist ze met “{forget}” bij het afrekenen.",
+              "fw:locale: de taal die je het laatst bekeek, zodat de startpagina in die taal opent.",
+              "Een service worker met een cache: kopieën van de pagina’s, afbeeldingen en scripts, zodat de website snel laadt, ook met een zwakke verbinding."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Your rights",
+            "nl": "Je rechten"
+          },
+          "body": {
+            "en": [
+              "You have the right to access your data, to have it corrected or deleted, to restrict its processing, to object to processing based on our legitimate interest, and to receive your data in a common format. Where you gave consent, you can withdraw it at any time.",
+              "Send your request to {email}. We reply within one month and may ask you to confirm who you are."
+            ],
+            "nl": [
+              "Je hebt het recht om je gegevens in te zien, te laten verbeteren of wissen, de verwerking te laten beperken, je te verzetten tegen verwerking op basis van ons gerechtvaardigd belang, en je gegevens in een gangbaar formaat te krijgen. Gaf je toestemming, dan kun je die altijd intrekken.",
+              "Stuur je vraag naar {email}. We antwoorden binnen een maand en kunnen je vragen te bevestigen wie je bent."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Making a complaint",
+            "nl": "Een klacht indienen"
+          },
+          "body": {
+            "en": [
+              "If you are not happy with how we handle your data, please tell us first. You can also lodge a complaint with the Belgian Data Protection Authority (Gegevensbeschermingsautoriteit), Rue de la Presse 35, 1000 Brussels (dataprotectionauthority.be), or with the supervisory authority in the country where you live."
+            ],
+            "nl": [
+              "Ben je niet tevreden over hoe we met je gegevens omgaan, laat het ons dan eerst weten. Je kunt ook een klacht indienen bij de Gegevensbeschermingsautoriteit, Drukpersstraat 35, 1000 Brussel (gegevensbeschermingsautoriteit.be), of bij de toezichthouder in het land waar je woont."
+            ]
+          }
+        },
+        {
+          "title": {
+            "en": "Changes",
+            "nl": "Wijzigingen"
+          },
+          "body": {
+            "en": [
+              "When we change this statement, you will see it in the date at the top. If it is an important change, we will let you know if you are a customer of ours."
+            ],
+            "nl": [
+              "Passen we deze verklaring aan, dan zie je dat aan de datum bovenaan. Gaat het om een belangrijke wijziging, dan laten we het je weten als je klant bij ons bent."
+            ]
+          }
+        }
+      ]
+    }
   },
   "ui": {
     "common": {
@@ -399,12 +947,12 @@
         "nl": "Op voorraad, geleverd in 2–4 werkdagen"
       },
       "deliveryBody": {
-        "en": "Delivered to your door in Belgium and the Netherlands, carefully packed in recycled materials.",
-        "nl": "Aan huis geleverd in België en Nederland, zorgvuldig verpakt in gerecycleerde materialen."
+        "en": "Delivered to your door in {countries}, carefully packed in recycled materials.",
+        "nl": "Aan huis geleverd in {countries}, zorgvuldig verpakt in gerecycleerde materialen."
       },
       "returnsBody": {
-        "en": "Changed your mind? Return a standard piece unused within 14 days. Pieces made to measure cannot be returned.",
-        "nl": "Van gedachten veranderd? Stuur een standaardstuk ongebruikt terug binnen 14 dagen. Stukken op maat kunnen niet teruggestuurd worden."
+        "en": "Changed your mind? Standard pieces come with a 14-day right of withdrawal after delivery. Pieces made to measure are excluded.",
+        "nl": "Van gedachten veranderd? Voor een standaardstuk heb je 14 dagen herroepingsrecht na levering. Stukken op maat vallen daar niet onder."
       },
       "related": {
         "en": "Pairs well with {name}",
@@ -799,8 +1347,8 @@
         "nl": "Land"
       },
       "countryHint": {
-        "en": "We deliver in Belgium, the Netherlands and Luxembourg.",
-        "nl": "We leveren in België, Nederland en Luxemburg."
+        "en": "We deliver in {countries}.",
+        "nl": "We leveren in {countries}."
       },
       "address": {
         "en": "Street and house number",
@@ -974,9 +1522,17 @@
         "en": "Made to measure, so no right of withdrawal.",
         "nl": "Op maat gemaakt, dus geen herroepingsrecht."
       },
-      "unavailable": {
-        "en": "Online payment is not connected yet. Your details are kept here; to order now, call us or email",
-        "nl": "Online betalen is nog niet gekoppeld. Je gegevens blijven hier staan; bestel nu door te bellen of te mailen naar"
+      "orderFailed": {
+        "en": "We couldn't place your order. Nothing was charged and your details are still here. Try again, or order by phone or email:",
+        "nl": "We konden je bestelling niet plaatsen. Er is niets aangerekend en je gegevens staan er nog. Probeer opnieuw, of bestel telefonisch of per mail:"
+      },
+      "stockLeft": {
+        "en": "Only {left} × {name} left. Lower the quantity in your cart.",
+        "nl": "Nog maar {left} × {name} beschikbaar. Verlaag het aantal in je winkelmand."
+      },
+      "soldOut": {
+        "en": "{name} has just sold out. Remove it from your cart to order the rest.",
+        "nl": "{name} is net uitverkocht. Haal het uit je winkelmand om de rest te bestellen."
       }
     },
     "contact": {
@@ -1039,6 +1595,10 @@
       "failed": {
         "en": "Your message could not be sent. Please try again, or email us directly:",
         "nl": "Je bericht kon niet verstuurd worden. Probeer het opnieuw, of mail ons rechtstreeks:"
+      },
+      "unverified": {
+        "en": "We could not confirm that this message comes from a person, so it was not sent. The check needs JavaScript. Please email us directly:",
+        "nl": "We konden niet bevestigen dat dit bericht van een persoon komt, dus het is niet verstuurd. De controle heeft JavaScript nodig. Mail ons rechtstreeks:"
       }
     },
     "notFound": {
@@ -1049,6 +1609,120 @@
       "home": {
         "en": "Back to the homepage",
         "nl": "Terug naar de startpagina"
+      }
+    },
+    "legal": {
+      "updated": {
+        "en": "Last updated on {date}",
+        "nl": "Laatst bijgewerkt op {date}"
+      },
+      "contents": {
+        "en": "Contents",
+        "nl": "Inhoud"
+      }
+    },
+    "order": {
+      "title": {
+        "en": "Your order",
+        "nl": "Je bestelling"
+      },
+      "checkingLead": {
+        "en": "We're confirming your payment.",
+        "nl": "We bevestigen je betaling."
+      },
+      "checkingBody": {
+        "en": "This takes a moment. As soon as your payment is in, we send you a confirmation by email.",
+        "nl": "Dit duurt even. Zodra je betaling binnen is, sturen we je een bevestiging per mail."
+      },
+      "paidLead": {
+        "en": "Thank you. Your order is confirmed.",
+        "nl": "Dank je wel. Je bestelling is bevestigd."
+      },
+      "paidBody": {
+        "en": "The confirmation is on its way to your inbox. Each piece is made to order; expect delivery in {from} to {to} weeks.",
+        "nl": "De bevestiging is onderweg naar je mailbox. Elk stuk maken we op bestelling; reken op levering binnen {from} tot {to} weken."
+      },
+      "shop": {
+        "en": "Back to the shop",
+        "nl": "Terug naar de winkel"
+      },
+      "pendingLead": {
+        "en": "Your payment isn't confirmed yet.",
+        "nl": "Je betaling is nog niet bevestigd."
+      },
+      "pendingBody": {
+        "en": "Some payments take a little longer. As soon as yours is confirmed, you get an email from us.",
+        "nl": "Sommige betalingen duren wat langer. Zodra de jouwe bevestigd is, krijg je een mail van ons."
+      },
+      "closedLead": {
+        "en": "Your payment didn't go through.",
+        "nl": "Je betaling is niet gelukt."
+      },
+      "closedBody": {
+        "en": "Nothing was ordered or charged. Your cart is still there, so you can try again.",
+        "nl": "Er is niets besteld of aangerekend. Je winkelmand staat er nog, dus je kunt het opnieuw proberen."
+      },
+      "retry": {
+        "en": "Back to checkout",
+        "nl": "Terug naar afrekenen"
+      },
+      "help": {
+        "en": "Questions? Call or email us:",
+        "nl": "Vragen? Bel of mail ons:"
+      }
+    },
+    "orderEmail": {
+      "subject": {
+        "en": "Your Flowwood order {number}",
+        "nl": "Je Flowwood-bestelling {number}"
+      },
+      "shopSubject": {
+        "en": "New order {number}: {name}",
+        "nl": "Nieuwe bestelling {number}: {name}"
+      },
+      "greeting": {
+        "en": "Hi {name},",
+        "nl": "Dag {name},"
+      },
+      "confirmed": {
+        "en": "Thank you for your order. We received your payment and hereby confirm order {number}.",
+        "nl": "Bedankt voor je bestelling. We ontvingen je betaling en bevestigen hierbij bestelling {number}."
+      },
+      "delivery": {
+        "en": "Delivery",
+        "nl": "Levering"
+      },
+      "total": {
+        "en": "Total",
+        "nl": "Totaal"
+      },
+      "deliverTo": {
+        "en": "Delivery address",
+        "nl": "Leveradres"
+      },
+      "billTo": {
+        "en": "Billing address",
+        "nl": "Factuuradres"
+      },
+      "sameBilling": {
+        "en": "Same as delivery address",
+        "nl": "Zelfde als leveradres"
+      },
+      "notes": {
+        "en": "Notes",
+        "nl": "Opmerkingen"
+      },
+      "expected": {
+        "en": "We make your pieces to order. Expected delivery: in {from} to {to} weeks.",
+        "nl": "We maken je stukken op bestelling. Verwachte levering: binnen {from} tot {to} weken."
+      },
+      "terms": {
+        "en": "Below are our terms and conditions, with the model withdrawal form at the end. Please keep this email. You can also read them at {url}.",
+        "nl": "Hieronder vind je onze algemene voorwaarden, met onderaan het modelformulier voor herroeping. Bewaar deze e-mail goed. Je leest ze ook op {url}."
+      },
+      "questions": {
+        "en": "Questions? Reply to this email, call {phone} or write to {email}.",
+        "nl": "Vragen? Beantwoord deze mail, bel {phone} of schrijf naar {email}."
       }
     }
   }

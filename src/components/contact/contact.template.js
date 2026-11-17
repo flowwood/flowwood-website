@@ -16,9 +16,10 @@ export function contact(ctx) {
       </a>
     </li>`;
 
+  const mailto = (key) => `<a ${b('status-email', { key })} href="mailto:${esc(email)}">${esc(email)}</a>`;
   const status = (outcome, content) => `<p ${b('status', { key: outcome, mods: { [outcome]: true } })} tabindex="-1">${content}</p>`;
 
-  return `<fw-contact ${b()} data-sending="${t('sending')}">
+  return `<fw-contact ${b()} data-sending="${t('sending')}" data-turnstile="${esc(site.turnstileSiteKey)}">
   <div ${b('intro')}>
     <div ${b('intro-text')}>
       <p ${b('eyebrow', { cls: 'eyebrow' })}>${esc(i18n.t('footer.contact'))}</p>
@@ -48,8 +49,11 @@ export function contact(ctx) {
       <input ${b('honeypot-input')} name="website" type="text" tabindex="-1" autocomplete="off">
     </div>
     <input ${b('back')} name="back" type="hidden" value="${i18n.url('contact')}">
+    <input ${b('token')} name="cf-turnstile-response" type="hidden">
+    <div ${b('challenge')} data-third-party></div>
     ${status('sent', t('sent'))}
-    ${status('failed', `${t('failed')} <a ${b('failed-email')} href="mailto:${esc(email)}">${esc(email)}</a>`)}
+    ${status('failed', `${t('failed')} ${mailto('failed')}`)}
+    ${status('unverified', `${t('unverified')} ${mailto('unverified')}`)}
     <div ${b('actions')}>
       <button ${b('submit', { cls: 'button button--primary' })} type="submit"><span ${b('submit-label')}>${t('submit')}</span> <span ${b('submit-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">→</span></button>
       <p ${b('privacy')}>${t('privacy')}</p>

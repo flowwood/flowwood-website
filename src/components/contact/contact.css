@@ -39,10 +39,12 @@
 .contact__status { padding: 16px 20px; font-size: 15px; line-height: 1.5; scroll-margin: calc(var(--menu-h) + 24px) 0 24px; }
 .contact__status:focus { outline: none; }
 .contact__status:not(:target), .contact[data-outcome] .contact__status { display: none; }
-.contact[data-outcome='sent'] .contact__status--sent, .contact[data-outcome='failed'] .contact__status--failed { display: block; }
+.contact[data-outcome='sent'] .contact__status--sent, .contact[data-outcome='failed'] .contact__status--failed, .contact[data-outcome='unverified'] .contact__status--unverified { display: block; }
 .contact__status--sent { background: var(--c-panel); border-left: 3px solid var(--c-ink); }
-.contact__status--failed { background: var(--c-brand-tint); border-left: 3px solid var(--c-brand); }
-.contact__failed-email { text-decoration: underline; text-underline-offset: 3px; }
+.contact__status--failed, .contact__status--unverified { background: var(--c-brand-tint); border-left: 3px solid var(--c-brand); }
+.contact__status-email { text-decoration: underline; text-underline-offset: 3px; }
+
+.contact__challenge:empty { display: none; }
 
 .contact__actions { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; margin-top: 6px; }
 .contact__privacy { font-size: 13px; line-height: 1.5; color: var(--c-muted); }
@@ -56,5 +58,7 @@
 @media (max-width: 767px) {
   .contact__channels { display: block; }
   .contact__signature-mark { height: 72px; }
-  .contact__actions { align-items: stretch; }
+  .contact__challenge:empty { display: none; }
+
+.contact__actions { align-items: stretch; }
 }

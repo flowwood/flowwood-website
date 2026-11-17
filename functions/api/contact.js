@@ -1,4 +1,5 @@
 import site from '../../content/site.json' with { type: 'json' };
+import { guard } from '../_lib/guard.js';
 
 const RESEND_URL = 'https://api.resend.com/emails';
 const SENDER = 'Flowwood website <website@flowwood.be>';
@@ -7,6 +8,8 @@ const LIMITS = site.limits;
 const FIELDS = ['name', 'email', 'phone', 'message'];
 const LOCAL_PAGE = /^(?:\/[a-z0-9-]+)+\/$/;
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const RATE = { scope: 'contact', limit: 5, seconds: 600 };
+const REFUSED = { challenge: { outcome: 'unverified', status: 403 }, rate: { outcome: 'failed', status: 429 } };
 
 const singleLine = (text) => text.replace(/[\r\n]+/g, ' ');
 
@@ -19,6 +22,7 @@ function readSubmission(form) {
     phone: singleLine(field('phone')),
     message: field('message').replace(/\r\n?/g, '\n'),
     honeypot: field('website'),
+    token: field('cf-turnstile-response'),
     page: LOCAL_PAGE.test(back) ? back : '/',
   };
 }
@@ -49,14 +53,17 @@ async function deliver(submission, apiKey) {
 
 const wantsJson = (request) => (request.headers.get('Accept') || '').includes('application/json');
 
-const answer = (request, submission, delivered) =>
-  wantsJson(request) ? Response.json({ delivered }, { status: delivered ? 200 : 502 }) : backTo(request, submission, delivered ? 'sent' : 'failed');
-
 const backTo = (request, submission, outcome) => Response.redirect(new URL(`${submission.page}#contact__status--${outcome}`, request.url).href, 303);
 
-export async function onRequestPost({ request, env }) {
+const answer = (request, submission, outcome, status) => (wantsJson(request) ? Response.json({ outcome }, { status }) : backTo(request, submission, outcome));
+
+export async function onRequestPost(context) {
+  const { request, env } = context;
   const submission = readSubmission(await request.formData().catch(() => new FormData()));
-  if (submission.honeypot) return answer(request, submission, true);
+  const refused = await guard(context, { token: submission.token, ...RATE });
+  if (refused === 'origin') return new Response(null, { status: 403 });
+  if (refused) return answer(request, submission, REFUSED[refused].outcome, REFUSED[refused].status);
+  if (submission.honeypot) return answer(request, submission, 'sent', 200);
   const delivered = isComplete(submission) && (await deliver(submission, env.RESEND_API_KEY).catch(() => false));
-  return answer(request, submission, delivered);
+  return delivered ? answer(request, submission, 'sent', 200) : answer(request, submission, 'failed', 502);
 }

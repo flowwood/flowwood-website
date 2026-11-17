@@ -52,7 +52,7 @@ function address(ctx, { prefix, section }) {
       }),
       f('city', { label: t('city'), error: t('cityError'), autocomplete: auto('address-level2'), limit: 'city' }),
     ),
-    f('country', { label: t('country'), hint: prefix ? '' : t('countryHint'), type: 'select', autocomplete: auto('country'), options: countryOptions(ctx), attrs: ' data-country' }),
+    f('country', { label: t('country'), hint: prefix ? '' : t('countryHint', { countries: i18n.countries(catalog.data.delivery.countries) }), type: 'select', autocomplete: auto('country'), options: countryOptions(ctx), attrs: ' data-country' }),
     `<p ${b('verify', { key: section })} data-verify="${prefix}" aria-live="polite"><span ${b('verify-text', { key: section })}></span> <button ${b('keep', { key: section, cls: 'hit' })} type="button" data-keep="${prefix}" hidden>${esc(t('keepAddress'))}</button></p>`,
   ].join('');
 }
@@ -144,7 +144,7 @@ export function checkout(ctx) {
       <p ${b('payment-body')}><span ${b('lock')} aria-hidden="true"></span>${t('paymentBody')}</p>
       <p ${b('terms')}>${t('terms').replace('{terms}', link('terms', t('termsLink'))).replace('{privacy}', link('privacy', t('privacyLink')))}</p>
       <button ${b('submit', { cls: 'button button--primary' })} type="submit"><span ${b('submit-label')}>${t('submit')} <span ${b('submit-total')} data-total></span></span> <span ${b('submit-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">→</span></button>
-      <p ${b('status')} tabindex="-1" hidden>${t('unavailable')} <a ${b('status-link', { key: 'phone' })} href="tel:${esc(phone.replace(/\s/g, ''))}">${esc(phone)}</a> · <a ${b('status-link', { key: 'email' })} href="mailto:${esc(email)}">${esc(email)}</a></p>
+      <p ${b('status')} tabindex="-1" hidden><span ${b('status-text')}>${t('orderFailed')}</span> <a ${b('status-link', { key: 'phone' })} href="tel:${esc(phone.replace(/\s/g, ''))}">${esc(phone)}</a> · <a ${b('status-link', { key: 'email' })} href="mailto:${esc(email)}">${esc(email)}</a></p>
     </div>
   </form>
   <div ${b('empty')} data-when="empty" hidden>

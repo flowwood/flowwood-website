@@ -89,7 +89,7 @@
               "code": {
                 "type": "string",
                 "pattern": "^[A-Z]{2}$",
-                "description": "ISO 3166-1 alpha-2; the name comes from Intl.DisplayNames"
+                "description": "ISO 3166-1 alpha-2; the name comes from Intl.DisplayNames unless name is set"
               },
               "postcode": {
                 "type": "string",
@@ -98,6 +98,10 @@
               "example": {
                 "type": "string",
                 "description": "shown in the postcode error message"
+              },
+              "name": {
+                "$ref": "#/$defs/localized",
+                "description": "optional name in running text, when the standard one reads wrong (e.g. \"the Netherlands\")"
               }
             },
             "additionalProperties": false

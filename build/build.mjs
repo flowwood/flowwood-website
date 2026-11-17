@@ -17,14 +17,16 @@ import about from '../src/pages/about.js';
 import cart from '../src/pages/cart.js';
 import contact from '../src/pages/contact.js';
 import checkout from '../src/pages/checkout.js';
+import order from '../src/pages/order.js';
 import notFound from '../src/pages/not-found.js';
 import product from '../src/pages/product.js';
+import { terms, privacy } from '../src/pages/legal.js';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const SRC = join(ROOT, 'src');
 const DIST = process.env.DIST || join(ROOT, 'dist');
 const BASE = (process.env.BASE_PATH || '').replace(/\/+$/, '');
-const PAGES = [home, shop, about, cart, contact, checkout, product];
+const PAGES = [home, shop, about, cart, contact, checkout, order, terms, privacy, product];
 const PRERENDER_ONLY_PRODUCT_FIELDS = ['gallery', 'materials', 'care', 'availability', 'related'];
 const MEDIA = join(ROOT, 'content/media');
 const PRELOADED_FONTS = ['/fonts/jost.woff2', '/fonts/ibm-plex-sans.woff2'];
@@ -226,7 +228,9 @@ const withoutPrerenderOnlyFields = (p) => Object.fromEntries(Object.entries(p).f
 const emitModule = (publicUrl, value) => writeHashed(publicUrl, `export default ${JSON.stringify(value)};\n`);
 
 async function emitDataModules() {
-  await emitModule('/data/catalog.js', { ...catalogContent, products: catalogContent.products.map(withoutPrerenderOnlyFields) });
+  const browserCatalog = { ...catalogContent, products: catalogContent.products.map(withoutPrerenderOnlyFields) };
+  await emitModule('/data/catalog.js', browserCatalog);
+  await writeFile(join(DIST, 'data/catalog.json'), JSON.stringify(browserCatalog));
   for (const l of LOCALES) await emitModule(`/data/site.${l}.js`, { basePath: BASE, locales: content.locales, routes: content.routes, ui: localize(content.ui, l) });
 }
 
@@ -353,13 +357,46 @@ async function writeServiceWorker() {
   return swVersion;
 }
 
+const INLINE_CODE = /<(script|style)\b(?![^>]*\s(?:src=|type="application\/ld\+json"))[^>]*>([\s\S]*?)<\/\1>/g;
+const TURNSTILE = 'https://challenges.cloudflare.com';
+const ADDRESS_LOOKUPS = 'https://nominatim.openstreetmap.org https://photon.komoot.io';
+const UNUSED_FEATURES = ['accelerometer', 'bluetooth', 'camera', 'display-capture', 'geolocation', 'gyroscope', 'hid', 'magnetometer', 'microphone', 'midi', 'payment', 'serial', 'usb'];
+
+async function inlineCodeHashes() {
+  const hashes = { script: new Set(), style: new Set() };
+  const pages = (await walk(DIST)).filter((f) => f.endsWith('.html') && !f.startsWith(join(DIST, 'admin')));
+  for (const f of pages) for (const [, tag, code] of (await readFile(f, 'utf8')).matchAll(INLINE_CODE)) hashes[tag].add(cspHash(code));
+  return { script: [...hashes.script].sort().join(' '), style: [...hashes.style].sort().join(' ') };
+}
+
+async function publicCsp() {
+  const { script, style } = await inlineCodeHashes();
+  return [
+    "default-src 'self'",
+    `script-src 'self' ${script} ${TURNSTILE}`,
+    `style-src 'self' ${style}`,
+    "style-src-attr 'unsafe-inline'",
+    "img-src 'self' data:",
+    `connect-src 'self' ${ADDRESS_LOOKUPS} ${TURNSTILE}`,
+    `frame-src ${TURNSTILE}`,
+    "object-src 'none'",
+    "base-uri 'none'",
+    "form-action 'self'",
+    "frame-ancestors 'none'",
+  ].join('; ');
+}
+
 async function writeHeaders(adminCsp) {
   const immutable = '  Cache-Control: public, max-age=31536000, immutable';
-  const admin = adminCsp ? ['/admin/*', '  Cache-Control: no-store', '  X-Robots-Tag: noindex', `  Content-Security-Policy: ${adminCsp}`] : [];
+  const admin = adminCsp ? ['/admin/*', '  Cache-Control: no-store', '  X-Robots-Tag: noindex', '  ! Content-Security-Policy', `  Content-Security-Policy: ${adminCsp}`] : [];
   await writeFile(
     join(DIST, '_headers'),
     [
       '/*',
+      `  Content-Security-Policy: ${await publicCsp()}`,
+      '  Strict-Transport-Security: max-age=31536000; includeSubDomains',
+      `  Permissions-Policy: ${UNUSED_FEATURES.map((f) => `${f}=()`).join(', ')}`,
+      '  Cross-Origin-Opener-Policy: same-origin',
       '  X-Content-Type-Options: nosniff',
       '  Referrer-Policy: strict-origin-when-cross-origin',
       ...IMMUTABLE_PATHS.flatMap((p) => [p, immutable]),

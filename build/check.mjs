@@ -1,3 +1,4 @@
+import { createHash } from 'node:crypto';
 import { readdir, readFile, stat } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -14,6 +15,11 @@ const site = JSON.parse(await readFile(join(ROOT, 'content/site.json'), 'utf8'))
 const LOCALES = Object.keys(site.locales);
 
 const GZIP_BUDGET = { html: 24_000, firstPartyJs: 30_000, font: 45_000, image: 60_000 };
+const HEADER_LINE_MAX = 2000;
+const INLINE_CODE = /<(script|style)\b(?![^>]*\s(?:src=|type="application\/ld\+json"))[^>]*>([\s\S]*?)<\/\1>/g;
+const INLINE_HANDLER = /<[^>]+\s(on[a-z]+=|href="javascript:)/i;
+const cspHash = (text) => `'sha256-${createHash('sha256').update(text).digest('base64')}'`;
+const sourcesOf = (csp, directive) => csp.match(new RegExp(`(?:^|; )${directive} ([^;]*)`))?.[1].split(' ') ?? [];
 
 const walk = async (dir) => (await readdir(dir, { recursive: true, withFileTypes: true })).filter((e) => e.isFile()).map((e) => join(e.parentPath, e.name));
 
@@ -72,6 +78,22 @@ for (const f of files) {
   const gz = gzipSync(await readFile(f)).length;
   if (f.includes('/fonts/') && gz > GZIP_BUDGET.font) problems.push(`${f.slice(DIST.length)}: font ${gz} B > ${GZIP_BUDGET.font}`);
   if (f.includes('/media/') && gz > GZIP_BUDGET.image) problems.push(`${f.slice(DIST.length)}: image ${gz} B > ${GZIP_BUDGET.image}`);
+}
+
+const cspByRule = {};
+let rule;
+for (const line of (await readFile(join(DIST, '_headers'), 'utf8')).split('\n')) {
+  if (line.length > HEADER_LINE_MAX) problems.push(`_headers: line for ${rule} is ${line.length} chars > ${HEADER_LINE_MAX} (Cloudflare limit)`);
+  if (!line.startsWith(' ')) rule = line;
+  else if (line.startsWith('  Content-Security-Policy: ')) cspByRule[rule] = line.slice('  Content-Security-Policy: '.length);
+}
+for (const file of files.filter((f) => f.endsWith('.html'))) {
+  const rel = file.slice(DIST.length);
+  const csp = cspByRule[rel.startsWith('/admin/') ? '/admin/*' : '/*'];
+  const html = await readFile(file, 'utf8');
+  if (!csp) problems.push(`${rel}: no Content-Security-Policy in _headers`);
+  else for (const [, tag, code] of html.matchAll(INLINE_CODE)) if (!sourcesOf(csp, `${tag}-src`).includes(cspHash(code))) problems.push(`${rel}: inline <${tag}> not allowed by the CSP`);
+  if (INLINE_HANDLER.test(html)) problems.push(`${rel}: inline event handler or javascript: URL (blocked by the CSP)`);
 }
 
 const canonicalJson = (text) => JSON.stringify(JSON.parse(text), null, 2) + '\n';

@@ -1,6 +1,6 @@
 (elements) => {
   if (!elements) {
-    elements = [document.body, ...document.body.querySelectorAll('*')].map((e) => ({
+    elements = [document.body, ...document.body.querySelectorAll('*')].filter((e) => !e.parentElement?.closest('[data-third-party]')).map((e) => ({
       tag: e.localName,
       id: e.id,
       component: e.getAttribute('data-component'),
