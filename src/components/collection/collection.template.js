@@ -1,9 +1,9 @@
 import { bem, esc } from '../../js/bem.js';
 import { productCard } from '../product-card/product-card.template.js';
 
-export function collection(ctx, { id, title, titleClass, intro, link, count, items, variant, card, priority = false }) {
+export function collection(ctx, { id, title, titleClass, intro, link, count, items, variant, mods = {}, card, priority = false }) {
   const b = bem('collection', id);
-  return `<section ${b('', { mods: { [variant]: true } })} data-collection="${esc(id)}" aria-labelledby="${b.id('title')}">
+  return `<section ${b('', { mods: { [variant]: true, ...mods } })} data-collection="${esc(id)}" aria-labelledby="${b.id('title')}">
   <div ${b('head')}>
     <h2 ${b('title', { cls: titleClass })}>${esc(title)}</h2>
     ${intro ? `<p ${b('intro')}>${esc(intro)}</p>` : ''}

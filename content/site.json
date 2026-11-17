@@ -1115,6 +1115,14 @@
       "filter": {
         "en": "Collections",
         "nl": "Collecties"
+      },
+      "finishes": {
+        "en": "Finishes in {name}",
+        "nl": "Afwerkingen in {name}"
+      },
+      "customRange": {
+        "en": "Any height from {hMin} to {hMax} cm and width from {wMin} to {wMax} cm, made for your space.",
+        "nl": "Elke hoogte van {hMin} tot {hMax} cm en breedte van {wMin} tot {wMax} cm, gemaakt voor jouw ruimte."
       }
     },
     "cart": {

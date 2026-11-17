@@ -9,6 +9,7 @@ customElements.define(
     setup() {
       this.links = this.$$('.shop__link');
       this.groups = this.links.map((a) => this.$(a.hash));
+      this.panels = this.$$('.shop__panel');
       this.on('scroll', null, () => this.schedule(), window);
       this.on('resize', null, () => this.schedule(), window);
       this.track();
@@ -34,6 +35,7 @@ customElements.define(
         if (i === current) a.setAttribute('aria-current', 'location');
         else a.removeAttribute('aria-current');
       });
+      this.panels.forEach((p, i) => (p.hidden = i !== current));
       this.reveal(this.links[current]);
     }
 

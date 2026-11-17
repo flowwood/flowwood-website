@@ -1,5 +1,47 @@
-import { bem, esc } from '../../js/bem.js';
+import { bem, esc, img } from '../../js/bem.js';
 import { collection } from '../collection/collection.template.js';
+
+const headSpan = (count, columns) => {
+  const rest = count % columns;
+  return rest ? columns - rest : columns;
+};
+
+const collectionFinishes = (catalog, items) => {
+  const finishes = items.map((it) => catalog.finish(catalog.product(it.product), it.finish));
+  return finishes.filter((f, i) => finishes.findIndex((g) => g.color === f.color) === i);
+};
+
+const moodImage = (catalog, items) => {
+  const pictured = items.map((it) => catalog.product(it.product)).find((p, i) => catalog.finish(p, items[i].finish) === p.finishes[0]);
+  return pictured && (pictured.altImage || pictured.image);
+};
+
+function panel(ctx, b, c, current) {
+  const { catalog, i18n } = ctx;
+  const name = i18n.loc(c.name);
+  const mood = moodImage(catalog, c.items);
+  const finishes = collectionFinishes(catalog, c.items);
+  const swatches = finishes.map((f) => `<li ${b('finish', { key: `${c.id}-${f.id}`, cls: 'swatch' })} style="--swatch:${esc(f.color)}"></li>`).join('');
+  const names = finishes.map((f) => i18n.loc(f.name)).join(', ');
+  return `<div ${b('panel', { key: c.id })} data-collection="${esc(c.id)}"${current ? '' : ' hidden'}>
+      <p ${b('heading', { key: c.id, cls: 'eyebrow' })}>${esc(i18n.t('shop.finishes', { name }))}</p>
+      <ul ${b('finishes', { key: c.id })} aria-hidden="true">${swatches}</ul>
+      <p ${b('names', { key: c.id, cls: 'shop__detail' })}>${esc(names)}</p>
+      ${mood ? `<div ${b('mood', { key: c.id, cls: 'media' })}>${img(mood, { attrs: b('mood-image', { key: c.id }), thumb: true, priority: 'low' })}</div>` : ''}
+    </div>`;
+}
+
+function facts(ctx, b) {
+  const { catalog, i18n } = ctx;
+  const { height, width } = catalog.customSize;
+  const fact = (key, term, detail) => `<div ${b('fact', { key })}><dt ${b('term', { key, cls: 'eyebrow' })}>${esc(term)}</dt>${detail
+    .map((d, i) => `<dd ${b('detail', { key: `${key}-${i}` })}>${esc(d)}</dd>`)
+    .join('')}</div>`;
+  return `<dl ${b('facts')}>
+      ${fact('delivery', i18n.t('customSize.delivery'), [i18n.t('customSize.leadTime'), i18n.countries(catalog.data.delivery.countries)])}
+      ${fact('custom', i18n.t('customSize.title'), [i18n.t('shop.customRange', { hMin: height.min, hMax: height.max, wMin: width.min, wMax: width.max })])}
+    </dl>`;
+}
 
 export function shop(ctx) {
   const { catalog, i18n } = ctx;
@@ -20,6 +62,10 @@ export function shop(ctx) {
           .join('')}
       </ol>
     </nav>
+    <div ${b('about')}>
+      ${cols.map((c, i) => panel(ctx, b, c, i === 0)).join('')}
+      ${facts(ctx, b)}
+    </div>
   </aside>
   <div ${b('groups')}>
     ${cols
@@ -27,6 +73,7 @@ export function shop(ctx) {
         collection(ctx, {
           id: c.id,
           variant: 'group',
+          mods: { [`head-${headSpan(c.items.length, 3)}`]: true, [`head-tablet-${headSpan(c.items.length, 2)}`]: true },
           title: i18n.loc(c.name),
           intro: c.intro && i18n.loc(c.intro),
           count: i18n.pieces(c.items.length),
