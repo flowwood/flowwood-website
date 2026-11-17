@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { createServer } from 'node:http';
+import { createServer, request } from 'node:http';
 import { watch } from 'node:fs';
 import { readFile, rm, stat, writeFile } from 'node:fs/promises';
 import { dirname, extname, join } from 'node:path';
@@ -9,6 +9,7 @@ import { CONTENT_FILES, SCHEMA_FILES, checkSave, fromBase64 } from '../src/js/cm
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const DIST = join(ROOT, 'dist');
 const PORT = Number(process.env.PORT) || 8080;
+const FUNCTIONS_PORT = Number(process.env.FUNCTIONS_PORT) || 8788;
 const TYPES = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.webp': 'image/webp', '.woff2': 'font/woff2', '.png': 'image/png', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg' };
 
 const build = () => new Promise((res) => spawn(process.execPath, [join(ROOT, 'build/build.mjs')], { stdio: 'inherit', env: { ...process.env, ADMIN: '1' } }).on('exit', res));
@@ -56,6 +57,22 @@ async function cmsApi(req, res, path) {
   res.writeHead(404).end();
 }
 await build();
+const functions = spawn(process.execPath, ['--watch', join(ROOT, 'build/functions.mjs')], { stdio: 'inherit', env: { ...process.env, FUNCTIONS_PORT: String(FUNCTIONS_PORT) } });
+for (const signal of ['SIGINT', 'SIGTERM']) {
+  process.on(signal, () => {
+    functions.kill();
+    process.exit();
+  });
+}
+
+function toFunctions(req, res) {
+  const forward = request({ port: FUNCTIONS_PORT, path: req.url, method: req.method, headers: { ...req.headers, 'x-forwarded-for': req.socket.remoteAddress } }, (answer) => {
+    res.writeHead(answer.statusCode, answer.headers);
+    answer.pipe(res);
+  });
+  forward.on('error', () => json(res, 502, { errors: ['functions server is not running'] }));
+  req.pipe(forward);
+}
 
 let timer;
 for (const dir of ['src', 'content']) {
@@ -68,6 +85,7 @@ for (const dir of ['src', 'content']) {
 createServer(async (req, res) => {
   let path = decodeURIComponent(new URL(req.url, 'http://x').pathname);
   if (path.startsWith('/api/cms')) return cmsApi(req, res, path).catch((e) => json(res, 500, { errors: [e.message] }));
+  if (path.startsWith('/api/')) return toFunctions(req, res);
   if (path.endsWith('/')) path += 'index.html';
   let file = join(DIST, path);
   let status = 200;

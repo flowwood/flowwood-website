@@ -112,7 +112,10 @@ build/
   build.mjs        prerender, hash, import map, inline CSS, SW, _headers, root redirect
   products.mjs     the product validator: every content/products/*.json against model.json (`make validate-products`)
   check.mjs        validates dist/: ids, data-component, BEM, hreflang, budgets
-  serve.mjs        dev server with rebuild-on-change
+  serve.mjs        dev server with rebuild-on-change; forwards /api/* (except /api/cms, which it serves itself) to functions.mjs
+  functions.mjs    local Pages Functions runtime for `npm run dev` (port 8788, restarted by `node --watch`): routes
+                   `functions/` like Cloudflare, D1 as SQLite in `.dev.db` (migrations applied on start), env from `.dev.vars`;
+                   without RESEND_API_KEY it prints emails to the terminal instead of sending them
   dom-audit.js     browser-side audit of the live DOM (paste into Playwright evaluate)
 src/admin/         content editor (index.html, admin.js, admin.css), built only with ADMIN=1 (`npm run dev`,
                    cloudflare.yml), never for GitHub Pages; forms are generated from the content JSON + schemas
@@ -212,7 +215,11 @@ Every block is designed and verified at three viewports. A change is not done un
 ## Commands
 
 * `npm run build`: build to `dist/` (`BASE_PATH=/flowwood-website npm run build` to build for the Pages subfolder)
-* `npm run dev`: build, serve on http://localhost:8080 and rebuild on change
+* `npm run dev`: build, serve on http://localhost:8080 and rebuild on change, with the Functions running locally
+  (see `build/functions.mjs`). For a full order roundtrip put a Mollie test key in `.dev.vars` (`MOLLIE_API_KEY=test_…`):
+  checkout goes to Mollie's test checkout, where you pick the outcome, and back to the order page, which reads the
+  status from Mollie (Mollie cannot reach a localhost webhook, so the Function leaves it out there). Stock rows for
+  testing: `sqlite3 .dev.db "INSERT INTO stock VALUES ('monolith', 1)"`.
 * `npm run check`: build and validate the output
 * `make validate-products`: check every product file against `model.json` (all problems at once, no build)
 * `make check`: `make validate-products`, then `npm run check`

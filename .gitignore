@@ -3,6 +3,7 @@ node_modules/
 .DS_Store
 .playwright-mcp/
 .dev.vars
+.dev.db
 .cloudflare.env
 .cloudflare/
 .wrangler/
