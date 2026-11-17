@@ -9,6 +9,7 @@ export function brand({ site, i18n }, { headingLevel = 2 } = {}) {
   return `<section ${b()} aria-labelledby="${b.id('title')}">
   <div ${b('intro')}>
     <div ${b('copy')}>
+      <p ${b('eyebrow', { cls: 'eyebrow' })}>${esc(i18n.t('menuBar.about'))}</p>
       <${h} ${b('title')}>${t('title')}</${h}>
       ${i18n.t('brand.body').map((p, i) => `<p ${b('text', { key: i })}>${esc(p)}</p>`).join('')}
       <a ${b('cta', { cls: 'link hit' })} href="#">${t('cta')} <span ${b('cta-arrow')} aria-hidden="true">→</span></a>

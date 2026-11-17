@@ -21,12 +21,12 @@ export function layout(ctx, page) {
 <meta name="description" content="${esc(meta.description)}">
 <meta name="theme-color" content="#1f1e1c">
 <link rel="icon" href="${ICON}">
-${page.index === false ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${site.origin}${i18n.url(page.route, locale, ctx.item)}">`}
+${page.index === false ? '<meta name="robots" content="noindex">' : `<link rel="canonical" href="${esc(site.origin)}${i18n.url(page.route, locale, ctx.item)}">`}
 ${i18n
   .alternates(page.route, ctx.item)
-  .map((a) => `<link rel="alternate" hreflang="${a.lang}" href="${site.origin}${a.href}">`)
+  .map((a) => `<link rel="alternate" hreflang="${esc(a.lang)}" href="${esc(site.origin)}${a.href}">`)
   .join('\n')}
-<link rel="alternate" hreflang="x-default" href="${site.origin}${site.basePath}/">
+<link rel="alternate" hreflang="x-default" href="${esc(site.origin)}${site.basePath}/">
 ${meta.jsonLd ? `<script type="application/ld+json">${JSON.stringify(meta.jsonLd).replace(/</g, '\\u003c')}</script>` : ''}
 <!--fonts-->
 ${lcp ? `<link rel="preload" as="image" href="${esc(lcp.src)}" fetchpriority="high">` : ''}

@@ -3,56 +3,199 @@
   "$id": "https://flowwood.be/schema/catalog.schema.json",
   "title": "Flowwood catalog",
   "type": "object",
-  "required": ["customSize", "products", "collections"],
+  "required": [
+    "customSize",
+    "delivery",
+    "products",
+    "collections"
+  ],
   "additionalProperties": false,
   "$defs": {
-    "id": { "$ref": "../../model.json#/$defs/id" },
-    "localized": { "$ref": "../../model.json#/$defs/localized" },
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(-[a-z0-9]+)*$"
+    },
+    "localized": {
+      "type": "object",
+      "required": [
+        "en",
+        "nl"
+      ],
+      "properties": {
+        "en": {
+          "type": "string"
+        },
+        "nl": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "range": {
       "type": "object",
-      "required": ["min", "max", "step"],
-      "properties": { "min": { "type": "number" }, "max": { "type": "number" }, "step": { "type": "number" } },
+      "required": [
+        "min",
+        "max",
+        "step"
+      ],
+      "properties": {
+        "min": {
+          "type": "number"
+        },
+        "max": {
+          "type": "number"
+        },
+        "step": {
+          "type": "number"
+        }
+      },
       "additionalProperties": false
     }
   },
   "properties": {
-    "$schema": { "type": "string" },
-    "customSize": {
+    "delivery": {
       "type": "object",
-      "required": ["height", "width", "surcharge", "pricePerCm", "roundTo"],
+      "required": [
+        "price",
+        "weeks",
+        "countries"
+      ],
       "properties": {
-        "height": { "$ref": "#/$defs/range" },
-        "width": { "$ref": "#/$defs/range" },
-        "surcharge": { "type": "number" },
-        "pricePerCm": {
-          "type": "object",
-          "required": ["height", "width"],
-          "properties": { "height": { "type": "number" }, "width": { "type": "number" } },
-          "additionalProperties": false
+        "price": {
+          "type": "number",
+          "minimum": 0,
+          "description": "EUR incl. VAT; 0 shows as free"
         },
-        "roundTo": { "type": "number", "exclusiveMinimum": 0 }
+        "weeks": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "made-to-order lead time range in weeks"
+        },
+        "countries": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "code",
+              "postcode",
+              "example"
+            ],
+            "properties": {
+              "code": {
+                "type": "string",
+                "pattern": "^[A-Z]{2}$",
+                "description": "ISO 3166-1 alpha-2; the name comes from Intl.DisplayNames"
+              },
+              "postcode": {
+                "type": "string",
+                "description": "HTML pattern for the postcode"
+              },
+              "example": {
+                "type": "string",
+                "description": "shown in the postcode error message"
+              }
+            },
+            "additionalProperties": false
+          }
+        }
       },
       "additionalProperties": false
     },
-    "products": { "type": "array", "items": { "$ref": "#/$defs/id" }, "uniqueItems": true, "description": "Ids of the products in content/products/<id>.json (each one follows model.json), in shop order. Every product file is listed exactly once." },
+    "$schema": {
+      "type": "string"
+    },
+    "customSize": {
+      "type": "object",
+      "required": [
+        "height",
+        "width",
+        "surcharge",
+        "pricePerCm",
+        "roundTo"
+      ],
+      "properties": {
+        "height": {
+          "$ref": "#/$defs/range"
+        },
+        "width": {
+          "$ref": "#/$defs/range"
+        },
+        "surcharge": {
+          "type": "number"
+        },
+        "pricePerCm": {
+          "type": "object",
+          "required": [
+            "height",
+            "width"
+          ],
+          "properties": {
+            "height": {
+              "type": "number"
+            },
+            "width": {
+              "type": "number"
+            }
+          },
+          "additionalProperties": false
+        },
+        "roundTo": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "additionalProperties": false
+    },
+    "products": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/id"
+      },
+      "uniqueItems": true,
+      "description": "Ids of the products in content/products/<id>.json (each one follows model.json), in shop order. Every product file is listed exactly once."
+    },
     "collections": {
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["id", "name", "items"],
+        "required": [
+          "id",
+          "name",
+          "items"
+        ],
         "properties": {
-          "id": { "$ref": "#/$defs/id" },
-          "name": { "$ref": "#/$defs/localized" },
-          "intro": { "$ref": "#/$defs/localized", "description": "One sentence that opens the collection on the shop page." },
+          "id": {
+            "$ref": "#/$defs/id"
+          },
+          "name": {
+            "$ref": "#/$defs/localized"
+          },
+          "intro": {
+            "$ref": "#/$defs/localized",
+            "description": "One sentence that opens the collection on the shop page."
+          },
           "items": {
             "type": "array",
             "items": {
               "type": "object",
-              "required": ["product"],
+              "required": [
+                "product"
+              ],
               "properties": {
-                "product": { "$ref": "#/$defs/id" },
-                "finish": { "$ref": "#/$defs/id" },
-                "height": { "type": "integer" }
+                "product": {
+                  "$ref": "#/$defs/id"
+                },
+                "finish": {
+                  "$ref": "#/$defs/id"
+                },
+                "height": {
+                  "type": "integer"
+                }
               },
               "additionalProperties": false
             }

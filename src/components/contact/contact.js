@@ -5,15 +5,6 @@ const post = (form) =>
     .then((response) => response.ok)
     .catch(() => false);
 
-function reflectValidity(input) {
-  if (!input.dataset.error) return;
-  const invalid = !input.validity.valid;
-  input.ariaInvalid = String(invalid);
-  const describedBy = [input.dataset.hint, invalid && input.dataset.error].filter(Boolean).join(' ');
-  if (describedBy) input.setAttribute('aria-describedby', describedBy);
-  else input.removeAttribute('aria-describedby');
-}
-
 customElements.define(
   'fw-contact',
   class extends FwElement {
@@ -21,9 +12,7 @@ customElements.define(
       this.submit = this.$('.contact__submit');
       this.submitLabel = this.$('.contact__submit-label');
       this.idleLabel = this.submitLabel.textContent;
-      this.on('focusout', '.contact__input', (event, input) => reflectValidity(input));
-      this.on('input', '.contact__input[aria-invalid="true"]', (event, input) => reflectValidity(input));
-      this.addEventListener('invalid', (event) => reflectValidity(event.target), { capture: true, signal: this.signal });
+      this.validates();
       this.on('submit', '.contact__form', (event, form) => {
         event.preventDefault();
         this.send(form);

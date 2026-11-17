@@ -16,6 +16,15 @@ export function page() {
   return pageData;
 }
 
+export function reflectValidity(input) {
+  if (!input.dataset.error) return;
+  const invalid = !input.validity.valid;
+  input.ariaInvalid = String(invalid);
+  const describedBy = [input.dataset.hint, invalid && input.dataset.error].filter(Boolean).join(' ');
+  if (describedBy) input.setAttribute('aria-describedby', describedBy);
+  else input.removeAttribute('aria-describedby');
+}
+
 const supportsAnchorPositioning = CSS.supports('position-anchor: --a');
 
 export class FwElement extends HTMLElement {
@@ -50,6 +59,12 @@ export class FwElement extends HTMLElement {
       },
       { signal: this.signal },
     );
+  }
+
+  validates() {
+    this.on('focusout', '.field__input', (e, input) => reflectValidity(input));
+    this.on('input', '.field__input[aria-invalid="true"]', (e, input) => reflectValidity(input));
+    this.addEventListener('invalid', (e) => reflectValidity(e.target), { capture: true, signal: this.signal });
   }
 
   on(type, selector, fn, target = this) {

@@ -2,6 +2,7 @@
 import { page } from '../../js/element.js';
 import { cart, config } from '../../js/store.js';
 import { customSizeBody } from './custom-size.template.js';
+import { stockLeft } from '../../js/catalog.js';
 
 const wiredDialogs = new WeakSet();
 
@@ -13,7 +14,7 @@ export async function open(configId) {
   const product = catalog.product(c.product);
   dialog.dataset.config = configId;
   dialog.setAttribute('aria-label', i18n.t('common.customSizeFor', { name: product.name }));
-  dialog.innerHTML = customSizeBody({ i18n, catalog }, { product, config: c, configId });
+  dialog.innerHTML = customSizeBody({ i18n, catalog }, { product, config: c, configId, soldOut: stockLeft(product.stock, product.id, cart.lines) === 0 });
   if (!wiredDialogs.has(dialog)) wire(dialog, { i18n, catalog });
   if (!dialog.open) dialog.showModal();
 }

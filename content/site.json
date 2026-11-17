@@ -4,129 +4,400 @@
   "origin": "https://flowwood.be",
   "defaultLocale": "nl",
   "locales": {
-    "nl": { "label": "Nederlands", "code": "NL", "lang": "nl-BE", "numberFormat": "nl-BE" },
-    "en": { "label": "English", "code": "EN", "lang": "en", "numberFormat": "en-IE" }
+    "nl": {
+      "label": "Nederlands",
+      "code": "NL",
+      "lang": "nl-BE",
+      "numberFormat": "nl-BE"
+    },
+    "en": {
+      "label": "English",
+      "code": "EN",
+      "lang": "en",
+      "numberFormat": "en-IE"
+    }
   },
   "routes": {
-    "home": { "nl": "", "en": "" },
-    "shop": { "nl": "winkel", "en": "shop" },
-    "about": { "nl": "over-ons", "en": "about" },
-    "cart": { "nl": "winkelmand", "en": "cart" },
-    "contact": { "nl": "contact", "en": "contact" }
+    "home": {
+      "nl": "",
+      "en": ""
+    },
+    "shop": {
+      "nl": "winkel",
+      "en": "shop"
+    },
+    "about": {
+      "nl": "over-ons",
+      "en": "about"
+    },
+    "cart": {
+      "nl": "winkelmand",
+      "en": "cart"
+    },
+    "contact": {
+      "nl": "contact",
+      "en": "contact"
+    },
+    "checkout": {
+      "nl": "afrekenen",
+      "en": "checkout"
+    }
   },
-  "navigation": ["home", "shop", "about", "contact"],
+  "navigation": [
+    "home",
+    "shop",
+    "about",
+    "contact"
+  ],
   "footerLinks": [
-    { "id": "terms", "href": "#" },
-    { "id": "privacy", "href": "#" },
-    { "id": "contact", "route": "contact" }
+    {
+      "id": "terms",
+      "href": "#"
+    },
+    {
+      "id": "privacy",
+      "href": "#"
+    },
+    {
+      "id": "contact",
+      "route": "contact"
+    }
   ],
   "contact": {
     "phone": "+32 471 41 55 10",
-    "email": "info@flowwood.be",
-    "limits": { "name": 100, "email": 200, "phone": 40, "message": 5000 }
+    "email": "info@flowwood.be"
+  },
+  "limits": {
+    "name": 100,
+    "email": 200,
+    "phone": 40,
+    "message": 5000,
+    "address": 200,
+    "postcode": 12,
+    "city": 100,
+    "notes": 1000
   },
   "socials": [
-    { "id": "instagram", "href": "https://www.instagram.com/flowwood_" },
-    { "id": "facebook", "href": "https://www.facebook.com/people/Flowwood/61577053585137/" }
+    {
+      "id": "instagram",
+      "href": "https://www.instagram.com/flowwood_"
+    },
+    {
+      "id": "facebook",
+      "href": "https://www.facebook.com/people/Flowwood/61577053585137/"
+    }
   ],
   "meta": {
     "home": {
-      "title": { "en": "Flowwood · Bespoke pedestals and interior pieces", "nl": "Flowwood · Sokkels en interieurstukken op maat" },
+      "title": {
+        "en": "Flowwood · Bespoke pedestals and interior pieces",
+        "nl": "Flowwood · Sokkels en interieurstukken op maat"
+      },
       "description": {
         "en": "Pedestals, cabinetry and interior pieces made to measure in fine veneers and lacquers.",
         "nl": "Sokkels, kastenwerk en interieurstukken op maat, in edele fineren en lakken."
       }
     },
     "shop": {
-      "title": { "en": "Shop · Flowwood", "nl": "Winkel · Flowwood" },
-      "description": { "en": "All Flowwood pieces, by collection.", "nl": "Alle stukken van Flowwood, per collectie." }
+      "title": {
+        "en": "Shop · Flowwood",
+        "nl": "Winkel · Flowwood"
+      },
+      "description": {
+        "en": "All Flowwood pieces, by collection.",
+        "nl": "Alle stukken van Flowwood, per collectie."
+      }
     },
     "about": {
-      "title": { "en": "About us · Flowwood", "nl": "Over ons · Flowwood" },
-      "description": { "en": "Masters of bespoke work and refined interiors.", "nl": "Meesters in maatwerk en verfijnde interieurs." }
+      "title": {
+        "en": "About us · Flowwood",
+        "nl": "Over ons · Flowwood"
+      },
+      "description": {
+        "en": "Masters of bespoke work and refined interiors.",
+        "nl": "Meesters in maatwerk en verfijnde interieurs."
+      }
     },
     "cart": {
-      "title": { "en": "Cart · Flowwood", "nl": "Winkelmand · Flowwood" },
-      "description": { "en": "Your selected pieces.", "nl": "Je gekozen stukken." }
+      "title": {
+        "en": "Cart · Flowwood",
+        "nl": "Winkelmand · Flowwood"
+      },
+      "description": {
+        "en": "Your selected pieces.",
+        "nl": "Je gekozen stukken."
+      }
     },
     "contact": {
-      "title": { "en": "Contact · Flowwood", "nl": "Contact · Flowwood" },
+      "title": {
+        "en": "Contact · Flowwood",
+        "nl": "Contact · Flowwood"
+      },
       "description": {
         "en": "Call, email or send Flowwood a message about a piece, a bespoke project or your order.",
         "nl": "Bel, mail of stuur Flowwood een bericht over een stuk, een project op maat of je bestelling."
       }
     },
+    "checkout": {
+      "title": {
+        "en": "Checkout · Flowwood",
+        "nl": "Afrekenen · Flowwood"
+      },
+      "description": {
+        "en": "Your details, delivery and payment.",
+        "nl": "Je gegevens, levering en betaling."
+      }
+    },
     "notFound": {
-      "title": { "en": "Page not found · Flowwood", "nl": "Pagina niet gevonden · Flowwood" },
-      "description": { "en": "This page does not exist.", "nl": "Deze pagina bestaat niet." }
+      "title": {
+        "en": "Page not found · Flowwood",
+        "nl": "Pagina niet gevonden · Flowwood"
+      },
+      "description": {
+        "en": "This page does not exist.",
+        "nl": "Deze pagina bestaat niet."
+      }
     }
   },
   "home": {
-    "hero": { "products": ["monolith", "facet", "rondo", "ovale"], "autoplaySeconds": 6 },
-    "collection": { "products": ["monolith", "facet", "rondo", "ovale"] },
-    "brandImage": { "src": "/media/image3.webp", "width": 512, "height": 382, "position": "50% 50%" },
-    "signature": { "src": "/media/signature.svg", "width": 1377, "height": 2447 },
+    "hero": {
+      "products": [
+        "monolith",
+        "facet",
+        "rondo",
+        "ovale"
+      ],
+      "autoplaySeconds": 6
+    },
+    "collection": {
+      "products": [
+        "monolith",
+        "facet",
+        "rondo",
+        "ovale"
+      ]
+    },
+    "brandImage": {
+      "src": "/media/image3.webp",
+      "position": "50% 50%"
+    },
+    "signature": {
+      "src": "/media/signature.svg"
+    },
     "partners": 6
   },
   "ui": {
     "common": {
-      "from": { "en": "from", "nl": "vanaf" },
-      "cm": { "en": "cm", "nl": "cm" },
-      "custom": { "en": "Custom", "nl": "Op maat" },
-      "oneSize": { "en": "One size", "nl": "Eén maat" },
-      "close": { "en": "Close", "nl": "Sluiten" },
-      "pieces": { "en": "{n} pieces", "nl": "{n} stuks" },
-      "piece": { "en": "1 piece", "nl": "1 stuk" },
-      "heightLabel": { "en": "{h} cm", "nl": "{h} cm" },
-      "customSizeLabel": { "en": "{h} × {w} cm, custom", "nl": "{h} × {w} cm, op maat" },
-      "customSizeFor": { "en": "Custom size for {name}", "nl": "Maat op maat voor {name}" }
+      "from": {
+        "en": "from",
+        "nl": "vanaf"
+      },
+      "cm": {
+        "en": "cm",
+        "nl": "cm"
+      },
+      "custom": {
+        "en": "Custom",
+        "nl": "Op maat"
+      },
+      "oneSize": {
+        "en": "One size",
+        "nl": "Eén maat"
+      },
+      "close": {
+        "en": "Close",
+        "nl": "Sluiten"
+      },
+      "pieces": {
+        "en": "{n} pieces",
+        "nl": "{n} stuks"
+      },
+      "piece": {
+        "en": "1 piece",
+        "nl": "1 stuk"
+      },
+      "heightLabel": {
+        "en": "{h} cm",
+        "nl": "{h} cm"
+      },
+      "customSizeLabel": {
+        "en": "{h} × {w} cm, custom",
+        "nl": "{h} × {w} cm, op maat"
+      },
+      "customSizeFor": {
+        "en": "Custom size for {name}",
+        "nl": "Maat op maat voor {name}"
+      },
+      "soldOut": {
+        "en": "Sold out",
+        "nl": "Uitverkocht"
+      }
     },
     "menuBar": {
-      "home": { "en": "Home", "nl": "Home" },
-      "shop": { "en": "Shop", "nl": "Winkel" },
-      "about": { "en": "About us", "nl": "Over ons" },
-      "contact": { "en": "Contact", "nl": "Contact" },
-      "language": { "en": "Language", "nl": "Taal" },
-      "cart": { "en": "Cart", "nl": "Winkelmand" },
-      "skip": { "en": "Skip to content", "nl": "Naar de inhoud" },
-      "navigation": { "en": "Main", "nl": "Hoofdmenu" }
+      "home": {
+        "en": "Home",
+        "nl": "Home"
+      },
+      "shop": {
+        "en": "Shop",
+        "nl": "Winkel"
+      },
+      "about": {
+        "en": "About us",
+        "nl": "Over ons"
+      },
+      "contact": {
+        "en": "Contact",
+        "nl": "Contact"
+      },
+      "language": {
+        "en": "Language",
+        "nl": "Taal"
+      },
+      "cart": {
+        "en": "Cart",
+        "nl": "Winkelmand"
+      },
+      "skip": {
+        "en": "Skip to content",
+        "nl": "Naar de inhoud"
+      },
+      "navigation": {
+        "en": "Main",
+        "nl": "Hoofdmenu"
+      }
     },
     "cartControl": {
-      "add": { "en": "Add", "nl": "Voeg toe" },
-      "addToCart": { "en": "Add to cart", "nl": "In winkelmand" },
-      "addNamed": { "en": "Add {name} to cart", "nl": "Voeg {name} toe aan winkelmand" },
-      "inCart": { "en": "In cart", "nl": "In winkelmand" },
-      "oneMore": { "en": "One more {name}", "nl": "Nog een {name}" },
-      "oneLess": { "en": "One less {name}", "nl": "Eén {name} minder" },
-      "remove": { "en": "Remove {name} from cart", "nl": "Verwijder {name} uit winkelmand" }
+      "add": {
+        "en": "Add",
+        "nl": "Voeg toe"
+      },
+      "addToCart": {
+        "en": "Add to cart",
+        "nl": "In winkelmand"
+      },
+      "addNamed": {
+        "en": "Add {name} to cart",
+        "nl": "Voeg {name} toe aan winkelmand"
+      },
+      "inCart": {
+        "en": "In cart",
+        "nl": "In winkelmand"
+      },
+      "oneMore": {
+        "en": "One more {name}",
+        "nl": "Nog een {name}"
+      },
+      "oneLess": {
+        "en": "One less {name}",
+        "nl": "Eén {name} minder"
+      },
+      "remove": {
+        "en": "Remove {name} from cart",
+        "nl": "Verwijder {name} uit winkelmand"
+      },
+      "soldOutNamed": {
+        "en": "{name} is sold out",
+        "nl": "{name} is uitverkocht"
+      }
     },
     "hero": {
-      "label": { "en": "Featured pieces", "nl": "Uitgelichte stukken" },
-      "seeRelated": { "en": "See related", "nl": "Bekijk verwant" },
-      "viewProduct": { "en": "View product", "nl": "Bekijk product" },
-      "previous": { "en": "Previous", "nl": "Vorige" },
-      "next": { "en": "Next", "nl": "Volgende" },
-      "slide": { "en": "Show {name}", "nl": "Toon {name}" }
+      "label": {
+        "en": "Featured pieces",
+        "nl": "Uitgelichte stukken"
+      },
+      "seeRelated": {
+        "en": "See related",
+        "nl": "Bekijk verwant"
+      },
+      "viewProduct": {
+        "en": "View product",
+        "nl": "Bekijk product"
+      },
+      "previous": {
+        "en": "Previous",
+        "nl": "Vorige"
+      },
+      "next": {
+        "en": "Next",
+        "nl": "Volgende"
+      },
+      "slide": {
+        "en": "Show {name}",
+        "nl": "Toon {name}"
+      }
     },
     "productCard": {
-      "alternateView": { "en": "{name}, alternate view", "nl": "{name}, ander aanzicht" },
-      "heightOption": { "en": "{h} cm high", "nl": "{h} cm hoog" },
-      "sizes": { "en": "Size", "nl": "Maat" },
-      "finishes": { "en": "Finish", "nl": "Afwerking" }
+      "alternateView": {
+        "en": "{name}, alternate view",
+        "nl": "{name}, ander aanzicht"
+      },
+      "heightOption": {
+        "en": "{h} cm high",
+        "nl": "{h} cm hoog"
+      },
+      "sizes": {
+        "en": "Size",
+        "nl": "Maat"
+      },
+      "finishes": {
+        "en": "Finish",
+        "nl": "Afwerking"
+      },
+      "inStock": {
+        "en": "{count} in stock",
+        "nl": "Nog {count} op voorraad"
+      }
     },
     "product": {
-      "breadcrumb": { "en": "Breadcrumb", "nl": "Kruimelpad" },
-      "gallery": { "en": "Photos of {name}", "nl": "Foto’s van {name}" },
-      "photo": { "en": "Photo {n} of {total}", "nl": "Foto {n} van {total}" },
-      "previousPhoto": { "en": "Previous photo", "nl": "Vorige foto" },
-      "nextPhoto": { "en": "Next photo", "nl": "Volgende foto" },
-      "about": { "en": "About this piece", "nl": "Over dit stuk" },
-      "dimensions": { "en": "Dimensions", "nl": "Afmetingen" },
-      "dimensionsCustom": { "en": "Custom: {hmin}–{hmax} cm high, {wmin}–{wmax} cm wide", "nl": "Op maat: {hmin}–{hmax} cm hoog, {wmin}–{wmax} cm breed" },
-      "materials": { "en": "Materials", "nl": "Materialen" },
-      "care": { "en": "Care", "nl": "Onderhoud" },
-      "deliveryReturns": { "en": "Delivery & returns", "nl": "Levering & retour" },
-      "inStock": { "en": "In stock, delivered in 2–4 working days", "nl": "Op voorraad, geleverd in 2–4 werkdagen" },
+      "breadcrumb": {
+        "en": "Breadcrumb",
+        "nl": "Kruimelpad"
+      },
+      "gallery": {
+        "en": "Photos of {name}",
+        "nl": "Foto’s van {name}"
+      },
+      "photo": {
+        "en": "Photo {n} of {total}",
+        "nl": "Foto {n} van {total}"
+      },
+      "previousPhoto": {
+        "en": "Previous photo",
+        "nl": "Vorige foto"
+      },
+      "nextPhoto": {
+        "en": "Next photo",
+        "nl": "Volgende foto"
+      },
+      "about": {
+        "en": "About this piece",
+        "nl": "Over dit stuk"
+      },
+      "dimensions": {
+        "en": "Dimensions",
+        "nl": "Afmetingen"
+      },
+      "dimensionsCustom": {
+        "en": "Custom: {hmin}–{hmax} cm high, {wmin}–{wmax} cm wide",
+        "nl": "Op maat: {hmin}–{hmax} cm hoog, {wmin}–{wmax} cm breed"
+      },
+      "materials": {
+        "en": "Materials",
+        "nl": "Materialen"
+      },
+      "care": {
+        "en": "Care",
+        "nl": "Onderhoud"
+      },
+      "deliveryReturns": {
+        "en": "Delivery & returns",
+        "nl": "Levering & retour"
+      },
+      "inStock": {
+        "en": "In stock, delivered in 2–4 working days",
+        "nl": "Op voorraad, geleverd in 2–4 werkdagen"
+      },
       "deliveryBody": {
         "en": "Delivered to your door in Belgium and the Netherlands, carefully packed in recycled materials.",
         "nl": "Aan huis geleverd in België en Nederland, zorgvuldig verpakt in gerecycleerde materialen."
@@ -135,29 +406,80 @@
         "en": "Changed your mind? Return a standard piece unused within 14 days. Pieces made to measure cannot be returned.",
         "nl": "Van gedachten veranderd? Stuur een standaardstuk ongebruikt terug binnen 14 dagen. Stukken op maat kunnen niet teruggestuurd worden."
       },
-      "related": { "en": "Pairs well with {name}", "nl": "Past mooi bij {name}" }
+      "related": {
+        "en": "Pairs well with {name}",
+        "nl": "Past mooi bij {name}"
+      }
     },
     "customSize": {
-      "title": { "en": "Custom size", "nl": "Op maat" },
-      "material": { "en": "Material", "nl": "Materiaal" },
-      "height": { "en": "Height", "nl": "Hoogte" },
-      "width": { "en": "Width", "nl": "Breedte" },
-      "inCm": { "en": "{label} in centimetres", "nl": "{label} in centimeter" },
-      "less": { "en": "Less {label}", "nl": "Minder {label}" },
-      "more": { "en": "More {label}", "nl": "Meer {label}" },
-      "size": { "en": "Size", "nl": "Afmeting" },
-      "delivery": { "en": "Delivery", "nl": "Levering" },
-      "leadTime": { "en": "Made to order, 4–5 wks", "nl": "Op bestelling gemaakt, 4–5 wkn" },
-      "price": { "en": "Price", "nl": "Prijs" },
-      "add": { "en": "Add to cart", "nl": "In winkelmand" },
-      "later": { "en": "Keep this size, add later", "nl": "Bewaar deze maat, later toevoegen" }
+      "title": {
+        "en": "Custom size",
+        "nl": "Op maat"
+      },
+      "material": {
+        "en": "Material",
+        "nl": "Materiaal"
+      },
+      "height": {
+        "en": "Height",
+        "nl": "Hoogte"
+      },
+      "width": {
+        "en": "Width",
+        "nl": "Breedte"
+      },
+      "inCm": {
+        "en": "{label} in centimetres",
+        "nl": "{label} in centimeter"
+      },
+      "less": {
+        "en": "Less {label}",
+        "nl": "Minder {label}"
+      },
+      "more": {
+        "en": "More {label}",
+        "nl": "Meer {label}"
+      },
+      "size": {
+        "en": "Size",
+        "nl": "Afmeting"
+      },
+      "delivery": {
+        "en": "Delivery",
+        "nl": "Levering"
+      },
+      "leadTime": {
+        "en": "Made to order, 4–5 wks",
+        "nl": "Op bestelling gemaakt, 4–5 wkn"
+      },
+      "price": {
+        "en": "Price",
+        "nl": "Prijs"
+      },
+      "add": {
+        "en": "Add to cart",
+        "nl": "In winkelmand"
+      },
+      "later": {
+        "en": "Keep this size, add later",
+        "nl": "Bewaar deze maat, later toevoegen"
+      }
     },
     "collection": {
-      "title": { "en": "New in the collection", "nl": "Nieuw in de collectie" },
-      "all": { "en": "Shop all pieces", "nl": "Alle stukken" }
+      "title": {
+        "en": "New in the collection",
+        "nl": "Nieuw in de collectie"
+      },
+      "all": {
+        "en": "Shop all pieces",
+        "nl": "Alle stukken"
+      }
     },
     "brand": {
-      "title": { "en": "Masters of bespoke work and refined interiors.", "nl": "Meesters in maatwerk en verfijnde interieurs." },
+      "title": {
+        "en": "Masters of bespoke work and refined interiors.",
+        "nl": "Meesters in maatwerk en verfijnde interieurs."
+      },
       "body": {
         "en": [
           "We design and make high-quality kitchens, cabinetry and interior pieces that fit seamlessly into your space and your style. With an eye for detail, true craftsmanship and the finest materials, we create timeless interiors where form, function and experience come together.",
@@ -168,112 +490,548 @@
           "Door de jaren heen werkte Flowwood voor een brede waaier aan klanten, van particulieren met een droomkeuken tot architecten en projectontwikkelaars op zoek naar perfect maatwerk."
         ]
       },
-      "cta": { "en": "View our bespoke work", "nl": "Bekijk ons maatwerk" },
-      "imageAlt": { "en": "Flowwood interior pieces", "nl": "Interieurstukken van Flowwood" },
+      "cta": {
+        "en": "View our bespoke work",
+        "nl": "Bekijk ons maatwerk"
+      },
+      "imageAlt": {
+        "en": "Flowwood interior pieces",
+        "nl": "Interieurstukken van Flowwood"
+      },
       "partnersLead": {
         "en": "We work with leading brands and select every finish for a timeless, lasting result.",
         "nl": "We werken met toonaangevende merken en kiezen elke afwerking voor een tijdloos, duurzaam resultaat."
       },
-      "partner": { "en": "partner logo {n}", "nl": "partnerlogo {n}" },
-      "statement": {
-        "en": ["Kitchens, cabinetry and interior pieces, ", "made entirely to measure.", " Fine materials and leading brands, ", "finished to last.", " Timeless interiors ", "for homeowners, architects and developers."],
-        "nl": ["Keukens, kastenwerk en interieurstukken, ", "volledig op maat gemaakt.", " Edele materialen en toonaangevende merken, ", "afgewerkt om te blijven.", " Tijdloze interieurs ", "voor particulieren, architecten en ontwikkelaars."]
+      "partner": {
+        "en": "partner logo {n}",
+        "nl": "partnerlogo {n}"
       },
-      "signature": { "en": "Signature", "nl": "Handtekening" },
-      "founder": { "en": "Kevin Janssen, Flowwood", "nl": "Kevin Janssen, Flowwood" }
+      "statement": {
+        "en": [
+          "Kitchens, cabinetry and interior pieces, ",
+          "made entirely to measure.",
+          " Fine materials and leading brands, ",
+          "finished to last.",
+          " Timeless interiors ",
+          "for homeowners, architects and developers."
+        ],
+        "nl": [
+          "Keukens, kastenwerk en interieurstukken, ",
+          "volledig op maat gemaakt.",
+          " Edele materialen en toonaangevende merken, ",
+          "afgewerkt om te blijven.",
+          " Tijdloze interieurs ",
+          "voor particulieren, architecten en ontwikkelaars."
+        ]
+      },
+      "signature": {
+        "en": "Signature",
+        "nl": "Handtekening"
+      },
+      "founder": {
+        "en": "Kevin Janssen, Flowwood",
+        "nl": "Kevin Janssen, Flowwood"
+      }
     },
     "samples": {
-      "samplesTitle": { "en": "See the grain before you decide.", "nl": "Zie de nerf voor je beslist." },
+      "samplesTitle": {
+        "en": "See the grain before you decide.",
+        "nl": "Zie de nerf voor je beslist."
+      },
       "samplesBody": {
         "en": "Choose up to three veneer, lacquer or material samples and judge colour and texture at home. Free of charge.",
         "nl": "Kies tot drie stalen van fineer, lak of materiaal en beoordeel kleur en textuur thuis. Gratis."
       },
-      "samplesCta": { "en": "Order samples", "nl": "Stalen bestellen" },
-      "bespokeTitle": { "en": "Made to your measure.", "nl": "Op jouw maat gemaakt." },
+      "samplesCta": {
+        "en": "Order samples",
+        "nl": "Stalen bestellen"
+      },
+      "bespokeTitle": {
+        "en": "Made to your measure.",
+        "nl": "Op jouw maat gemaakt."
+      },
       "bespokeBody": {
         "en": "A different height, section or finish for a particular object? Every piece can be built exactly to size, for your space.",
         "nl": "Een andere hoogte, doorsnede of afwerking voor een bijzonder object? Elk stuk kan exact op maat gebouwd worden, voor jouw ruimte."
       },
-      "bespokeCta": { "en": "Discuss a bespoke piece", "nl": "Bespreek een stuk op maat" }
+      "bespokeCta": {
+        "en": "Discuss a bespoke piece",
+        "nl": "Bespreek een stuk op maat"
+      }
     },
     "shop": {
-      "title": { "en": "Shop", "nl": "Winkel" },
-      "filter": { "en": "Collections", "nl": "Collecties" }
+      "title": {
+        "en": "Shop",
+        "nl": "Winkel"
+      },
+      "filter": {
+        "en": "Collections",
+        "nl": "Collecties"
+      }
     },
     "cart": {
-      "continue": { "en": "Continue browsing", "nl": "Verder winkelen" },
-      "subtotal": { "en": "Subtotal · {pieces}", "nl": "Subtotaal · {pieces}" },
-      "checkout": { "en": "Checkout", "nl": "Afrekenen" },
-      "empty": { "en": "Your cart is empty.", "nl": "Je winkelmand is leeg." },
-      "emptyBody": { "en": "Add a piece from the collection and it will appear here.", "nl": "Voeg een stuk uit de collectie toe en het verschijnt hier." },
-      "browse": { "en": "Browse the collection", "nl": "Ontdek de collectie" },
-      "view": { "en": "View {name}", "nl": "Bekijk {name}" },
-      "remove": { "en": "Remove {name}, {details}", "nl": "Verwijder {name}, {details}" },
-      "removeAll": { "en": "Remove all {name} options", "nl": "Verwijder alle opties van {name}" },
-      "removeLine": { "en": "Remove", "nl": "Verwijder" },
-      "removeTitle": { "en": "Remove from cart", "nl": "Verwijder uit winkelmand" },
-      "options": { "en": "{n} options", "nl": "{n} opties" },
-      "option": { "en": "1 option", "nl": "1 optie" },
-      "showOptions": { "en": "{name}: {sizes}, {pieces}, {total}. Show options", "nl": "{name}: {sizes}, {pieces}, {total}. Toon opties" },
-      "closeOptions": { "en": "Close {name} options", "nl": "Sluit opties van {name}" },
-      "optionsOf": { "en": "{name} options", "nl": "Opties van {name}" },
-      "anotherSize": { "en": "Another size", "nl": "Andere maat" },
-      "addSizeGroup": { "en": "Add {name} in another size", "nl": "Voeg {name} toe in een andere maat" },
-      "addSize": { "en": "Add {name}, {h} cm", "nl": "Voeg {name} toe, {h} cm" },
-      "addCustom": { "en": "Add {name} in a custom size", "nl": "Voeg {name} op maat toe" },
-      "addLabel": { "en": "Add", "nl": "Voeg toe" },
-      "closeSizes": { "en": "Close size options", "nl": "Sluit maatopties" },
-      "total": { "en": "Total · {pieces}", "nl": "Totaal · {pieces}" },
-      "customRow": { "en": "Custom {h} × {w} cm", "nl": "Op maat {h} × {w} cm" },
-      "madeToMeasure": { "en": "{finish}, made to measure", "nl": "{finish}, op maat gemaakt" },
+      "continue": {
+        "en": "Continue browsing",
+        "nl": "Verder winkelen"
+      },
+      "subtotal": {
+        "en": "Subtotal · {pieces}",
+        "nl": "Subtotaal · {pieces}"
+      },
+      "checkout": {
+        "en": "Checkout",
+        "nl": "Afrekenen"
+      },
+      "empty": {
+        "en": "Your cart is empty.",
+        "nl": "Je winkelmand is leeg."
+      },
+      "emptyBody": {
+        "en": "Add a piece from the collection and it will appear here.",
+        "nl": "Voeg een stuk uit de collectie toe en het verschijnt hier."
+      },
+      "browse": {
+        "en": "Browse the collection",
+        "nl": "Ontdek de collectie"
+      },
+      "suggestions": {
+        "en": "You might like",
+        "nl": "Misschien iets voor jou"
+      },
+      "view": {
+        "en": "View {name}",
+        "nl": "Bekijk {name}"
+      },
+      "remove": {
+        "en": "Remove {name}, {details}",
+        "nl": "Verwijder {name}, {details}"
+      },
+      "removeAll": {
+        "en": "Remove all {name} options",
+        "nl": "Verwijder alle opties van {name}"
+      },
+      "removeLine": {
+        "en": "Remove",
+        "nl": "Verwijder"
+      },
+      "removeTitle": {
+        "en": "Remove from cart",
+        "nl": "Verwijder uit winkelmand"
+      },
+      "options": {
+        "en": "{n} options",
+        "nl": "{n} opties"
+      },
+      "option": {
+        "en": "1 option",
+        "nl": "1 optie"
+      },
+      "showOptions": {
+        "en": "{name}: {sizes}, {pieces}, {total}. Show options",
+        "nl": "{name}: {sizes}, {pieces}, {total}. Toon opties"
+      },
+      "closeOptions": {
+        "en": "Close {name} options",
+        "nl": "Sluit opties van {name}"
+      },
+      "optionsOf": {
+        "en": "{name} options",
+        "nl": "Opties van {name}"
+      },
+      "anotherSize": {
+        "en": "Another size",
+        "nl": "Andere maat"
+      },
+      "addSizeGroup": {
+        "en": "Add {name} in another size",
+        "nl": "Voeg {name} toe in een andere maat"
+      },
+      "addSize": {
+        "en": "Add {name}, {h} cm",
+        "nl": "Voeg {name} toe, {h} cm"
+      },
+      "addCustom": {
+        "en": "Add {name} in a custom size",
+        "nl": "Voeg {name} op maat toe"
+      },
+      "addLabel": {
+        "en": "Add",
+        "nl": "Voeg toe"
+      },
+      "closeSizes": {
+        "en": "Close size options",
+        "nl": "Sluit maatopties"
+      },
+      "total": {
+        "en": "Total · {pieces}",
+        "nl": "Totaal · {pieces}"
+      },
+      "customRow": {
+        "en": "Custom {h} × {w} cm",
+        "nl": "Op maat {h} × {w} cm"
+      },
+      "madeToMeasure": {
+        "en": "{finish}, made to measure",
+        "nl": "{finish}, op maat gemaakt"
+      },
       "cheers": {
-        "en": ["You have great taste. Seriously.", "Now that’s a collection.", "Your future living room says thank you.", "An eye for grain, clearly.", "Curated like a true collector.", "These would look very good together.", "Quietly impressive picks.", "Somebody knows their oak from their ash.", "A shortlist worth showing off.", "Good things, well chosen."],
-        "nl": ["Jij hebt smaak. Echt waar.", "Dat noemen we een collectie.", "Je toekomstige woonkamer zegt dankjewel.", "Duidelijk een oog voor nerf.", "Samengesteld als een echte verzamelaar.", "Deze zouden heel mooi samen staan.", "Ingetogen indrukwekkende keuzes.", "Iemand kent het verschil tussen eik en es.", "Een shortlist om mee uit te pakken.", "Goede dingen, goed gekozen."]
+        "en": [
+          "You have great taste. Seriously.",
+          "Now that’s a collection.",
+          "Your future living room says thank you.",
+          "An eye for grain, clearly.",
+          "Curated like a true collector.",
+          "These would look very good together.",
+          "Quietly impressive picks.",
+          "Somebody knows their oak from their ash.",
+          "A shortlist worth showing off.",
+          "Good things, well chosen."
+        ],
+        "nl": [
+          "Jij hebt smaak. Echt waar.",
+          "Dat noemen we een collectie.",
+          "Je toekomstige woonkamer zegt dankjewel.",
+          "Duidelijk een oog voor nerf.",
+          "Samengesteld als een echte verzamelaar.",
+          "Deze zouden heel mooi samen staan.",
+          "Ingetogen indrukwekkende keuzes.",
+          "Iemand kent het verschil tussen eik en es.",
+          "Een shortlist om mee uit te pakken.",
+          "Goede dingen, goed gekozen."
+        ]
       }
     },
     "footer": {
-      "rights": { "en": "© 2026 Flowwood", "nl": "© 2026 Flowwood" },
-      "terms": { "en": "Terms", "nl": "Voorwaarden" },
-      "privacy": { "en": "Privacy", "nl": "Privacy" },
-      "contact": { "en": "Contact", "nl": "Contact" },
-      "socials": { "en": "Flowwood on social media", "nl": "Flowwood op sociale media" },
-      "instagram": { "en": "Instagram", "nl": "Instagram" },
-      "facebook": { "en": "Facebook", "nl": "Facebook" },
-      "top": { "en": "Back to top", "nl": "Naar boven" }
+      "rights": {
+        "en": "© 2026 Flowwood",
+        "nl": "© 2026 Flowwood"
+      },
+      "terms": {
+        "en": "Terms",
+        "nl": "Voorwaarden"
+      },
+      "privacy": {
+        "en": "Privacy",
+        "nl": "Privacy"
+      },
+      "contact": {
+        "en": "Contact",
+        "nl": "Contact"
+      },
+      "socials": {
+        "en": "Flowwood on social media",
+        "nl": "Flowwood op sociale media"
+      },
+      "instagram": {
+        "en": "Instagram",
+        "nl": "Instagram"
+      },
+      "facebook": {
+        "en": "Facebook",
+        "nl": "Facebook"
+      },
+      "top": {
+        "en": "Back to top",
+        "nl": "Naar boven"
+      }
+    },
+    "field": {
+      "requiredNote": {
+        "en": "required",
+        "nl": "verplicht"
+      },
+      "optional": {
+        "en": "optional",
+        "nl": "optioneel"
+      },
+      "name": {
+        "en": "Name",
+        "nl": "Naam"
+      },
+      "nameError": {
+        "en": "Enter your name.",
+        "nl": "Vul je naam in."
+      },
+      "email": {
+        "en": "Email",
+        "nl": "E-mail"
+      },
+      "emailError": {
+        "en": "Enter an email like name@example.com.",
+        "nl": "Vul een e-mail in zoals naam@voorbeeld.be."
+      },
+      "phone": {
+        "en": "Phone",
+        "nl": "Telefoon"
+      }
+    },
+    "checkout": {
+      "title": {
+        "en": "Checkout",
+        "nl": "Afrekenen"
+      },
+      "back": {
+        "en": "Back to cart",
+        "nl": "Terug naar winkelmand"
+      },
+      "contact": {
+        "en": "Contact",
+        "nl": "Contact"
+      },
+      "delivery": {
+        "en": "Delivery",
+        "nl": "Levering"
+      },
+      "emailHint": {
+        "en": "For your order confirmation.",
+        "nl": "Voor je orderbevestiging."
+      },
+      "phoneHint": {
+        "en": "Only used to plan the delivery with you.",
+        "nl": "Enkel om de levering met je in te plannen."
+      },
+      "phoneError": {
+        "en": "Enter a phone number.",
+        "nl": "Vul een telefoonnummer in."
+      },
+      "country": {
+        "en": "Country",
+        "nl": "Land"
+      },
+      "countryHint": {
+        "en": "We deliver in Belgium, the Netherlands and Luxembourg.",
+        "nl": "We leveren in België, Nederland en Luxemburg."
+      },
+      "address": {
+        "en": "Street and house number",
+        "nl": "Straat en huisnummer"
+      },
+      "addressError": {
+        "en": "Enter the street and number.",
+        "nl": "Vul straat en huisnummer in."
+      },
+      "address2": {
+        "en": "Box, floor or apartment",
+        "nl": "Bus, verdieping of appartement"
+      },
+      "address2Toggle": {
+        "en": "Add a box, floor or apartment",
+        "nl": "Bus, verdieping of appartement toevoegen"
+      },
+      "postcode": {
+        "en": "Postcode",
+        "nl": "Postcode"
+      },
+      "postcodeError": {
+        "en": "Enter a postcode like {example}.",
+        "nl": "Vul een postcode in zoals {example}."
+      },
+      "city": {
+        "en": "Town or city",
+        "nl": "Gemeente"
+      },
+      "addressNumber": {
+        "en": "Add the house number.",
+        "nl": "Vul ook het huisnummer in."
+      },
+      "addressUnknown": {
+        "en": "We can't find this address. Check the street and number.",
+        "nl": "We vinden dit adres niet. Controleer straat en nummer."
+      },
+      "postcodeUnknown": {
+        "en": "We can't find this postcode.",
+        "nl": "We vinden deze postcode niet."
+      },
+      "cityMismatch": {
+        "en": "{postcode} is in {city}.",
+        "nl": "{postcode} ligt in {city}."
+      },
+      "checking": {
+        "en": "Checking the address…",
+        "nl": "Adres controleren…"
+      },
+      "found": {
+        "en": "Address found.",
+        "nl": "Adres gevonden."
+      },
+      "notFound": {
+        "en": "We couldn't confirm this address.",
+        "nl": "We konden dit adres niet bevestigen."
+      },
+      "keepAddress": {
+        "en": "This address is correct",
+        "nl": "Dit adres klopt"
+      },
+      "suggestions": {
+        "en": "Address suggestions",
+        "nl": "Adressuggesties"
+      },
+      "cityError": {
+        "en": "Enter the town or city.",
+        "nl": "Vul de gemeente in."
+      },
+      "notesToggle": {
+        "en": "Add delivery notes",
+        "nl": "Leveringsnotities toevoegen"
+      },
+      "notes": {
+        "en": "Delivery notes",
+        "nl": "Leveringsnotities"
+      },
+      "notesHint": {
+        "en": "Access, stairs, a lift or a moment that suits you.",
+        "nl": "Toegang, trappen, een lift of een moment dat je past."
+      },
+      "homeDelivery": {
+        "en": "Delivered and placed by our team",
+        "nl": "Geleverd en geplaatst door ons team"
+      },
+      "expected": {
+        "en": "Made to order, expected between {from} and {to}.",
+        "nl": "Op bestelling gemaakt, verwacht tussen {from} en {to}."
+      },
+      "free": {
+        "en": "Free",
+        "nl": "Gratis"
+      },
+      "sameBilling": {
+        "en": "Billing address is the same as the delivery address",
+        "nl": "Factuuradres is hetzelfde als het leveringsadres"
+      },
+      "paymentBody": {
+        "en": "After you order, you pay securely with your own bank app or card.",
+        "nl": "Na het bestellen betaal je veilig met je eigen bankapp of kaart."
+      },
+      "remember": {
+        "en": "Remember my details on this device",
+        "nl": "Onthoud mijn gegevens op dit toestel"
+      },
+      "rememberHint": {
+        "en": "Saved only in this browser, for your next order. Never your payment details.",
+        "nl": "Enkel bewaard in deze browser, voor je volgende bestelling. Nooit je betaalgegevens."
+      },
+      "saved": {
+        "en": "Filled in with the details you saved on this device.",
+        "nl": "Ingevuld met de gegevens die je op dit toestel bewaarde."
+      },
+      "forget": {
+        "en": "Forget them",
+        "nl": "Wis ze"
+      },
+      "forgotten": {
+        "en": "Your saved details have been removed from this device.",
+        "nl": "Je bewaarde gegevens zijn van dit toestel gewist."
+      },
+      "terms": {
+        "en": "By ordering you agree to our {terms} and {privacy}.",
+        "nl": "Door te bestellen ga je akkoord met onze {terms} en {privacy}."
+      },
+      "termsLink": {
+        "en": "terms and conditions",
+        "nl": "algemene voorwaarden"
+      },
+      "privacyLink": {
+        "en": "privacy statement",
+        "nl": "privacyverklaring"
+      },
+      "submit": {
+        "en": "Order and pay",
+        "nl": "Bestellen en betalen"
+      },
+      "errors": {
+        "en": "Check the following",
+        "nl": "Controleer het volgende"
+      },
+      "errorTitle": {
+        "en": "Error: {title}",
+        "nl": "Fout: {title}"
+      },
+      "summary": {
+        "en": "Your order",
+        "nl": "Je bestelling"
+      },
+      "editCart": {
+        "en": "Edit cart",
+        "nl": "Winkelmand aanpassen"
+      },
+      "subtotal": {
+        "en": "Subtotal",
+        "nl": "Subtotaal"
+      },
+      "total": {
+        "en": "Total",
+        "nl": "Totaal"
+      },
+      "vat": {
+        "en": "incl. VAT",
+        "nl": "incl. btw"
+      },
+      "quantity": {
+        "en": "Quantity {n}",
+        "nl": "Aantal {n}"
+      },
+      "noWithdrawal": {
+        "en": "Made to measure, so no right of withdrawal.",
+        "nl": "Op maat gemaakt, dus geen herroepingsrecht."
+      },
+      "unavailable": {
+        "en": "Online payment is not connected yet. Your details are kept here; to order now, call us or email",
+        "nl": "Online betalen is nog niet gekoppeld. Je gegevens blijven hier staan; bestel nu door te bellen of te mailen naar"
+      }
     },
     "contact": {
-      "title": { "en": "Get in touch.", "nl": "Neem contact op." },
+      "title": {
+        "en": "Get in touch.",
+        "nl": "Neem contact op."
+      },
       "intro": {
         "en": "A question about a piece, a bespoke project or your order? Call or email us directly, or send a message with the form.",
         "nl": "Een vraag over een stuk, een project op maat of je bestelling? Bel of mail ons rechtstreeks, of stuur een bericht via het formulier."
       },
-      "phone": { "en": "Phone", "nl": "Telefoon" },
-      "phoneAction": { "en": "Call us", "nl": "Bel ons" },
-      "email": { "en": "Email", "nl": "E-mail" },
-      "emailAction": { "en": "Email us", "nl": "Mail ons" },
-      "formTitle": { "en": "Send a message", "nl": "Stuur een bericht" },
-      "requiredNote": { "en": "required", "nl": "verplicht" },
-      "optional": { "en": "optional", "nl": "optioneel" },
-      "name": { "en": "Name", "nl": "Naam" },
-      "nameError": { "en": "Please enter your name.", "nl": "Vul je naam in." },
-      "emailError": {
-        "en": "Please enter a valid email address, for example name@example.com.",
-        "nl": "Vul een geldig e-mailadres in, bijvoorbeeld naam@voorbeeld.be."
+      "phoneAction": {
+        "en": "Call us",
+        "nl": "Bel ons"
       },
-      "phoneHint": { "en": "Only if you would rather be called back.", "nl": "Alleen als je liever teruggebeld wordt." },
-      "message": { "en": "Message", "nl": "Bericht" },
+      "emailAction": {
+        "en": "Email us",
+        "nl": "Mail ons"
+      },
+      "formTitle": {
+        "en": "Send a message",
+        "nl": "Stuur een bericht"
+      },
+      "phoneHint": {
+        "en": "Only if you would rather be called back.",
+        "nl": "Alleen als je liever teruggebeld wordt."
+      },
+      "message": {
+        "en": "Message",
+        "nl": "Bericht"
+      },
       "messageHint": {
         "en": "Tell us about the piece, the dimensions you have in mind or your question.",
         "nl": "Vertel ons over het stuk, de afmetingen die je voor ogen hebt of je vraag."
       },
-      "messageError": { "en": "Please write your message.", "nl": "Schrijf je bericht." },
+      "messageError": {
+        "en": "Write your message.",
+        "nl": "Schrijf je bericht."
+      },
       "privacy": {
         "en": "We only use your details to answer your message.",
         "nl": "We gebruiken je gegevens alleen om je bericht te beantwoorden."
       },
-      "honeypot": { "en": "Leave this field empty", "nl": "Laat dit veld leeg" },
-      "submit": { "en": "Send message", "nl": "Verstuur bericht" },
-      "sending": { "en": "Sending…", "nl": "Bezig met versturen…" },
+      "honeypot": {
+        "en": "Leave this field empty",
+        "nl": "Laat dit veld leeg"
+      },
+      "submit": {
+        "en": "Send message",
+        "nl": "Verstuur bericht"
+      },
+      "sending": {
+        "en": "Sending…",
+        "nl": "Bezig met versturen…"
+      },
       "sent": {
         "en": "Thank you. Your message has been sent and we will get back to you soon.",
         "nl": "Bedankt. Je bericht is verstuurd en we nemen snel contact met je op."
@@ -284,8 +1042,14 @@
       }
     },
     "notFound": {
-      "title": { "en": "Page not found.", "nl": "Pagina niet gevonden." },
-      "home": { "en": "Back to the homepage", "nl": "Terug naar de startpagina" }
+      "title": {
+        "en": "Page not found.",
+        "nl": "Pagina niet gevonden."
+      },
+      "home": {
+        "en": "Back to the homepage",
+        "nl": "Terug naar de startpagina"
+      }
     }
   }
 }

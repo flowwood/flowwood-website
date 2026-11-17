@@ -7,6 +7,7 @@ export function createCatalog(data) {
 
   const product = (id) => byId.get(id);
   const isSized = (p) => Boolean(p.sizing);
+  const stockOf = (key) => product(String(key).split(':')[0])?.stock ?? null;
   const finish = (p, id) => p.finishes.find((f) => f.id === id) || p.finishes[0];
   const customDims = (c) => ({ h: clamp(c.custom.h, cs.height), w: clamp(c.custom.w, cs.width) });
 
@@ -69,8 +70,27 @@ export function createCatalog(data) {
     return `Ø ${w} × ${h} cm`;
   }
 
-  return { data, customSize: cs, product, isSized, finish, defaults, customStart, customDims, price, fromPrice, lineKey, parseKey, outerDimensions, clamp, inRange };
+  function groups(lines) {
+    const order = new Map(data.products.map((p, i) => [p.id, i]));
+    const byProduct = new Map();
+    for (const [key, qty] of Object.entries(lines)) {
+      const c = parseKey(key);
+      if (!c) continue;
+      if (!byProduct.has(c.product)) byProduct.set(c.product, { product: product(c.product), lines: [] });
+      byProduct.get(c.product).lines.push({ key, config: c, qty, price: price(c) });
+    }
+    return [...byProduct.values()].sort((a, z) => order.get(a.product.id) - order.get(z.product.id));
+  }
+
+  return { data, customSize: cs, product, isSized, finish, defaults, customStart, customDims, price, fromPrice, lineKey, parseKey, groups, outerDimensions, clamp, inRange, stockOf };
 }
+
+export const sum = (lines, f) => lines.reduce((a, l) => a + f(l), 0);
+
+const productOfKey = (key) => key.split(':')[0];
+
+export const stockLeft = (stock, key, lines) =>
+  stock == null ? Infinity : Math.max(0, stock - sum(Object.entries(lines).filter(([k]) => productOfKey(k) === productOfKey(key)), ([, qty]) => qty));
 
 export function describe(catalog, i18n, c) {
   const p = catalog.product(c.product);

@@ -3,7 +3,7 @@ import { swatches } from '../product-card/product-card.template.js';
 
 export const customSize = () => `<dialog ${bem('custom-size')()}></dialog>`;
 
-export function customSizeBody({ i18n, catalog }, { product: p, config: c }) {
+export function customSizeBody({ i18n, catalog }, { product: p, config: c, soldOut = false }) {
   const b = bem('custom-size');
   const t = (k, vars) => esc(i18n.t(`customSize.${k}`, vars));
   const cs = catalog.customSize;
@@ -59,7 +59,7 @@ export function customSizeBody({ i18n, catalog }, { product: p, config: c }) {
       <span ${b('price-label', { cls: 'eyebrow' })}>${t('price')}</span>
       <span ${b('price', { cls: 'figure' })} aria-live="polite">${esc(i18n.money(catalog.price(c)))}</span>
     </div>
-    <button ${b('add', { cls: 'button button--primary' })} type="button" data-add>${t('add')}<span ${b('add-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">+</span></button>
+    <button ${b('add', { cls: 'button button--primary' })} type="button" data-add${soldOut ? ' disabled' : ''}>${soldOut ? esc(i18n.t('common.soldOut')) : `${t('add')}<span ${b('add-icon', { cls: 'button__icon button__icon--accent' })} aria-hidden="true">+</span>`}</button>
     <button ${b('later', { cls: 'hit' })} type="button" data-close>${t('later')}</button>
   </div>
 </div>`;
