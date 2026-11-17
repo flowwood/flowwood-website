@@ -1,55 +1,48 @@
-import { FwElement, page } from '../../js/element.js';
+import { FwElement } from '../../js/element.js';
+
+const READING_LINE = 0.4;
+const clamp01 = (n) => Math.min(1, Math.max(0, n));
 
 customElements.define(
   'fw-shop',
   class extends FwElement {
     setup() {
-      this.sort = 'featured';
-      this.sorts = this.$('.shop__sorts');
-      this.anchor(this.sorts, this.$('.shop__sort-button'));
-      this.on('click', '.shop__filter', (e, el) => this.filter(el));
-      this.on('click', '[data-sort]', (e, el) => this.pickSort(el));
-      this.on('product-card:change', null, () => this.sort !== 'featured' && this.order());
+      this.links = this.$$('.shop__link');
+      this.groups = this.links.map((a) => this.$(a.hash));
+      this.on('scroll', null, () => this.schedule(), window);
+      this.on('resize', null, () => this.schedule(), window);
+      this.track();
     }
 
-    async filter(el) {
-      const id = el.dataset.filter;
-      for (const f of this.$$('.shop__filter')) f.ariaPressed = String(f === el);
-      if (id) this.dataset.filter = id;
-      else delete this.dataset.filter;
-      for (const g of this.$$('.collection[data-collection]')) g.hidden = Boolean(id) && g.dataset.collection !== id;
-      const { i18n } = await page();
-      this.$('.shop__count').textContent = i18n.pieces(Number(el.dataset.count));
-      this.bringGroupsUnderStickyBar();
+    schedule() {
+      if (this.frame) return;
+      this.frame = requestAnimationFrame(() => {
+        this.frame = 0;
+        this.track();
+      });
     }
 
-    bringGroupsUnderStickyBar() {
-      const top = this.$('.shop__groups').getBoundingClientRect().top;
-      const barBottom = this.$('.shop__bar').getBoundingClientRect().bottom;
-      if (top < barBottom) scrollBy({ top: top - barBottom });
+    track() {
+      const line = innerHeight * READING_LINE;
+      const progress = this.groups.map((g) => {
+        const r = g.getBoundingClientRect();
+        return clamp01((line - r.top) / r.height);
+      });
+      const current = Math.max(0, progress.findLastIndex((p) => p > 0));
+      this.links.forEach((a, i) => {
+        a.style.setProperty('--progress', progress[i].toFixed(3));
+        if (i === current) a.setAttribute('aria-current', 'location');
+        else a.removeAttribute('aria-current');
+      });
+      this.reveal(this.links[current]);
     }
 
-    pickSort(el) {
-      this.sort = el.dataset.sort;
-      for (const o of this.$$('[data-sort]')) o.ariaSelected = String(o === el);
-      this.$('.shop__sort-label').textContent = el.textContent;
-      this.sorts.hidePopover();
-      this.order();
-    }
-
-    order() {
-      const dir = this.sort === 'priceAsc' ? 1 : this.sort === 'priceDesc' ? -1 : 0;
-      for (const grid of this.$$('.collection__grid')) {
-        const cards = [...grid.children];
-        if (!dir) {
-          cards.forEach((c) => (c.style.order = ''));
-          continue;
-        }
-        cards
-          .map((c, i) => ({ c, i, p: Number(c.dataset.price) }))
-          .sort((a, z) => dir * (a.p - z.p) || a.i - z.i)
-          .forEach(({ c }, n) => (c.style.order = String(n)));
-      }
+    reveal(link) {
+      if (link === this.revealed) return;
+      this.revealed = link;
+      const list = link.closest('.shop__list');
+      if (list.scrollWidth <= list.clientWidth) return;
+      list.scrollTo({ left: link.parentElement.offsetLeft - list.offsetLeft, behavior: 'smooth' });
     }
   },
 );

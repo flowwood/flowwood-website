@@ -43,6 +43,7 @@
         "properties": {
           "id": { "$ref": "#/$defs/id" },
           "name": { "$ref": "#/$defs/localized" },
+          "intro": { "$ref": "#/$defs/localized", "description": "One sentence that opens the collection on the shop page." },
           "items": {
             "type": "array",
             "items": {

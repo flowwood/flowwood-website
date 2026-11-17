@@ -39,14 +39,11 @@ customElements.define(
     async reflect(c) {
       const { catalog, i18n } = await page();
       const d = describe(catalog, i18n, c);
-      const price = catalog.price(c);
-      this.dataset.price = String(price);
       this.$('.product-card__option').textContent = `${d.finish}, ${d.size}`;
-      this.$('.product-card__price').textContent = i18n.money(price);
+      this.$('.product-card__price').textContent = i18n.money(catalog.price(c));
       for (const el of this.$$('[data-height]')) el.ariaPressed = String(c.custom ? el.dataset.height === 'custom' : Number(el.dataset.height) === c.height);
       for (const el of this.$$('[data-finish]')) el.ariaPressed = String(el.dataset.finish === c.finish);
       this.$('fw-cart-control').dataset.key = catalog.lineKey(c);
-      this.dispatchEvent(new CustomEvent('product-card:change', { bubbles: true }));
     }
   },
 );

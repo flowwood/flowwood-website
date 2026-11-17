@@ -12,6 +12,7 @@
     {
       "id": "dark-oak",
       "name": { "en": "Dark oak", "nl": "Donkere eik" },
+      "intro": { "en": "Smoked oak, walnut and ink lacquer. The deep end of the range, for rooms with warm light and dark floors.", "nl": "Gerookte eik, notelaar en inktzwarte lak. Het donkere einde van de collectie, voor kamers met warm licht en donkere vloeren." },
       "items": [
         { "product": "monolith", "finish": "smoked-oak", "height": 60 },
         { "product": "rondo", "finish": "smoked-oak", "height": 60 },
@@ -23,6 +24,7 @@
     {
       "id": "soft-stone",
       "name": { "en": "Soft stone", "nl": "Zachte steen" },
+      "intro": { "en": "Stone, taupe and speckled stoneware. Quiet, mineral tones that sit between wall and floor.", "nl": "Steen, taupe en gespikkeld steengoed. Rustige, minerale tinten tussen muur en vloer." },
       "items": [
         { "product": "facet", "finish": "stone", "height": 60 },
         { "product": "ovale", "finish": "taupe", "height": 55 },
@@ -32,6 +34,7 @@
     {
       "id": "pale-clear",
       "name": { "en": "Pale & clear", "nl": "Licht & helder" },
+      "intro": { "en": "Bleached ash, chalk lacquer and clear glass. Light pieces that almost disappear into a white room.", "nl": "Gebleekte es, krijtwitte lak en helder glas. Lichte stukken die bijna opgaan in een witte kamer." },
       "items": [
         { "product": "monolith", "finish": "bleached-ash", "height": 60 },
         { "product": "facet", "finish": "chalk", "height": 60 },

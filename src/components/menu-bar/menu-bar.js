@@ -11,6 +11,16 @@ function revealCurrentLink(nav) {
   if (hiddenWidth > 0) nav.scrollLeft += hiddenWidth;
 }
 
+function watchPastHero(bar, signal) {
+  const heroWordmark = document.querySelector('.hero__wordmark');
+  if (!heroWordmark) return;
+  const observer = new IntersectionObserver(([entry]) => bar.toggleAttribute('data-past-hero', !entry.isIntersecting), {
+    rootMargin: `-${bar.offsetHeight}px 0px 0px`,
+  });
+  observer.observe(heroWordmark);
+  signal.addEventListener('abort', () => observer.disconnect());
+}
+
 customElements.define(
   'fw-menu-bar',
   class extends FwElement {
@@ -21,6 +31,7 @@ customElements.define(
       this.nav = this.$('.menu-bar__nav');
       revealCurrentLink(this.nav);
       this.markMore();
+      watchPastHero(this, this.signal);
       this.nav.addEventListener('scroll', () => this.markMore(), { passive: true, signal: this.signal });
       addEventListener('resize', () => this.markMore(), { signal: this.signal });
       addEventListener('cart:change', () => this.count(), { signal: this.signal });

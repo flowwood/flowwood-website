@@ -30,7 +30,7 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
        </div>`
     : `<span ${b('unit')}>${esc(i18n.t('common.oneSize'))}</span>`;
 
-  return `<fw-product-card ${b('', { mods: { [variant]: variant !== 'card' } })} data-product="${p.id}" data-config="${esc(configId)}" data-price="${price}">
+  return `<fw-product-card ${b('', { mods: { [variant]: variant !== 'card' } })} data-product="${p.id}" data-config="${esc(configId)}">
   ${media}
   <div ${b('head')}>
     <div ${b('titles')}>

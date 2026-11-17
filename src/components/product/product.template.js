@@ -1,11 +1,15 @@
 import { bem, esc, img } from '../../js/bem.js';
 import { productCard } from '../product-card/product-card.template.js';
-import { breadcrumb } from '../shop/shop.template.js';
 import { collection } from '../collection/collection.template.js';
 
 export const images = (p) => [p.image, p.altImage, ...(p.gallery || [])].filter(Boolean);
 
 const GRID_SLOTS = 4;
+
+const breadcrumb = (b, i18n, links, current) => `<nav ${b('breadcrumb', { cls: 'breadcrumb' })} aria-label="${esc(i18n.t('product.breadcrumb'))}">
+      ${links.map((l) => `<a ${b('crumb', { key: l.key, cls: 'breadcrumb__link hit' })} href="${l.href}">${esc(l.label)}</a><span ${b('crumb-separator', { key: l.key })} aria-hidden="true">/</span>`).join('')}
+      <span ${b('crumb', { key: 'current', cls: 'breadcrumb__current' })} aria-current="page">${esc(current)}</span>
+    </nav>`;
 
 export function product(ctx, p) {
   const { catalog, i18n } = ctx;

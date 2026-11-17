@@ -8,10 +8,10 @@ export function menuBar({ site, i18n, locale, route, item, current }) {
   const t = (k) => esc(i18n.t(`menuBar.${k}`));
   const isCurrent = (on) => (on ? ' aria-current="page"' : '');
   return `<fw-menu-bar ${b()} role="banner">
-  <span ${b('spacer')}></span>
+  <a ${b('wordmark', { cls: 'hit' })} href="${i18n.url('home')}"${isCurrent(current === 'home')}>${esc(site.name)}</a>
   <div ${b('inner', { cls: 'eyebrow' })}>
     <nav ${b('nav')} aria-label="${t('navigation')}">
-      ${site.navigation.map((r) => `<a ${b('link', { key: r, cls: 'marker' })} href="${i18n.url(r)}"${isCurrent(r === current)}>${t(r)}</a>`).join('')}
+      ${site.navigation.map((r) => `<a ${b('link', { key: r, cls: 'marker', mods: { home: r === 'home' } })} href="${i18n.url(r)}"${isCurrent(r === current)}>${t(r)}</a>`).join('')}
     </nav>
     <div ${b('actions')}>
       <button ${b('language', { cls: 'eyebrow popover-trigger' })} type="button" popovertarget="${b.id('languages')}" aria-label="${t('language')}">${esc(site.locales[locale].code)}</button>

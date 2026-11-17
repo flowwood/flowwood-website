@@ -3,7 +3,7 @@
   "$id": "https://flowwood.be/schema/site.schema.json",
   "title": "Flowwood site",
   "type": "object",
-  "required": ["name", "origin", "defaultLocale", "locales", "routes", "navigation", "footerLinks", "contact", "socials", "meta", "home", "shop", "ui"],
+  "required": ["name", "origin", "defaultLocale", "locales", "routes", "navigation", "footerLinks", "contact", "socials", "meta", "home", "ui"],
   "$defs": {
     "localized": {
       "type": "object",
@@ -125,7 +125,6 @@
         "partners": { "type": "integer" }
       }
     },
-    "shop": { "type": "object", "properties": { "allImage": { "$ref": "#/$defs/image" } } },
     "ui": { "$ref": "#/$defs/strings" }
   }
 }

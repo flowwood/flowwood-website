@@ -68,9 +68,6 @@
     "signature": { "src": "/media/signature.svg", "width": 1377, "height": 2447 },
     "partners": 6
   },
-  "shop": {
-    "allImage": { "src": "/media/image3.webp", "width": 512, "height": 382, "position": "50% 60%" }
-  },
   "ui": {
     "common": {
       "from": { "en": "from", "nl": "vanaf" },
@@ -118,6 +115,7 @@
       "finishes": { "en": "Finish", "nl": "Afwerking" }
     },
     "product": {
+      "breadcrumb": { "en": "Breadcrumb", "nl": "Kruimelpad" },
       "gallery": { "en": "Photos of {name}", "nl": "Foto’s van {name}" },
       "photo": { "en": "Photo {n} of {total}", "nl": "Foto {n} van {total}" },
       "previousPhoto": { "en": "Previous photo", "nl": "Vorige foto" },
@@ -199,14 +197,8 @@
       "bespokeCta": { "en": "Discuss a bespoke piece", "nl": "Bespreek een stuk op maat" }
     },
     "shop": {
-      "breadcrumb": { "en": "Breadcrumb", "nl": "Kruimelpad" },
       "title": { "en": "Shop", "nl": "Winkel" },
-      "all": { "en": "All", "nl": "Alles" },
-      "filter": { "en": "Collections", "nl": "Collecties" },
-      "sort": { "en": "Sort", "nl": "Sorteer" },
-      "sortFeatured": { "en": "Featured", "nl": "Uitgelicht" },
-      "sortPriceAsc": { "en": "Price, low to high", "nl": "Prijs, laag naar hoog" },
-      "sortPriceDesc": { "en": "Price, high to low", "nl": "Prijs, hoog naar laag" }
+      "filter": { "en": "Collections", "nl": "Collecties" }
     },
     "cart": {
       "continue": { "en": "Continue browsing", "nl": "Verder winkelen" },
