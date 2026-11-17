@@ -6,3 +6,4 @@ node_modules/
 .cloudflare.env
 .cloudflare/
 .wrangler/
+.claude/worktrees/
