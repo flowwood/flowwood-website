@@ -1,270 +1,499 @@
 <!doctype html>
-<html lang="nl">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shop concepts</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shop page: ten ways to fill the gaps</title>
 <style>
 @font-face { font-family: 'Jost'; font-weight: 300 400; src: url(src/fonts/jost.woff2) format('woff2'); }
 @font-face { font-family: 'IBM Plex Sans'; font-weight: 300 500; src: url(src/fonts/ibm-plex-sans.woff2) format('woff2'); }
 @font-face { font-family: 'IBM Plex Mono'; font-weight: 400; src: url(src/fonts/ibm-plex-mono.woff2) format('woff2'); }
 :root {
-  --ink: #1c1b1a; --muted: #6b6762; --paper: #fdfdfc; --bone: #f2eee8; --stone: #e7e2da; --dark: #1f1e1c; --night: #171615; --tile: #262422;
-  --nav: #a8a6a2; --accent: #e0703a; --hair: rgba(28, 27, 26, 0.14);
-  --display: 'Jost', sans-serif; --body: 'IBM Plex Sans', sans-serif; --mono: 'IBM Plex Mono', monospace;
-  --g: 56px;
+  --c-ink: #1c1b1a; --c-muted: #55524f; --c-subtle: #6b6966; --c-disabled: #c9c7c3;
+  --c-surface: #fff; --c-panel: #f5f4f2; --c-line: #e2e1de; --c-accent: #e0703a; --c-brand: #b8442a;
+  --c-brand-tint: #f7d3c0; --c-sidebar: #1f1e1c; --c-nav: #a8a6a2;
+  --f-display: 'Jost', Futura, sans-serif; --f-body: 'IBM Plex Sans', Helvetica, sans-serif; --f-mono: 'IBM Plex Mono', Menlo, monospace;
+  --gap: 14px;
 }
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body { background: #cfccc6; color: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; padding: 48px 0 160px; }
-img { display: block; width: 100%; height: 100%; object-fit: cover; }
-.page-intro { max-width: 1320px; margin: 0 auto 48px; padding: 0 24px; }
-.page-intro h1 { font-family: var(--display); font-weight: 300; font-size: 48px; letter-spacing: -0.02em; }
-.page-intro p { margin-top: 12px; color: #4a4744; line-height: 1.6; max-width: 760px; }
-.concept { max-width: 1320px; margin: 0 auto 96px; padding: 0 24px; }
-.concept > header { display: flex; gap: 18px; align-items: baseline; margin-bottom: 16px; }
-.concept > header b { font-family: var(--mono); font-weight: 400; font-size: 13px; color: var(--accent); }
-.concept > header h2 { font-family: var(--display); font-weight: 400; font-size: 26px; }
-.concept > header p { color: #4a4744; font-size: 14px; max-width: 760px; }
-.frame { overflow: hidden; box-shadow: 0 30px 80px rgba(0,0,0,0.18); }
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--c-panel); color: var(--c-ink); font-family: var(--f-body); -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+h1, h2, h3, p { margin: 0; }
+.page { max-width: 1200px; margin: 0 auto; padding: 56px 24px 96px; }
+.eyebrow { font-size: 11px; letter-spacing: 0.24em; text-transform: uppercase; color: var(--c-subtle); }
+.intro h1 { font-family: var(--f-display); font-weight: 300; font-size: clamp(34px, 5vw, 56px); line-height: 1; letter-spacing: -0.02em; margin: 12px 0 20px; }
+.intro p { max-width: 62ch; line-height: 1.6; color: var(--c-muted); }
+.problems { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px; margin: 32px 0 0; padding: 0; list-style: none; }
+.problems li { background: var(--c-surface); padding: 18px; border-top: 2px solid var(--c-brand); font-size: 14px; line-height: 1.5; }
+.problems b { display: block; font-family: var(--f-mono); font-weight: 400; font-size: 22px; margin-bottom: 4px; }
+.toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px; }
+.toc a { font-size: 12px; padding: 8px 12px; border: 1px solid var(--c-line); background: var(--c-surface); color: var(--c-ink); text-decoration: none; }
+.toc a:hover { border-color: var(--c-ink); }
 
-.menu { height: 56px; display: grid; grid-template-columns: 150px 1fr; background: var(--dark); color: var(--paper); }
-.menu .row { display: flex; justify-content: space-between; align-items: center; padding-right: var(--g); }
-.menu nav { display: flex; gap: 28px; font-size: 12px; letter-spacing: 0.14em; color: var(--nav); }
-.menu nav .on { color: var(--paper); box-shadow: 0 8px 0 -6px var(--accent); padding-bottom: 2px; }
-.menu .end { font-size: 12px; letter-spacing: 0.14em; display: flex; gap: 24px; }
+.option { margin-top: 72px; scroll-margin-top: 24px; }
+.option__head { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 0 16px; align-items: baseline; margin-bottom: 20px; }
+.option__num { font-family: var(--f-mono); font-size: 28px; color: var(--c-accent); }
+.option__title { font-family: var(--f-display); font-weight: 300; font-size: clamp(24px, 3vw, 34px); }
+.option__idea { grid-column: 2; margin-top: 8px; max-width: 70ch; line-height: 1.6; color: var(--c-muted); }
+.notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 14px; }
+.notes div { background: var(--c-surface); padding: 14px 16px; font-size: 13px; line-height: 1.5; }
+.notes dt { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-subtle); margin-bottom: 6px; }
+.notes dd { margin: 0; }
+.tag { display: inline-block; font-family: var(--f-mono); font-size: 11px; padding: 2px 6px; background: var(--c-panel); margin-right: 4px; }
 
-.caps { font-size: 11px; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; }
-.mono { font-family: var(--mono); font-size: 12px; letter-spacing: 0.02em; }
-.display { font-family: var(--display); font-weight: 300; letter-spacing: -0.03em; line-height: 0.95; }
-.sw { display: flex; gap: 6px; }
-.sw i { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(0,0,0,0.12); }
-.sw i.on { box-shadow: 0 0 0 2px var(--paper), 0 0 0 3px currentColor; }
-.price, .name { white-space: nowrap; }
-.add { white-space: nowrap; display: inline-flex; align-items: center; gap: 12px; height: 40px; padding: 0 18px; font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; }
-.add em { font-style: normal; color: var(--accent); font-size: 16px; font-weight: 300; }
+.frame { background: var(--c-surface); border: 1px solid var(--c-line); box-shadow: 0 12px 40px rgba(0,0,0,0.06); overflow: hidden; }
+.frame__bar { height: 30px; background: var(--c-sidebar); display: flex; align-items: center; gap: 18px; padding: 0 16px; color: var(--c-nav); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; }
+.frame__bar b { color: #fff; font-family: var(--f-display); font-weight: 400; font-size: 13px; letter-spacing: 0; text-transform: none; margin-right: 12px; }
+.frame__bar span:nth-child(3) { color: #fff; box-shadow: 0 2px 0 var(--c-accent); }
+.shop { display: grid; grid-template-columns: 150px minmax(0, 1fr); gap: 0 32px; padding: 24px 28px 32px; }
+.shop--wide { grid-template-columns: minmax(0, 1fr); }
+.side { position: relative; }
+.side__title { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--c-subtle); padding-bottom: 8px; border-bottom: 1px solid var(--c-ink); }
+.side__list { list-style: none; padding: 0; margin: 4px 0 0; font-size: 11px; color: var(--c-muted); }
+.side__list li { display: flex; gap: 6px; height: 22px; align-items: center; }
+.side__list li::before { content: attr(data-n); font-family: var(--f-mono); font-size: 8px; color: var(--c-subtle); width: 14px; }
+.side__list li.on { color: var(--c-ink); }
+.side__list li.on::before { color: var(--c-accent); }
+.side__list li span { margin-left: auto; font-family: var(--f-mono); font-size: 9px; }
+.groups { display: flex; flex-direction: column; gap: 40px; min-width: 0; }
 
-/* 1 Gallery */
-.c1 .frame { background: var(--bone); }
-.c1 .head { text-align: center; padding: 72px var(--g) 48px; }
-.c1 .head .caps { color: var(--muted); }
-.c1 .head .display { font-size: 88px; margin: 18px 0 16px; }
-.c1 .head p { font-size: 16px; font-weight: 300; color: var(--muted); max-width: 480px; margin: 0 auto; line-height: 1.6; }
-.c1 .bar { position: relative; display: flex; justify-content: center; gap: 44px; padding: 18px var(--g); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); background: rgba(242,238,232,0.85); backdrop-filter: blur(12px); }
-.c1 .bar span { color: var(--muted); }
-.c1 .bar span.on { color: var(--ink); }
-.c1 .bar sup { font-family: var(--mono); font-size: 10px; margin-left: 4px; letter-spacing: 0; }
-.c1 .bar .sort { position: absolute; right: var(--g); color: var(--muted); }
-.c1 .group { text-align: center; padding: 88px var(--g) 48px; }
-.c1 .group .mono { color: var(--accent); }
-.c1 .group .display { font-size: 56px; margin-top: 12px; }
-.c1 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 64px 40px; padding: 0 calc(var(--g) * 2) 96px; }
-.c1 .card .img { aspect-ratio: 4 / 5; background: var(--stone); }
-.c1 .card .meta { text-align: center; padding-top: 22px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
-.c1 .card .name { font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 500; }
-.c1 .card .sub { font-size: 13px; font-weight: 300; color: var(--muted); }
-.c1 .card .price { font-family: var(--display); font-weight: 300; font-size: 18px; }
-.c1 .card .sw { color: var(--ink); margin-top: 4px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px var(--gap); }
+.head { display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 10px; text-align: center; padding: 0 16px; }
+.head__name { font-size: 10px; font-weight: 500; letter-spacing: 0.3em; text-transform: uppercase; }
+.head__intro { font-family: var(--f-display); font-weight: 300; font-size: clamp(15px, 1.7vw, 21px); line-height: 1.3; text-wrap: balance; }
+.head__count { font-family: var(--f-mono); font-size: 9px; color: var(--c-muted); }
+.span-1 { grid-column: span 1; } .span-2 { grid-column: span 2; } .span-3 { grid-column: 1 / -1; }
+.empty { outline: 1.5px dashed var(--c-brand); outline-offset: -1px; background: repeating-linear-gradient(135deg, transparent 0 8px, rgba(184,68,42,0.06) 8px 9px); display: grid; place-items: center; font-family: var(--f-mono); font-size: 10px; color: var(--c-brand); min-height: 120px; }
 
-/* 2 Showroom */
-.c2 .frame { background: var(--night); color: var(--paper); }
-.c2 .head { padding: 56px var(--g) 40px; display: flex; justify-content: space-between; align-items: flex-end; }
-.c2 .head .caps { color: var(--accent); }
-.c2 .head .display { font-size: 96px; margin-top: 14px; }
-.c2 .head .mono { color: var(--nav); }
-.c2 .bar { display: flex; justify-content: space-between; align-items: center; padding: 0 var(--g); border-top: 1px solid rgba(253,253,252,0.08); border-bottom: 1px solid rgba(253,253,252,0.08); }
-.c2 .bar .tabs { display: flex; gap: 36px; }
-.c2 .bar .tabs span { padding: 20px 0 18px; color: var(--nav); }
-.c2 .bar .tabs span.on { color: var(--paper); box-shadow: inset 0 -2px 0 var(--accent); }
-.c2 .bar .sort { color: var(--nav); }
-.c2 .group { display: flex; justify-content: space-between; align-items: baseline; padding: 72px var(--g) 32px; }
-.c2 .group .display { font-size: 48px; }
-.c2 .group .mono { color: var(--nav); }
-.c2 .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; padding: 0 var(--g) 96px; }
-.c2 .card { background: var(--tile); }
-.c2 .card .img { aspect-ratio: 4 / 5; }
-.c2 .card .meta { padding: 20px 20px 22px; display: grid; grid-template-columns: 1fr auto; gap: 6px 12px; }
-.c2 .card .name { font-family: var(--display); font-size: 22px; font-weight: 300; letter-spacing: 0.04em; text-transform: uppercase; }
-.c2 .card .price { font-family: var(--display); font-size: 20px; font-weight: 300; }
-.c2 .card .sub { font-size: 13px; font-weight: 300; color: var(--nav); grid-column: 1 / -1; }
-.c2 .card .foot { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; color: var(--paper); }
-.c2 .card .add { border: 1px solid rgba(253,253,252,0.25); }
+.card { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.card__media { aspect-ratio: 1; background: #efedea; overflow: hidden; }
+.card__media img { width: 100%; height: 100%; object-fit: cover; }
+.card__media--contain img { object-fit: contain; padding: 12%; background: #fff; }
+.card__row { display: flex; justify-content: space-between; gap: 8px; margin-top: 6px; }
+.card__name { font-family: var(--f-display); font-size: 15px; text-transform: uppercase; }
+.card__price { font-size: 13px; white-space: nowrap; }
+.card__sub { font-size: 10px; color: var(--c-muted); }
+.card__foot { display: flex; justify-content: space-between; align-items: center; margin-top: 6px; }
+.card__sw { display: flex; gap: 4px; }
+.card__sw i { width: 11px; height: 11px; border-radius: 50%; background: var(--c); }
+.card__add { font-size: 8px; letter-spacing: 0.2em; font-weight: 500; border-bottom: 1px solid var(--c-ink); padding-bottom: 2px; }
+.card--wide { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0 24px; align-items: center; background: var(--c-panel); padding: 16px; }
+.card--wide .card__media { aspect-ratio: 4 / 3; }
+.card--wide .card__desc { font-size: 12px; line-height: 1.55; color: var(--c-muted); margin-top: 6px; }
+.card--big .card__media { aspect-ratio: auto; flex: 1; }
+.card--big .card__name { font-size: 22px; }
+.card--big { height: 100%; }
 
-/* 3 Editorial */
-.c3 .frame { background: var(--paper); }
-.c3 .head { display: grid; grid-template-columns: 1.1fr 1fr; min-height: 420px; }
-.c3 .head .text { padding: 64px var(--g); display: flex; flex-direction: column; justify-content: space-between; }
-.c3 .head .text .caps { color: var(--muted); }
-.c3 .head .display { font-size: 112px; }
-.c3 .head p { max-width: 380px; font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--muted); }
-.c3 .bar { display: flex; justify-content: space-between; padding: 0 var(--g); border-top: 1px solid var(--hair); border-bottom: 1px solid var(--hair); }
-.c3 .bar .tabs { display: flex; gap: 32px; }
-.c3 .bar .tabs span { padding: 18px 0 16px; color: var(--muted); }
-.c3 .bar .tabs span.on { color: var(--ink); box-shadow: inset 0 -2px 0 var(--accent); }
-.c3 .bar .sort { align-self: center; color: var(--muted); }
-.c3 .feature { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 28px; padding: 64px var(--g) 96px; align-items: end; }
-.c3 .intro { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-bottom: 8px; align-items: end; }
-.c3 .intro .display { font-size: 64px; }
-.c3 .intro p { font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 420px; }
-.c3 .card .img { aspect-ratio: 4 / 5; background: var(--stone); }
-.c3 .card.big .img { aspect-ratio: 5 / 4; }
-.c3 .card .meta { padding-top: 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
-.c3 .card .name { font-family: var(--display); font-size: 22px; font-weight: 300; text-transform: uppercase; letter-spacing: 0.04em; }
-.c3 .card .price { font-family: var(--display); font-size: 20px; font-weight: 300; }
-.c3 .card .sub { font-size: 13px; font-weight: 300; color: var(--muted); grid-column: 1 / -1; }
+.mood { position: relative; overflow: hidden; background: #efedea; min-height: 160px; }
+.mood img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.mood::after { content: ''; position: absolute; inset: 40% 0 0; background: linear-gradient(transparent, rgba(20,19,18,0.65)); }
+.mood p { z-index: 1; position: absolute; left: 14px; right: 14px; bottom: 14px; font-family: var(--f-display); font-weight: 300; font-size: clamp(14px, 1.6vw, 19px); line-height: 1.3; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.35); }
+.mood p small { display: block; font-family: var(--f-body); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; margin-bottom: 4px; }
 
-/* 4 Catalogue */
-.c4 .frame { background: var(--paper); }
-.c4 .head { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--ink); }
-.c4 .head > div { padding: 28px 24px; border-right: 1px solid var(--hair); }
-.c4 .head > div:last-child { border-right: 0; }
-.c4 .head .display { font-size: 72px; grid-column: span 2; }
-.c4 .head .cell-title { grid-column: span 2; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; }
-.c4 .head .k { color: var(--muted); display: block; margin-bottom: 8px; }
-.c4 .head .v { font-family: var(--display); font-size: 22px; font-weight: 300; }
-.c4 .bar { display: grid; grid-template-columns: repeat(4, 1fr) auto; border-bottom: 1px solid var(--hair); }
-.c4 .bar span { padding: 16px 24px; border-right: 1px solid var(--hair); display: flex; justify-content: space-between; color: var(--muted); }
-.c4 .bar span.on { color: var(--ink); background: var(--bone); }
-.c4 .bar span.on::before { content: '●'; color: var(--accent); margin-right: 8px; font-size: 9px; }
-.c4 .bar .sort { border-right: 0; }
-.c4 .group { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--hair); }
-.c4 .group > div { padding: 40px 24px 20px; }
-.c4 .group .display { font-size: 44px; grid-column: span 3; }
-.c4 .group .mono { color: var(--muted); align-self: end; text-align: right; }
-.c4 .grid { display: grid; grid-template-columns: repeat(4, 1fr); }
-.c4 .card { border-right: 1px solid var(--hair); border-bottom: 1px solid var(--hair); padding: 20px 24px 24px; }
-.c4 .card:nth-child(4n) { border-right: 0; }
-.c4 .card .no { color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 16px; }
-.c4 .card .img { aspect-ratio: 1; background: var(--bone); }
-.c4 .card .name { font-family: var(--display); font-size: 24px; font-weight: 300; text-transform: uppercase; letter-spacing: 0.04em; margin-top: 18px; }
-.c4 .card dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 16px; margin-top: 14px; font-size: 12px; }
-.c4 .card dt { font-family: var(--mono); color: var(--muted); }
-.c4 .card .foot { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; }
-.c4 .card .price { font-family: var(--display); font-size: 22px; font-weight: 300; }
-.c4 .card .add { background: var(--ink); color: var(--paper); }
+.service { display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 22px; background: var(--c-panel); min-height: 160px; }
+.service__icon { width: 54px; height: 64px; border: 1px solid var(--c-ink); position: relative; }
+.service__icon::before, .service__icon::after { content: ''; position: absolute; background: var(--c-accent); }
+.service__icon::before { left: -9px; top: 0; bottom: 0; width: 1px; }
+.service__icon::after { left: 0; right: 0; top: -9px; height: 1px; }
+.service h3 { font-family: var(--f-display); font-weight: 300; font-size: clamp(16px, 1.8vw, 21px); line-height: 1.25; }
+.service p { font-size: 11px; line-height: 1.55; color: var(--c-muted); }
+.service__btn { align-self: flex-start; font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; font-weight: 500; padding: 9px 14px; background: var(--c-ink); color: #fff; }
+.service--dark { background: var(--c-sidebar); color: #fff; }
+.service--dark p { color: var(--c-nav); }
+.service--dark .service__btn { background: #fff; color: var(--c-ink); }
 
-/* 5 Monograph */
-.c5 .frame { background: var(--paper); }
-.c5 .head { padding: 88px var(--g) 64px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; align-items: end; }
-.c5 .head .display { font-size: clamp(96px, 11vw, 160px); line-height: 0.8; letter-spacing: -0.05em; }
-.c5 .head .aside { display: flex; flex-direction: column; gap: 18px; padding-bottom: 14px; }
-.c5 .head .aside p { font-size: 17px; font-weight: 300; line-height: 1.6; color: var(--muted); max-width: 400px; }
-.c5 .bar { display: flex; gap: 40px; align-items: baseline; padding: 0 var(--g) 22px; border-bottom: 1px solid var(--hair); }
-.c5 .bar span { font-family: var(--display); font-size: 20px; font-weight: 300; color: #a7a39d; }
-.c5 .bar span.on { color: var(--ink); }
-.c5 .bar span.on::after { content: ''; display: block; height: 2px; background: var(--accent); margin-top: 6px; }
-.c5 .bar .sort { margin-left: auto; font-family: var(--body); font-size: 11px; }
-.c5 .chapter { display: grid; grid-template-columns: 120px 1fr; gap: 0 32px; padding: 96px var(--g) 40px; align-items: start; }
-.c5 .chapter .mono { color: var(--accent); padding-top: 14px; }
-.c5 .chapter .display { font-size: 80px; }
-.c5 .chapter p { grid-column: 2; margin-top: 18px; max-width: 520px; font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--muted); }
-.c5 .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; padding: 0 var(--g) 96px 210px; }
-.c5 .card .img { aspect-ratio: 5 / 4; background: var(--stone); }
-.c5 .card .meta { display: flex; justify-content: space-between; align-items: baseline; padding-top: 18px; border-bottom: 1px solid var(--hair); padding-bottom: 16px; }
-.c5 .card .name { font-family: var(--display); font-size: 28px; font-weight: 300; text-transform: uppercase; letter-spacing: 0.04em; }
-.c5 .card .sub { font-size: 13px; font-weight: 300; color: var(--muted); margin-top: 4px; }
-.c5 .card .price { font-family: var(--display); font-size: 24px; font-weight: 300; }
-.c5 .card .foot { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; }
-.c5 .card .add { padding: 0; height: auto; border-bottom: 1px solid var(--ink); padding-bottom: 4px; }
+.bento { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: auto auto auto; gap: 28px var(--gap); }
+.bento .big { grid-column: 2 / 4; grid-row: 1 / 3; }
 
-/* 6 Atelier */
-.c6 .frame { background: var(--bone); }
-.c6 .head { display: grid; grid-template-columns: 1fr 1.25fr; height: 460px; }
-.c6 .head .text { background: var(--dark); color: var(--paper); padding: 56px var(--g); display: flex; flex-direction: column; justify-content: space-between; border-right: 6px solid var(--accent); }
-.c6 .head .text .caps { color: var(--accent); }
-.c6 .head .display { font-size: 104px; }
-.c6 .head .text p { font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--nav); max-width: 360px; }
-.c6 .head .text .mono { color: var(--nav); }
-.c6 .bar { display: flex; justify-content: space-between; align-items: center; padding: 0 var(--g); background: var(--bone); border-bottom: 1px solid var(--hair); }
-.c6 .bar .tabs { display: flex; gap: 10px; padding: 16px 0; }
-.c6 .bar .tabs span { padding: 10px 18px; border: 1px solid var(--hair); border-radius: 22px; color: var(--muted); font-size: 12px; letter-spacing: 0.06em; }
-.c6 .bar .tabs span.on { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-.c6 .bar .sort { color: var(--muted); }
-.c6 .group { display: flex; justify-content: space-between; align-items: baseline; padding: 72px var(--g) 28px; }
-.c6 .group .display { font-size: 52px; }
-.c6 .group .mono { color: var(--muted); }
-.c6 .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; padding: 0 var(--g) 96px; }
-.c6 .card { background: var(--paper); padding: 14px; }
-.c6 .card .img { aspect-ratio: 4 / 5; background: var(--stone); }
-.c6 .card .meta { padding: 18px 6px 6px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
-.c6 .card .name { font-family: var(--display); font-size: 21px; font-weight: 300; text-transform: uppercase; letter-spacing: 0.05em; }
-.c6 .card .price { font-family: var(--display); font-size: 19px; font-weight: 300; }
-.c6 .card .sub { grid-column: 1 / -1; font-size: 12px; font-weight: 300; color: var(--muted); }
-.c6 .card .foot { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-top: 14px; }
-.c6 .card .add { background: var(--ink); color: var(--paper); height: 36px; padding: 0 14px; }
+.rail-wrap { display: grid; grid-template-columns: 180px minmax(0, 1fr); gap: 24px; align-items: center; }
+.rail-wrap .head { align-items: flex-start; text-align: left; padding: 0; }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: 38%; gap: var(--gap); overflow-x: auto; scrollbar-width: none; -webkit-mask-image: linear-gradient(to right, #000 85%, transparent); mask-image: linear-gradient(to right, #000 85%, transparent); }
+.rail::-webkit-scrollbar { display: none; }
+
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+.chips span { font-size: 10px; padding: 7px 12px; border: 1px solid var(--c-line); border-radius: 99px; }
+.chips span.on { background: var(--c-ink); color: #fff; border-color: var(--c-ink); }
+.chips i { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; vertical-align: -1px; }
+.flat { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px var(--gap); }
+.flat .head { align-items: flex-start; text-align: left; justify-content: flex-start; padding: 8px 8px 0 0; }
+
+.line { display: flex; align-items: baseline; gap: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--c-ink); margin-bottom: 16px; flex-wrap: wrap; }
+.line .head__intro { font-size: 13px; flex: 1; min-width: 200px; }
+.tight .grid { gap: 18px var(--gap); }
+.tight.groups { gap: 26px; }
+
+.side__extra { margin-top: 24px; display: flex; flex-direction: column; gap: 18px; position: sticky; top: 12px; }
+.side__block { font-size: 10px; line-height: 1.5; color: var(--c-muted); }
+.side__block strong { display: block; font-size: 8px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--c-ink); font-weight: 500; margin-bottom: 6px; }
+.side__dots { display: flex; flex-wrap: wrap; gap: 4px; }
+.side__dots i { width: 14px; height: 14px; border-radius: 50%; background: var(--c); }
+.side__mood { aspect-ratio: 4 / 5; overflow: hidden; }
+.side__mood img { width: 100%; height: 100%; object-fit: cover; }
+.side__cta { display: inline-block; margin-top: 6px; color: var(--c-ink); border-bottom: 1px solid var(--c-accent); font-size: 10px; }
+
+.band { padding: 26px; margin: 0 -28px; }
+.band--dark { background: var(--c-sidebar); color: #fff; }
+.band--dark .card__sub, .band--dark .head__count { color: var(--c-nav); }
+.band--dark .card__add { border-color: #fff; }
+.band--stone { background: #ebe7e1; }
+.band .card__media { background: #fff; }
+.band .grid { gap: 22px var(--gap); }
+
+.picker { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.picker button { font: inherit; font-family: var(--f-mono); font-size: 13px; width: 44px; height: 44px; border: 1px solid var(--c-line); background: var(--c-surface); cursor: pointer; }
+.picker button[aria-pressed='true'] { background: var(--c-ink); color: #fff; border-color: var(--c-ink); }
+.picker__label { margin: 20px 0 8px; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--c-subtle); }
+.frame--tablet { max-width: 640px; }
+.grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.head--full { padding: 12px 15%; }
+.picker--wide button { width: auto; padding: 0 14px; font-family: var(--f-body); font-size: 12px; }
+.picker__note { margin: -4px 0 16px; font-size: 13px; line-height: 1.5; color: var(--c-muted); max-width: 70ch; min-height: 2.6em; }
+.head--tile { align-self: start; aspect-ratio: 1; padding: 20px; }
+.head--tile.head--span-2 { aspect-ratio: 2.06 / 1; }
+.head--tile.head--full { aspect-ratio: auto; padding: 32px 15%; }
+.head--terracotta { background: var(--c-brand); color: #fff; }
+.head--terracotta .head__name, .head--terracotta .head__count { color: var(--c-brand-tint); }
+.head--tint { background: var(--c-brand-tint); }
+.head--tint .head__name, .head--tint .head__count { color: var(--c-brand); }
+.head--tone { background: var(--tone); color: #fff; }
+.head--tone .head__count { color: rgba(255,255,255,0.7); }
+.head--line { align-self: start; border-top: 3px solid var(--c-accent); padding-top: 22px; }
+.head--line .head__name, .head--line .head__count { color: var(--c-brand); }
+.head--line .head__intro::after { content: ''; display: block; width: 32px; height: 2px; margin: 14px auto 0; background: var(--c-accent); }
+.head__dots { display: flex; gap: 6px; justify-content: center; }
+.head__dots i { width: 12px; height: 12px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 1px rgba(255,255,255,0.5); }
+.reco { margin-top: 96px; padding: 32px; background: var(--c-ink); color: #fff; }
+.reco h2 { font-family: var(--f-display); font-weight: 300; font-size: clamp(26px, 3.4vw, 40px); margin: 10px 0 16px; }
+.reco p, .reco li { line-height: 1.6; color: #d7d5d1; max-width: 72ch; }
+.reco .eyebrow { color: var(--c-accent); }
+.reco b { color: #fff; font-weight: 500; }
+
+@media (max-width: 767px) {
+  .page { padding: 32px 16px 64px; }
+  .shop { grid-template-columns: minmax(0, 1fr); padding: 16px; }
+  .side { display: none; }
+  .shop--keep-side { grid-template-columns: 110px minmax(0, 1fr); gap: 0 14px; }
+  .shop--keep-side .side { display: block; }
+  .grid, .bento { gap: 18px 8px; }
+  .card__name { font-size: 11px; }
+  .card__price, .card__sub { font-size: 9px; }
+  .card__foot { display: none; }
+  .notes { grid-template-columns: minmax(0, 1fr); }
+  .option__head { grid-template-columns: 40px minmax(0, 1fr); }
+  .option__num { font-size: 20px; }
+  .rail-wrap { grid-template-columns: minmax(0, 1fr); }
+  .card--wide { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .flat { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .band { margin: 0 -16px; padding: 18px 16px; }
+  .service, .mood { min-height: 0; padding: 12px; }
+  .service__icon { display: none; }
+}
 </style>
 </head>
 <body>
-<div class="page-intro">
-  <h1>Shop concepts, round two</h1>
-  <p>Six premium directions. Each shows the top of the shop, the first collection and how the products are presented. The way you shop is the same in all of them: filter by collection, sort, choose a size and finish, add to cart. Only the look and feel changes.</p>
-</div>
+<main class="page">
+  <section class="intro">
+    <p class="eyebrow">Flowwood · shop page · design study</p>
+    <h1>Ten ways to fill the gaps</h1>
+    <p>Each collection sits in a 3-column grid. Its heading takes two cells, and the products fill the rest. Whenever
+      <code>2 + pieces</code> is not a multiple of 3, the last row ends in empty cells, and the sidebar stays empty below its three links.
+      The mocks below use the real Dark oak collection (5 pieces, the worst case) and the real photos. Dashed red cells mark the gaps that remain.</p>
+    <ul class="problems">
+      <li><b>2 empty</b>Dark oak: Cleo sits alone on the last row.</li>
+      <li><b>1 empty</b>Soft stone (3) and Pale &amp; clear (6) each end one cell short.</li>
+      <li><b>~90%</b>of the sticky sidebar is blank below the collection list.</li>
+      <li><b>96 + 56px</b>gaps between sections and rows add to the empty feel.</li>
+    </ul>
+    <nav class="toc">
+      <a href="#o0">Now</a><a href="#o1">1 Fitted heading</a><a href="#o1b">1b Any count</a><a href="#o2">2 Landscape leftover</a><a href="#o3">3 Mood tiles</a>
+      <a href="#o4">4 Service tile</a><a href="#o5">5 Bento</a><a href="#o6">6 Rails</a><a href="#o7">7 One grid + chips</a>
+      <a href="#o8">8 Slim headings</a><a href="#o9">9 Working sidebar</a><a href="#o10">10 Tinted bands</a><a href="#reco">Recommendation</a>
+    </nav>
+  </section>
 
-<section class="concept c1"><header><b>01</b><h2>Gallery</h2><p>Warm bone background, everything centred with lots of air, like a gallery or a design museum. Product names in spaced capitals, prices quiet, the filter as understated text.</p></header>
-  <div class="frame"><div data-menu></div>
-    <div class="head"><div class="caps">Collectie 2026</div><div class="display">Winkel</div><p>Sokkels en interieurstukken in edele fineren en lakken. Elk stuk ook op maat.</p></div>
-    <div class="bar caps"><span class="on">Alles<sup>14</sup></span><span>Donkere eik<sup>5</sup></span><span>Zachte steen<sup>3</sup></span><span>Licht &amp; helder<sup>6</sup></span><span class="sort">Sorteer ˅</span></div>
-    <div class="group"><div class="mono">I</div><div class="display">Donkere eik</div></div>
-    <div class="grid" data-cards="3"></div></div></section>
+  <section class="option" id="o0">
+    <header class="option__head"><span class="option__num">00</span><h2 class="option__title">Now</h2>
+      <p class="option__idea">The current layout, for reference.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups"><div class="grid">
+          <div class="head span-2" data-head="dark"></div><div data-card="monolith"></div>
+          <div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div>
+          <div data-card="cleo"></div><div class="empty">empty</div><div class="empty">empty</div>
+        </div></div></div></div>
+  </section>
 
-<section class="concept c2"><header><b>02</b><h2>Showroom</h2><p>The whole shop on deep anthracite, like a showroom at night. Products on slightly lighter tiles, white type, orange only for the active filter and the plus. Dramatic and exclusive.</p></header>
-  <div class="frame"><div data-menu></div>
-    <div class="head"><div><div class="caps">Collectie</div><div class="display">Winkel</div></div><span class="mono">14 stuks · 3 collecties</span></div>
-    <div class="bar"><div class="tabs caps"><span class="on">Alles 14</span><span>Donkere eik 5</span><span>Zachte steen 3</span><span>Licht &amp; helder 6</span></div><span class="sort caps">Sorteer ˅</span></div>
-    <div class="group"><div class="display">Donkere eik</div><span class="mono">5 stuks</span></div>
-    <div class="grid" data-cards="4"></div></div></section>
+  <section class="option" id="o1">
+    <header class="option__head"><span class="option__num">01</span><h2 class="option__title">Fitted heading</h2>
+      <p class="option__idea">The heading takes whatever is left over: <code>span = 3 − (pieces mod 3)</code>, or a full-width row when the pieces already fill whole rows. Dark oak gets a one-cell heading and two full rows. Soft stone and Pale &amp; clear get a full-width heading above a full grid.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups">
+          <div class="grid">
+            <div class="head span-1" data-head="dark"></div><div data-card="monolith"></div><div data-card="rondo"></div>
+            <div data-card="ovale"></div><div data-card="facet"></div><div data-card="cleo"></div>
+          </div>
+          <div class="grid">
+            <div class="head span-3" data-head="stone" style="padding:12px 15%"></div>
+            <div data-card="facet-stone"></div><div data-card="ovale-taupe"></div><div data-card="jeanne"></div>
+          </div>
+        </div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Every orphan cell, for any piece count, with no new content.</dd></div>
+      <div><dt>Trade-off</dt><dd>The heading changes shape between collections. A one-cell heading needs a shorter intro.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">template</span><span class="tag">css</span> one modifier in <code>collection</code> from <code>items.length</code>.</dd></div></dl>
+  </section>
 
-<section class="concept c3"><header><b>03</b><h2>Editorial</h2><p>Opens like a magazine spread: big title and a large photo. Every collection gets a short introduction, and the first piece is shown large as a feature, the rest beside it.</p></header>
-  <div class="frame"><div data-menu></div>
-    <div class="head"><div class="text"><div class="caps">Home / Winkel</div><div class="display">Winkel</div><p>Sokkels en interieurstukken in edele fineren en lakken, per collectie. 14 stuks.</p></div><div><img src="content/media/image3.webp" alt="" style="object-position:50% 60%"></div></div>
-    <div class="bar"><div class="tabs caps"><span class="on">Alles</span><span>Donkere eik</span><span>Zachte steen</span><span>Licht &amp; helder</span></div><span class="sort caps">Sorteer ˅</span></div>
-    <div class="feature"><div class="intro"><div class="display">Donkere eik</div><p>Gerookte en naturel eik, verstekgezaagd tot naadloze volumes. Warm en zwaar, voor een rustige hoek.</p></div><div data-cards="3" data-feature></div></div></div></section>
+  <section class="option" id="o1b">
+    <header class="option__head"><span class="option__num">01b</span><h2 class="option__title">Fitted heading at any count</h2>
+      <p class="option__idea">Nobody has to know the count in advance. The build counts the pieces and gives the heading the leftover width.
+        Desktop (3 columns): remainder 0 → heading full width, 1 → heading 2 cells, 2 → heading 1 cell. Tablet (2 columns): even → full width, odd → 1 cell.
+        Mobile is one column, so it never has gaps. Pick a count:</p></header>
+    <p class="picker__label" style="margin-top:0">Pieces</p>
+    <div class="picker" id="picker"></div>
+    <p class="picker__label">Accent</p>
+    <div class="picker picker--wide" id="accent"></div>
+    <p class="picker__note" id="accent-note"></p>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop shop--wide"><div class="grid" id="fit-3"></div></div></div>
+    <p class="picker__label">Tablet, 2 columns</p>
+    <div class="frame frame--tablet"><div class="shop shop--wide"><div class="grid grid--2" id="fit-2"></div></div></div>
+    <dl class="notes"><div><dt>Rule</dt><dd><code>span = cols − (n mod cols)</code>, and full width when that equals <code>cols</code>. Every count fills complete rows.</dd></div>
+      <div><dt>Content</dt><dd>None. The content manager adds or removes pieces, and the next deploy re-fits the layout.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">template</span><span class="tag">css</span> a modifier such as <code>collection--fit-1</code> from <code>items.length</code>, set at build time with no JS.</dd></div></dl>
+  </section>
 
-<section class="concept c4"><header><b>04</b><h2>Catalogue</h2><p>A precise, Swiss-style catalogue: hairline grid, numbered pieces, technical details in mono (shape, height, finishes). Feels like an architect's or design-museum catalogue.</p></header>
-  <div class="frame"><div data-menu></div>
-    <div class="head"><div class="cell-title"><span class="mono" style="color:var(--muted)">Home / Winkel</span><div class="display">Winkel</div></div><div><span class="k mono">Stuks</span><span class="v">14</span></div><div><span class="k mono">Collecties</span><span class="v">3</span></div></div>
-    <div class="bar caps"><span class="on">Alles <b class="mono">14</b></span><span>Donkere eik <b class="mono">05</b></span><span>Zachte steen <b class="mono">03</b></span><span>Licht &amp; helder <b class="mono">06</b></span><span class="sort">Sorteer ˅</span></div>
-    <div class="group"><div class="display">Donkere eik</div><div class="mono">05 stuks</div></div>
-    <div class="grid" data-cards="4"></div></div></section>
+  <section class="option" id="o2">
+    <header class="option__head"><span class="option__num">02</span><h2 class="option__title">Landscape leftover</h2>
+      <p class="option__idea">A piece left alone on the last row becomes a wide landscape card: photo on one side, description and materials on the other (already in the product file). Two leftovers share the row half and half.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups"><div class="grid">
+          <div class="head span-2" data-head="dark"></div><div data-card="monolith"></div>
+          <div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div>
+          <div class="span-3" data-card="cleo" data-variant="wide"></div>
+        </div></div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Turns the weakest spot (a lone small item) into a feature moment.</dd></div>
+      <div><dt>Trade-off</dt><dd>Which piece gets featured follows from the order. A cheap vase can end up as the hero.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">css</span> <code>:nth-last-child</code> / <code>:nth-child</code> rules, plus a <code>wide</code> card variant.</dd></div></dl>
+  </section>
 
-<section class="concept c5"><header><b>05</b><h2>Monograph</h2><p>Typography as the design: an oversized title, collections as numbered chapters with a short text, products two by two and large. Sparse and confident, like an art book.</p></header>
-  <div class="frame"><div data-menu></div>
-    <div class="head"><div class="display">Winkel</div><div class="aside"><span class="mono" style="color:var(--muted)">14 stuks · 3 collecties</span><p>Sokkels en interieurstukken in edele fineren en lakken. Elk stuk ook op maat.</p></div></div>
-    <div class="bar"><span class="on">Alles</span><span>Donkere eik</span><span>Zachte steen</span><span>Licht &amp; helder</span><span class="sort caps">Sorteer ˅</span></div>
-    <div class="chapter"><div class="mono">01 / 03</div><div class="display">Donkere eik</div><p>Gerookte en naturel eik, verstekgezaagd tot naadloze volumes. Warm en zwaar, voor een rustige hoek.</p></div>
-    <div class="grid" data-cards="2"></div></div></section>
+  <section class="option" id="o3">
+    <header class="option__head"><span class="option__num">03</span><h2 class="option__title">Mood tiles</h2>
+      <p class="option__idea">Empty cells take a detail photo (every piece has an <code>altImage</code>) with one line of the collection's story. The shop reads like a lookbook, and the layout never looks unfinished.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups"><div class="grid">
+          <div class="head span-2" data-head="dark"></div><div data-card="monolith"></div>
+          <div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div>
+          <div data-card="cleo"></div>
+          <div class="mood span-2"><img src="content/media/image3-alt.webp" alt=""><p><small>Dark oak</small>Grain that runs unbroken around every edge.</p></div>
+        </div></div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Gaps of any size, and it adds atmosphere the grid now lacks.</dd></div>
+      <div><dt>Trade-off</dt><dd>Needs one more image and line per collection (new optional field). Below-the-fold weight, lazy loaded.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">schema</span><span class="tag">template</span> <code>collections[].mood</code> in <code>catalog.json</code>.</dd></div></dl>
+  </section>
 
-<section class="concept c6"><header><b>06</b><h2>Atelier</h2><p>The contact page's language, worked out for the shop: a dark panel with orange edge beside a large photo, warm bone background, products as framed objects on white mats.</p></header>
-  <div class="frame"><div data-menu></div>
-    <div class="head"><div class="text"><div class="caps">Collectie</div><div><div class="display">Winkel</div></div><div><p>Sokkels en interieurstukken in edele fineren en lakken. Elk stuk ook op maat.</p><div class="mono" style="margin-top:20px">14 stuks</div></div></div><div><img src="content/media/image1.webp" alt="" style="object-position:50% 62%"></div></div>
-    <div class="bar"><div class="tabs"><span class="on">Alles 14</span><span>Donkere eik 5</span><span>Zachte steen 3</span><span>Licht &amp; helder 6</span></div><span class="sort caps">Sorteer ˅</span></div>
-    <div class="group"><div class="display">Donkere eik</div><span class="mono">5 stuks</span></div>
-    <div class="grid" data-cards="4"></div></div></section>
+  <section class="option" id="o4">
+    <header class="option__head"><span class="option__num">04</span><h2 class="option__title">Service tile</h2>
+      <p class="option__idea">The gap sells something the grid can't show: a custom size, which already has a dialog and pricing in <code>catalog.customSize</code>. Other tiles: free delivery to BE/NL/LU in 4–5 weeks, or "ask about a finish".</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups"><div class="grid">
+          <div class="head span-2" data-head="dark"></div><div data-card="monolith"></div>
+          <div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div>
+          <div data-card="cleo"></div>
+          <div class="service"><span class="service__icon"></span><h3>Not quite the right height?</h3><p>Any height from 30 to 120 cm and width from 20 to 60 cm. Made to order, from €95 extra.</p><span class="service__btn">Custom size</span></div>
+          <div class="service service--dark"><h3>Free delivery in 4–5 weeks</h3><p>Belgium, the Netherlands and Luxembourg. Every piece is made for you.</p><span class="service__btn">How it works</span></div>
+        </div></div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Gaps, plus it surfaces custom size, which now hides behind a small link on each card.</dd></div>
+      <div><dt>Trade-off</dt><dd>Repeats on every collection unless you rotate the tiles. Can feel like an ad if overused.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">template</span><span class="tag">css</span> strings in <code>site.json → ui</code>; reuse the existing custom-size dialog.</dd></div></dl>
+  </section>
 
+  <section class="option" id="o5">
+    <header class="option__head"><span class="option__num">05</span><h2 class="option__title">Bento rhythm</h2>
+      <p class="option__idea">Each collection opens with one piece at 2 × 2, next to a narrow heading. Big and small sizes make a gallery rhythm, and five pieces fill exactly three rows.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups"><div class="bento">
+          <div class="head" data-head="dark"></div>
+          <div class="big" data-card="monolith" data-variant="big"></div>
+          <div data-card="rondo"></div>
+          <div data-card="ovale"></div><div data-card="facet"></div><div data-card="cleo"></div>
+        </div></div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Makes the shop feel curated rather than sparse. Fits 5 pieces exactly (1 + 4 + 4 cells).</dd></div>
+      <div><dt>Trade-off</dt><dd>Other counts still need a rule (3 pieces → 1 gap). The big tile makes the LCP image larger.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">css</span> a <code>.collection--group</code> rule for the first card, plus a fallback for other counts.</dd></div></dl>
+  </section>
+
+  <section class="option" id="o6">
+    <header class="option__head"><span class="option__num">06</span><h2 class="option__title">Rail per collection</h2>
+      <p class="option__idea">Heading on the left, pieces in a sideways rail that peeks past the edge. A row can't be half full, and three collections fit in one or two screens.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop shop--wide">
+        <div class="groups">
+          <div class="rail-wrap"><div class="head" data-head="dark"></div>
+            <div class="rail"><div data-card="monolith"></div><div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div><div data-card="cleo"></div></div></div>
+          <div class="rail-wrap"><div class="head" data-head="stone"></div>
+            <div class="rail"><div data-card="facet-stone"></div><div data-card="ovale-taupe"></div><div data-card="jeanne"></div></div></div>
+        </div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Orphans, the empty sidebar (it goes away) and the page length.</dd></div>
+      <div><dt>Trade-off</dt><dd>Hides pieces behind a scroll on the page that should show everything. Weaker for a 7-piece range.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">css</span> the rail already exists as <code>collection--related</code> on tablet.</dd></div></dl>
+  </section>
+
+  <section class="option" id="o7">
+    <header class="option__head"><span class="option__num">07</span><h2 class="option__title">One grid, collections as chips</h2>
+      <p class="option__idea">Show the 7 pieces once, in one 4-column grid with a heading cell (1 + 7 = 8 cells, two full rows). Collections become tone chips that re-seed each card's finish, so you don't need three nearly identical groups.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop shop--wide">
+        <div class="chips"><span class="on">All pieces · 7</span><span><i style="background:#3b332d"></i>Dark oak</span><span><i style="background:#b3ada4"></i>Soft stone</span><span><i style="background:#e6e1d8"></i>Pale &amp; clear</span></div>
+        <div class="flat">
+          <div class="head"><span class="head__name">Shop</span><span class="head__intro">Columns, side tables and vessels, made to order.</span><span class="head__count">7 pieces</span></div>
+          <div data-card="monolith"></div><div data-card="facet"></div><div data-card="rondo"></div>
+          <div data-card="ovale"></div><div data-card="cleo"></div><div data-card="soda"></div><div data-card="jeanne"></div>
+        </div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>The repetition (Monolith, Facet and Ovale appear 2–3 times now), most of the empty space, and the page length.</dd></div>
+      <div><dt>Trade-off</dt><dd>Loses the editorial "story per tone". The chips need JS (or <code>:target</code>) to switch finishes.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">template</span><span class="tag">js</span> the biggest change in this list.</dd></div></dl>
+  </section>
+
+  <section class="option" id="o8">
+    <header class="option__head"><span class="option__num">08</span><h2 class="option__title">Slim headings, tighter rhythm</h2>
+      <p class="option__idea">The heading becomes one ruled line above the grid (name · intro · count), so products start on row one. Section gap 96 → 56px, row gap 56 → 32px. Less vertical air, more product per screen.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop"><aside class="side" data-side></aside>
+        <div class="groups tight">
+          <div><div class="line" data-head="dark" data-variant="line"></div>
+            <div class="grid"><div data-card="monolith"></div><div data-card="rondo"></div><div data-card="ovale"></div>
+              <div data-card="facet"></div><div data-card="cleo"></div><div class="empty">still 1 empty</div></div></div>
+          <div><div class="line" data-head="stone" data-variant="line"></div>
+            <div class="grid"><div data-card="facet-stone"></div><div data-card="ovale-taupe"></div><div data-card="jeanne"></div></div></div>
+        </div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>The large empty blocks around the centred intros. Soft stone and Pale &amp; clear fill exactly.</dd></div>
+      <div><dt>Trade-off</dt><dd>Plainer, more catalogue than editorial. Dark oak still leaves one cell: pair with 3 or 4.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">css</span> only, in <code>collection.css</code> and <code>shop.css</code>.</dd></div></dl>
+  </section>
+
+  <section class="option" id="o9">
+    <header class="option__head"><span class="option__num">09</span><h2 class="option__title">A working sidebar</h2>
+      <p class="option__idea">The sticky sidebar carries more than three links: the finishes of the current collection, a small mood photo, and the delivery and custom-size promises. It follows you down the page, so the left column is never blank.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop shop--keep-side"><aside class="side"><div data-side></div>
+          <div class="side__extra">
+            <div class="side__block"><strong>Finishes in Dark oak</strong><div class="side__dots"><i style="--c:#3b332d"></i><i style="--c:#5a4436"></i><i style="--c:#2f2a26"></i><i style="--c:#6f6a63"></i><i style="--c:#6e5b4b"></i></div></div>
+            <div class="side__mood"><img src="content/media/image1-alt.webp" alt=""></div>
+            <div class="side__block"><strong>Made to order</strong>Free delivery to BE, NL and LU in 4–5 weeks.</div>
+            <div class="side__block"><strong>Your size</strong>30–120 cm high, from €95 extra.<br><span class="side__cta">Custom size</span></div>
+          </div></aside>
+        <div class="groups"><div class="grid">
+          <div class="head span-2" data-head="dark"></div><div data-card="monolith"></div>
+          <div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div>
+          <div data-card="cleo"></div><div class="empty">empty</div><div class="empty">empty</div>
+        </div></div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>The large blank strip on desktop and tablet, the most visible empty area in the screenshot.</dd></div>
+      <div><dt>Trade-off</dt><dd>Doesn't touch grid orphans. On mobile the sidebar is a rail, so the extras need another home there (or none).</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">template</span><span class="tag">css</span> all data exists already; the mood photo swaps with the existing scroll-spy.</dd></div></dl>
+  </section>
+
+  <section class="option" id="o10">
+    <header class="option__head"><span class="option__num">10</span><h2 class="option__title">Tinted collection bands</h2>
+      <p class="option__idea">Each collection sits on a full-width band in its own tone: dark for Dark oak, warm stone for Soft stone, white for Pale &amp; clear. The photos become framed objects, and leftover space reads as part of the composition, not as something missing.</p></header>
+    <div class="frame"><div class="frame__bar"><b>Flowwood</b><span>Home</span><span>Shop</span><span>About us</span><span>Contact</span></div>
+      <div class="shop shop--wide">
+        <div class="groups" style="gap:0">
+          <div class="band band--dark"><div class="grid">
+            <div class="head span-2" data-head="dark"></div><div data-card="monolith"></div>
+            <div data-card="rondo"></div><div data-card="ovale"></div><div data-card="facet"></div><div data-card="cleo"></div>
+          </div></div>
+          <div class="band band--stone"><div class="grid">
+            <div class="head span-2" data-head="stone"></div><div data-card="facet-stone"></div>
+            <div data-card="ovale-taupe"></div><div data-card="jeanne"></div>
+          </div></div>
+        </div></div></div>
+    <dl class="notes"><div><dt>Fixes</dt><dd>Makes the white space feel intended, and gives each collection a clear identity while scrolling.</dd></div>
+      <div><dt>Trade-off</dt><dd>Strong visual change. Product photos on light backgrounds look like cut-outs on the dark band; check that you like that.</dd></div>
+      <div><dt>Effort</dt><dd><span class="tag">schema</span><span class="tag">css</span> an optional <code>tone</code> per collection (products already have one).</dd></div></dl>
+  </section>
+
+  <section class="reco" id="reco">
+    <p class="eyebrow">Recommendation</p>
+    <h2>Start with 1 + 9, then add 4</h2>
+    <ul>
+      <li><b>1 · Fitted heading</b> removes every orphan for any number of pieces, needs no new content and costs nothing on the critical path.</li>
+      <li><b>9 · Working sidebar</b> fills the largest blank area, using data that already exists.</li>
+      <li><b>4 · Service tile</b> as an extra wherever a gap remains, or as a deliberate cell, to bring custom size forward.</li>
+      <li>Take the spacing from <b>8</b> regardless; 96px between sections is generous for three short collections.</li>
+      <li><b>7</b> is worth a separate discussion: the same piece appears in up to three collections, which makes the page feel thinner than the range is.</li>
+    </ul>
+  </section>
+</main>
 <script>
-const products = [
-  { no: '001', name: 'Monolith', img: 'image1', pos: '50% 62%', price: '€ 395', sub: 'Gerookte eik, 60 cm', shape: 'Vierkant', heights: '40 · 60 · 80 · 100', sw: ['#3b332d', '#8a6f55', '#5a4436', '#c9c2b8'] },
-  { no: '002', name: 'Rondo', img: 'image3', pos: '50% 60%', price: '€ 425', sub: 'Gerookte eik, 60 cm', shape: 'Rond', heights: '40 · 60 · 80 · 100', sw: ['#3b332d', '#6e5b4b', '#8a6f55'] },
-  { no: '003', name: 'Ovale', img: 'image4', pos: '50% 58%', price: '€ 455', sub: 'Taupe lak, 60 cm', shape: 'Ovaal', heights: '40 · 60 · 80', sw: ['#a3907c', '#e6e1d8', '#b3ada4', '#2f2a26'] },
-  { no: '004', name: 'Facet', img: 'image2', pos: '50% 60%', price: '€ 415', sub: 'Steen, 60 cm', shape: 'Zeshoek', heights: '40 · 60 · 80 · 100', sw: ['#b3ada4', '#e6e1d8', '#6f6a63', '#a08d78'] },
-];
-const swatches = (p) => `<span class="sw">${p.sw.map((c, i) => `<i class="${i ? '' : 'on'}" style="background:${c}"></i>`).join('')}</span>`;
-const add = '<span class="add">Voeg toe <em>+</em></span>';
-const image = (p) => `<div class="img"><img src="content/media/${p.img}.webp" alt="" style="object-position:${p.pos}"></div>`;
-const card = {
-  c1: (p) => `<div class="card">${image(p)}<div class="meta"><span class="name">${p.name}</span><span class="sub">${p.sub}</span><span class="price">${p.price}</span>${swatches(p)}</div></div>`,
-  c2: (p) => `<div class="card">${image(p)}<div class="meta"><span class="name">${p.name}</span><span class="price">${p.price}</span><span class="sub">${p.sub}</span><div class="foot">${swatches(p)}${add}</div></div></div>`,
-  c3: (p, i) => `<div class="card${i ? '' : ' big'}">${image(p)}<div class="meta"><span class="name">${p.name}</span><span class="price">${p.price}</span><span class="sub">${p.sub}</span></div></div>`,
-  c4: (p) => `<div class="card"><div class="no mono"><span>${p.no}</span><span>${p.shape}</span></div>${image(p)}<div class="name">${p.name}</div><dl><dt>Hoogte</dt><dd>${p.heights} cm</dd><dt>Afwerking</dt><dd>${swatches(p)}</dd></dl><div class="foot"><span class="price">${p.price}</span>${add}</div></div>`,
-  c5: (p) => `<div class="card">${image(p)}<div class="meta"><div><div class="name">${p.name}</div><div class="sub">${p.sub}</div></div><span class="price">${p.price}</span></div><div class="foot">${swatches(p)}<span class="add">In winkelmand</span></div></div>`,
-  c6: (p) => `<div class="card">${image(p)}<div class="meta"><span class="name">${p.name}</span><span class="price">${p.price}</span><span class="sub">${p.sub}</span><div class="foot">${swatches(p)}${add}</div></div></div>`,
+const P = {
+  monolith: { n: 'Monolith', img: 'image1', p: '€ 445', s: 'Smoked oak, 60 cm', sw: ['#3b332d', '#8a6f55', '#5a4436', '#c9c2b8'], d: 'A seamless mitred column in matt smoked-oak veneer. Sold singly or as a stepped set of three heights.' },
+  rondo: { n: 'Rondo', img: 'image3', p: '€ 475', s: 'Smoked oak, 60 cm', sw: ['#6e5b4b', '#8a6f55', '#3b332d'] },
+  ovale: { n: 'Ovale', img: 'image4', p: '€ 535', s: 'Ink, 55 cm', sw: ['#a3907c', '#e6e1d8', '#b3ada4', '#2f2a26'] },
+  'ovale-taupe': { n: 'Ovale', img: 'image4', p: '€ 535', s: 'Taupe, 55 cm', sw: ['#a3907c', '#e6e1d8', '#b3ada4', '#2f2a26'] },
+  facet: { n: 'Facet', img: 'image2', p: '€ 495', s: 'Basalt, 60 cm', sw: ['#b3ada4', '#e6e1d8', '#6f6a63', '#a08d78'] },
+  'facet-stone': { n: 'Facet', img: 'image2', p: '€ 495', s: 'Stone, 60 cm', sw: ['#b3ada4', '#e6e1d8', '#6f6a63', '#a08d78'] },
+  cleo: { n: 'Cleo', img: 'cleo-1', p: '€ 139', s: 'Smoke-grey glass, 45 cm high', sw: [], contain: true, d: 'Mouth-blown smoke-grey glass with a slightly thickened base.' },
+  jeanne: { n: 'Jeanne', img: 'jeanne-1', p: '€ 49.90', s: 'White speckled stoneware, size L', sw: [], contain: true },
+  soda: { n: 'Soda Bubbles', img: 'archer-1', p: '€ 62.95', s: 'Clear bubble glass', sw: [], contain: true },
 };
-document.querySelectorAll('[data-menu]').forEach((el) => (el.outerHTML = '<div class="menu"><span></span><div class="row"><nav><span>HOME</span><span class="on">WINKEL</span><span>OVER ONS</span><span>CONTACT</span></nav><div class="end"><span>NL ˅</span><span>◻</span></div></div></div>'));
-document.querySelectorAll('[data-cards]').forEach((el) => {
-  const concept = el.closest('.concept').classList[1];
-  const html = products.slice(0, Number(el.dataset.cards)).map(card[concept]).join('');
-  if (el.hasAttribute('data-feature')) el.outerHTML = html;
-  else el.innerHTML = html;
+const H = {
+  dark: { n: 'Dark oak', i: 'Smoked oak, walnut and ink lacquer. The deep end of the range, for rooms with warm light and dark floors.', c: '5 pieces' },
+  stone: { n: 'Soft stone', i: 'Stone, taupe and speckled stoneware. Quiet, mineral tones that sit between wall and floor.', c: '3 pieces' },
+};
+const card = (p, v) => {
+  const media = `<div class="card__media${p.contain ? ' card__media--contain' : ''}"><img src="content/media/${p.img}.webp" alt="" loading="lazy"></div>`;
+  const body = `<div class="card__row"><span class="card__name">${p.n}</span><span class="card__price">${p.p}</span></div>
+    <span class="card__sub">${p.s}</span>${v === 'wide' && p.d ? `<p class="card__desc">${p.d}</p>` : ''}
+    <div class="card__foot"><span class="card__sw">${p.sw.map((c) => `<i style="--c:${c}"></i>`).join('')}</span><span class="card__add">ADD +</span></div>`;
+  return v === 'wide' ? `<article class="card card--wide">${media}<div>${body}</div></article>` : `<article class="card${v ? ` card--${v}` : ''}">${media}${body}</article>`;
+};
+document.querySelectorAll('[data-card]').forEach((el) => { el.innerHTML = card(P[el.dataset.card], el.dataset.variant); el.style.minWidth = 0; });
+document.querySelectorAll('[data-head]').forEach((el) => {
+  const h = H[el.dataset.head];
+  el.innerHTML = `<span class="head__name">${h.n}</span><span class="head__intro">${h.i}</span><span class="head__count">${h.c}</span>`;
 });
+const side = `<div class="side__title">Shop</div><ul class="side__list"><li class="on" data-n="01">Dark oak<span>5</span></li><li data-n="02">Soft stone<span>3</span></li><li data-n="03">Pale &amp; clear<span>6</span></li></ul>`;
+const pool = ['monolith', 'rondo', 'ovale', 'facet', 'cleo', 'jeanne', 'facet-stone', 'soda', 'ovale-taupe'];
+const fit = (n, cols) => { const span = cols - (n % cols); return span === cols ? cols : span; };
+const ACCENTS = {
+  none: ['None', 'The current look, for comparison.'],
+  terracotta: ['Terracotta tile', 'The heading becomes a solid tile in the brand colour (--c-brand). The strongest accent; one coloured block per collection, whatever its width.'],
+  tint: ['Soft tint', 'A pale terracotta tile (--c-brand-tint) with the name and count in the brand colour. Warm, but quieter than a solid tile.'],
+  tone: ['Collection tone', 'The tile takes the colour of the first piece\'s finish in the collection, with the collection\'s finishes as dots. Derived from the product data, so each collection gets its own colour without anyone picking one.'],
+  line: ['Accent line', 'No fill: an orange rule on top, the name and count in the brand colour and a short accent stroke. The lightest change.'],
+};
+let accent = 'terracotta';
+let count = 5;
+const finishColor = (id) => P[id].sw[0] || '#55524f';
+const headHtml = (n, span, cols) => {
+  const items = pool.slice(0, n);
+  const cls = ['head', `head--span-${span === cols ? 'full' : span}`, span === cols ? 'head--full' : '', accent !== 'none' && accent !== 'line' ? `head--tile head--${accent}` : '', accent === 'line' ? 'head--line' : ''].join(' ');
+  const dots = accent === 'tone' ? `<span class="head__dots">${[...new Set(items.flatMap((id) => P[id].sw))].slice(0, 6).map((c) => `<i style="--c:${c}"></i>`).join('')}</span>` : '';
+  return `<div class="${cls}" style="grid-column: span ${span}; --tone: ${finishColor(items[0])}"><span class="head__name">Your collection</span><span class="head__intro">Any number of pieces, decided by the content manager.</span>${dots}<span class="head__count">${n} piece${n === 1 ? '' : 's'}</span></div>`;
+};
+const renderFit = (n = count) => {
+  count = n;
+  for (const cols of [3, 2]) {
+    document.getElementById(`fit-${cols}`).innerHTML = headHtml(n, fit(n, cols), cols) + pool.slice(0, n).map((id) => `<div style="min-width:0">${card(P[id])}</div>`).join('');
+  }
+  document.querySelectorAll('#picker button').forEach((b) => b.setAttribute('aria-pressed', String(+b.textContent === n)));
+};
+document.getElementById('picker').innerHTML = pool.map((_, i) => `<button type="button">${i + 1}</button>`).join('');
+document.getElementById('picker').addEventListener('click', (e) => { if (e.target.matches('button')) renderFit(+e.target.textContent); });
+const accentEl = document.getElementById('accent');
+accentEl.innerHTML = Object.entries(ACCENTS).map(([k, [label]]) => `<button type="button" data-accent="${k}">${label}</button>`).join('');
+const renderAccent = () => {
+  accentEl.querySelectorAll('button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.accent === accent)));
+  document.getElementById('accent-note').textContent = ACCENTS[accent][1];
+  renderFit();
+};
+accentEl.addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { accent = b.dataset.accent; renderAccent(); } });
+renderAccent();
+document.querySelectorAll('[data-side]').forEach((el) => { el.innerHTML = side; });
 </script>
 </body>
 </html>
