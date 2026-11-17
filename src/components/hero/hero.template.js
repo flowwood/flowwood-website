@@ -1,4 +1,5 @@
 import { bem, esc, img } from '../../js/bem.js';
+import { describe } from '../../js/catalog.js';
 import { cartControl } from '../cart-control/cart-control.template.js';
 
 export function hero(ctx) {
@@ -19,6 +20,11 @@ export function hero(ctx) {
     )
     .join('');
 
+  const option = (p) => {
+    const d = describe(catalog, i18n, catalog.defaults(p));
+    return catalog.isSized(p) ? `${d.finish}, ${d.size}` : d.size;
+  };
+
   const panels = products
     .map(
       (p, k) => `<div ${b('panel', { key: p.id, mods: { [p.tone]: true } })}${hidden(k)}${k ? ' inert' : ''}>
@@ -35,6 +41,7 @@ export function hero(ctx) {
             <div ${b('price', { key: p.id })}>
               <span ${b('from', { key: p.id })}>${esc(i18n.t('common.from'))}</span>
               <span ${b('amount', { key: p.id, cls: 'figure' })}>${esc(i18n.money(catalog.fromPrice(p)))}</span>
+              <span ${b('option', { key: p.id })}>${esc(option(p))}</span>
             </div>
             <div ${b('actions', { key: p.id })}>
               <a ${b('view', { key: p.id, cls: 'button button--primary button--small' })} href="${i18n.url('shop', i18n.locale, p.id)}">${t('viewProduct')} <span ${b('arrow', { key: p.id, cls: 'button__icon' })} aria-hidden="true">→</span></a>
