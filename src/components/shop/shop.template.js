@@ -43,6 +43,22 @@ function facts(ctx, b) {
     </dl>`;
 }
 
+const VIEW_ICONS = { tiles: 'M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z', rows: 'M3 6h18M3 12h18M3 18h18' };
+
+function views(ctx, b) {
+  const { i18n } = ctx;
+  return `<div ${b('views')} role="radiogroup" aria-label="${esc(i18n.t('shop.view'))}">
+      ${Object.entries(VIEW_ICONS)
+        .map(
+          ([view, d], i) => `<label ${b('view', { key: view, cls: 'hit' })} title="${esc(i18n.t(`shop.${view}`))}">
+        <input ${b('input', { key: view, mods: { [view]: true }, cls: 'visually-hidden' })} type="radio" name="shop-view" value="${view}" aria-label="${esc(i18n.t(`shop.${view}`))}"${i === 0 ? ' checked' : ''}>
+        <svg ${b('icon', { key: view })} width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path ${b('icon-path', { key: view })} d="${d}"></path></svg>
+      </label>`,
+        )
+        .join('')}
+    </div>`;
+}
+
 export function shop(ctx) {
   const { catalog, i18n } = ctx;
   const b = bem('shop');
@@ -50,7 +66,10 @@ export function shop(ctx) {
 
   return `<fw-shop ${b()}>
   <aside ${b('side')}>
-    <h1 ${b('title', { cls: 'eyebrow visually-hidden--mobile' })}>${esc(i18n.t('shop.title'))}</h1>
+    <div ${b('bar')}>
+      <h1 ${b('title', { cls: 'eyebrow visually-hidden--mobile' })}>${esc(i18n.t('shop.title'))}</h1>
+      ${views(ctx, b)}
+    </div>
     <nav ${b('contents')} aria-label="${esc(i18n.t('shop.filter'))}">
       <ol ${b('list')}>
         ${cols

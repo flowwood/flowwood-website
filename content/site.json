@@ -1123,6 +1123,18 @@
       "customRange": {
         "en": "Any height from {hMin} to {hMax} cm and width from {wMin} to {wMax} cm, made for your space.",
         "nl": "Elke hoogte van {hMin} tot {hMax} cm en breedte van {wMin} tot {wMax} cm, gemaakt voor jouw ruimte."
+      },
+      "view": {
+        "en": "View",
+        "nl": "Weergave"
+      },
+      "tiles": {
+        "en": "Tiles",
+        "nl": "Tegels"
+      },
+      "rows": {
+        "en": "List",
+        "nl": "Lijst"
       }
     },
     "cart": {
