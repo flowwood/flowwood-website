@@ -33,7 +33,6 @@ customElements.define(
         return clamp01((line - r.top) / r.height);
       });
       const current = Math.max(0, progress.findLastIndex((p) => p > 0));
-      this.current = current;
       this.links.forEach((a, i) => {
         a.style.setProperty('--progress', progress[i].toFixed(3));
         if (i === current) a.setAttribute('aria-current', 'location');
@@ -54,8 +53,7 @@ customElements.define(
       try {
         localStorage.setItem(VIEW_STORAGE_KEY, view);
       } catch {}
-      const group = this.groups[this.current];
-      if (group.getBoundingClientRect().top < 0) group.scrollIntoView({ block: 'start' });
+      scrollTo(0, 0);
       this.schedule();
     }
 
