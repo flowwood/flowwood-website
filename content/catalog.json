@@ -62,6 +62,10 @@
         "en": "Dark oak",
         "nl": "Donkere eik"
       },
+      "headline": {
+        "en": "Smoked oak, walnut and ink.",
+        "nl": "Gerookte eik, notelaar en inkt."
+      },
       "intro": {
         "en": "Smoked oak, walnut and ink lacquer. The deep end of the range, for rooms with warm light and dark floors.",
         "nl": "Gerookte eik, notelaar en inktzwarte lak. Het donkere einde van de collectie, voor kamers met warm licht en donkere vloeren."
@@ -98,6 +102,10 @@
         "en": "Soft stone",
         "nl": "Zachte steen"
       },
+      "headline": {
+        "en": "Quiet, mineral tones.",
+        "nl": "Rustige, minerale tinten."
+      },
       "intro": {
         "en": "Stone, taupe and speckled stoneware. Quiet, mineral tones that sit between wall and floor.",
         "nl": "Steen, taupe en gespikkeld steengoed. Rustige, minerale tinten tussen muur en vloer."
@@ -123,6 +131,10 @@
       "name": {
         "en": "Pale & clear",
         "nl": "Licht & helder"
+      },
+      "headline": {
+        "en": "Light pieces for bright rooms.",
+        "nl": "Lichte stukken voor lichte kamers."
       },
       "intro": {
         "en": "Bleached ash, chalk lacquer and clear glass. Light pieces that almost disappear into a white room.",

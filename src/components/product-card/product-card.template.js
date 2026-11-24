@@ -7,6 +7,14 @@ export const swatches = (i18n, b, p, selected, large = false) =>
     .map((f) => `<button ${b('swatch', { key: f.id, cls: large ? 'swatch swatch--large' : 'swatch' })} type="button" data-finish="${f.id}" aria-pressed="${f.id === selected}" aria-label="${esc(i18n.loc(f.name))}" title="${esc(i18n.loc(f.name))}" style="--swatch:${esc(f.color)}"></button>`)
     .join('');
 
+const elsewhere = (i18n, b) => `<span ${b('elsewhere')} hidden>
+        <button ${b('jump', { cls: 'hit' })} type="button" style="anchor-name:--${b.id('jump')}"><span ${b('jump-text')}></span><span ${b('jump-icon')} aria-hidden="true"></span></button>
+        <div ${b('others', { cls: 'popover' })} popover style="position-anchor:--${b.id('jump')}">
+          <p ${b('others-title', { cls: 'eyebrow' })}>${esc(i18n.t('productCard.alsoInCartTitle'))}</p>
+          <div ${b('others-list')}></div>
+        </div>
+      </span>`;
+
 export function productCard(ctx, { product: p, instance, configId = instance, seed, priority = false, variant = 'card' }) {
   const { catalog, i18n } = ctx;
   const b = bem('product-card', instance);
@@ -36,6 +44,7 @@ export function productCard(ctx, { product: p, instance, configId = instance, se
     <div ${b('titles')}>
       ${title}
       <span ${b('option')}>${esc(d.finish)}, ${esc(d.size)}</span>
+      ${sized ? elsewhere(i18n, b) : ''}
       ${p.stock > 0 ? `<span ${b('stock', { cls: 'eyebrow' })}>${esc(i18n.t('productCard.inStock', { count: p.stock }))}</span>` : ''}
     </div>
     <span ${b('price', { cls: 'figure' })}>${esc(i18n.money(price))}</span>

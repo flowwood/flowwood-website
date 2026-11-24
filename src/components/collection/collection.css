@@ -12,7 +12,7 @@
 }
 .collection--group .collection__head {
   grid-column: span 2; align-self: start; min-height: var(--cell); flex-direction: column; flex-wrap: nowrap; justify-content: center; align-items: center; gap: 16px;
-  padding: clamp(24px, 3vw, 48px); background: var(--c-brand); color: var(--c-surface); text-align: center;
+  padding: clamp(24px, 3vw, 48px); background: var(--c-panel); color: var(--c-ink); text-align: center;
 }
 .collection--head-1 .collection__head { grid-column: span 1; padding: clamp(20px, 2vw, 40px); }
 .collection--head-3 .collection__head { grid-column: 1 / -1; min-height: 0; padding: clamp(40px, 5vw, 72px) clamp(24px, 12%, 160px); }

@@ -1,4 +1,6 @@
-import { FwElement } from '../../js/element.js';
+import { FwElement, page } from '../../js/element.js';
+import { cart } from '../../js/store.js';
+import { sum } from '../../js/catalog.js';
 
 const READING_LINE = 0.4;
 const VIEW_STORAGE_KEY = 'fw:shop-view';
@@ -13,6 +15,8 @@ customElements.define(
       this.panels = this.$$('.shop__panel');
       this.restoreView();
       this.on('change', '.shop__input', (e, input) => this.switchView(input.value));
+      this.on('cart:change', null, () => this.showCart(), window);
+      this.showCart();
       this.on('scroll', null, () => this.schedule(), window);
       this.on('resize', null, () => this.schedule(), window);
       this.track();
@@ -40,6 +44,18 @@ customElements.define(
       });
       this.panels.forEach((p, i) => (p.hidden = i !== current));
       this.reveal(this.links[current]);
+    }
+
+    async showCart() {
+      const filled = cart.count() > 0;
+      if (filled) {
+        const { i18n, catalog } = await page();
+        const lines = catalog.groups(cart.lines).flatMap((g) => g.lines);
+        this.$('.shop__cart-label').textContent = i18n.t('shop.inCart', { pieces: i18n.pieces(sum(lines, (l) => l.qty)) });
+        this.$('.shop__cart-total').textContent = i18n.money(sum(lines, (l) => l.price * l.qty));
+      }
+      this.$('.shop__facts').hidden = filled;
+      this.$('.shop__cart').hidden = !filled;
     }
 
     restoreView() {

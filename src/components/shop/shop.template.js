@@ -1,4 +1,4 @@
-import { bem, esc, img } from '../../js/bem.js';
+import { bem, esc } from '../../js/bem.js';
 import { collection } from '../collection/collection.template.js';
 
 const headSpan = (count, columns) => {
@@ -6,28 +6,20 @@ const headSpan = (count, columns) => {
   return rest ? columns - rest : columns;
 };
 
-const collectionFinishes = (catalog, items) => {
-  const finishes = items.map((it) => catalog.finish(catalog.product(it.product), it.finish));
-  return finishes.filter((f, i) => finishes.findIndex((g) => g.color === f.color) === i);
-};
+function headline(ctx, b, c, current) {
+  const { i18n } = ctx;
+  return `<p ${b('panel', { key: c.id })} data-collection="${esc(c.id)}"${current ? '' : ' hidden'}>${esc(i18n.loc(c.headline || c.name))}</p>`;
+}
 
-const moodImage = (catalog, items) => {
-  const pictured = items.map((it) => catalog.product(it.product)).find((p, i) => catalog.finish(p, items[i].finish) === p.finishes[0]);
-  return pictured && (pictured.altImage || pictured.image);
-};
-
-function panel(ctx, b, c, current) {
-  const { catalog, i18n } = ctx;
-  const name = i18n.loc(c.name);
-  const mood = moodImage(catalog, c.items);
-  const finishes = collectionFinishes(catalog, c.items);
-  const swatches = finishes.map((f) => `<li ${b('finish', { key: `${c.id}-${f.id}`, cls: 'swatch' })} style="--swatch:${esc(f.color)}"></li>`).join('');
-  const names = finishes.map((f) => i18n.loc(f.name)).join(', ');
-  return `<div ${b('panel', { key: c.id })} data-collection="${esc(c.id)}"${current ? '' : ' hidden'}>
-      <p ${b('heading', { key: c.id, cls: 'eyebrow' })}>${esc(i18n.t('shop.finishes', { name }))}</p>
-      <ul ${b('finishes', { key: c.id })} aria-hidden="true">${swatches}</ul>
-      <p ${b('names', { key: c.id, cls: 'shop__detail' })}>${esc(names)}</p>
-      ${mood ? `<div ${b('mood', { key: c.id, cls: 'media' })}>${img(mood, { attrs: b('mood-image', { key: c.id }), thumb: true, priority: 'low' })}</div>` : ''}
+function summary(ctx, b) {
+  const { i18n } = ctx;
+  return `<div ${b('summary')}>
+      ${facts(ctx, b)}
+      <div ${b('cart')} hidden>
+        <span ${b('cart-label', { cls: 'eyebrow' })}></span>
+        <span ${b('cart-total', { cls: 'figure' })}></span>
+        <a ${b('cart-link', { cls: 'button button--paper' })} href="${i18n.url('cart')}">${esc(i18n.t('shop.viewCart'))} <span ${b('cart-icon', { cls: 'button__icon' })} aria-hidden="true">→</span></a>
+      </div>
     </div>`;
 }
 
@@ -70,6 +62,9 @@ export function shop(ctx) {
       <h1 ${b('title', { cls: 'eyebrow visually-hidden--mobile' })}>${esc(i18n.t('shop.title'))}</h1>
       ${views(ctx, b)}
     </div>
+    <div ${b('headlines')}>
+      ${cols.map((c, i) => headline(ctx, b, c, i === 0)).join('')}
+    </div>
     <nav ${b('contents')} aria-label="${esc(i18n.t('shop.filter'))}">
       <ol ${b('list')}>
         ${cols
@@ -81,10 +76,7 @@ export function shop(ctx) {
           .join('')}
       </ol>
     </nav>
-    <div ${b('about')}>
-      ${cols.map((c, i) => panel(ctx, b, c, i === 0)).join('')}
-      ${facts(ctx, b)}
-    </div>
+    ${summary(ctx, b)}
   </aside>
   <div ${b('groups')}>
     ${cols

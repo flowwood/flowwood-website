@@ -895,6 +895,18 @@
       "inStock": {
         "en": "{count} in stock",
         "nl": "Nog {count} op voorraad"
+      },
+      "alsoInCart": {
+        "en": "In cart: {item}",
+        "nl": "In winkelmand: {item}"
+      },
+      "alsoInCartMany": {
+        "en": "In cart: {count} others",
+        "nl": "In winkelmand: {count} andere"
+      },
+      "alsoInCartTitle": {
+        "en": "Also in your cart",
+        "nl": "Ook in je winkelmand"
       }
     },
     "product": {
@@ -1116,10 +1128,6 @@
         "en": "Collections",
         "nl": "Collecties"
       },
-      "finishes": {
-        "en": "Finishes in {name}",
-        "nl": "Afwerkingen in {name}"
-      },
       "customRange": {
         "en": "Any height from {hMin} to {hMax} cm and width from {wMin} to {wMax} cm, made for your space.",
         "nl": "Elke hoogte van {hMin} tot {hMax} cm en breedte van {wMin} tot {wMax} cm, gemaakt voor jouw ruimte."
@@ -1135,6 +1143,14 @@
       "rows": {
         "en": "List",
         "nl": "Lijst"
+      },
+      "inCart": {
+        "en": "In your cart · {pieces}",
+        "nl": "In je winkelmand · {pieces}"
+      },
+      "viewCart": {
+        "en": "View cart",
+        "nl": "Naar winkelmand"
       }
     },
     "cart": {
