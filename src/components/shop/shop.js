@@ -4,7 +4,6 @@ import { sum } from '../../js/catalog.js';
 
 const READING_LINE = 0.4;
 const VIEW_STORAGE_KEY = 'fw:shop-view';
-const clamp01 = (n) => Math.min(1, Math.max(0, n));
 
 customElements.define(
   'fw-shop',
@@ -32,13 +31,8 @@ customElements.define(
 
     track() {
       const line = innerHeight * READING_LINE;
-      const progress = this.groups.map((g) => {
-        const r = g.getBoundingClientRect();
-        return clamp01((line - r.top) / r.height);
-      });
-      const current = Math.max(0, progress.findLastIndex((p) => p > 0));
+      const current = Math.max(0, this.groups.findLastIndex((g) => g.getBoundingClientRect().top < line));
       this.links.forEach((a, i) => {
-        a.style.setProperty('--progress', progress[i].toFixed(3));
         if (i === current) a.setAttribute('aria-current', 'location');
         else a.removeAttribute('aria-current');
       });
@@ -77,8 +71,10 @@ customElements.define(
       if (link === this.revealed) return;
       this.revealed = link;
       const list = link.closest('.shop__list');
-      if (list.scrollWidth <= list.clientWidth) return;
-      list.scrollTo({ left: link.parentElement.offsetLeft - list.offsetLeft, behavior: 'smooth' });
+      const contents = link.closest('.shop__contents');
+      const entry = link.parentElement;
+      if (list.scrollWidth > list.clientWidth) list.scrollTo({ left: entry.offsetLeft - list.offsetLeft, behavior: 'smooth' });
+      else if (contents.scrollHeight > contents.clientHeight) contents.scrollTo({ top: entry.offsetTop - contents.offsetTop - (contents.clientHeight - entry.offsetHeight) / 2, behavior: 'smooth' });
     }
   },
 );

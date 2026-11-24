@@ -24,14 +24,16 @@
 
 .shop__panel { font-family: var(--f-display); font-weight: 300; font-size: clamp(26px, 2.2vw, 36px); line-height: 1.08; letter-spacing: -0.02em; text-wrap: balance; }
 
+.shop__contents { flex: 0 1 auto; min-height: 88px; overflow-y: auto; scrollbar-width: none; }
+.shop__contents::-webkit-scrollbar { display: none; }
 .shop__list { list-style: none; margin: 0; padding: 0; counter-reset: entry; border-top: 1px solid var(--shop-line); }
 .shop__entry { counter-increment: entry; }
 .shop__link {
-  --progress: 0; display: flex; align-items: center; gap: 10px; height: 44px; font-size: 14px;
-  color: color-mix(in srgb, var(--c-paper) 72%, transparent); transition: color 0.2s;
+  display: flex; align-items: center; gap: 10px; height: 44px; font-size: 14px;
+  color: color-mix(in srgb, var(--c-paper) 72%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--c-paper) 18%, transparent);
-  background: linear-gradient(var(--c-paper), var(--c-paper)) 0 100% / calc(var(--progress) * 100%) 1px no-repeat;
 }
+.shop__link[aria-current] { border-bottom-color: var(--c-paper); }
 .shop__link::before { content: counter(entry, decimal-leading-zero); flex: none; width: 22px; font-family: var(--f-mono); font-size: 10px; opacity: 0.7; }
 .shop__link:hover, .shop__link[aria-current] { color: var(--c-paper); }
 .shop__label { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -95,7 +97,7 @@
     top: var(--menu-h); z-index: 25; height: auto; overflow: visible; margin: 0 calc(-1 * var(--gutter)) 24px; padding: 0 var(--gutter);
   }
   .shop__headlines, .shop__summary { display: none; }
-  .shop__contents { flex: 1; min-width: 0; }
+  .shop__contents { flex: 1; min-width: 0; min-height: 0; overflow: visible; }
   .shop__bar { order: 1; align-self: stretch; margin: 0; padding: 0 0 0 10px; border-left: 1px solid var(--shop-line); }
   .shop__views { margin-right: -6px; }
   .shop__list {
@@ -105,8 +107,8 @@
   }
   .shop__list::-webkit-scrollbar { display: none; }
   .shop__entry { flex: none; }
-  .shop__link { height: var(--shop-rail-h); border: 0; background-size: calc(var(--progress) * 100%) 2px; }
-  .shop__link:not([aria-current]) { background-size: 0 2px; }
+  .shop__link { height: var(--shop-rail-h); border: 0; }
+  .shop__link[aria-current] { box-shadow: inset 0 -2px var(--c-paper); }
   .shop__groups { gap: 56px; }
   .shop__groups > .collection { scroll-margin-top: calc(var(--shop-rail-h) + 16px); }
   .shop:has(.shop__input--rows:checked) {
